@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Qt">
+      <UniqueIdentifier>{0fc1becc-063f-457c-8d6f-472c8c14c7c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Qt\Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Qt\Generated Files\Debug">
+      <UniqueIdentifier>{0909f62c-08a1-4377-86e6-51798f5bdf50}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Qt\Generated Files\Release">
+      <UniqueIdentifier>{a95b827e-6970-4c2f-a068-8d4b49ba121f}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Qt\Thema">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Qt\Widgets">
+      <UniqueIdentifier>{0114eb08-8b80-4e6f-ade7-8f1a5999697a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{01b37da5-59dc-46d6-b74f-21922810bea9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GeneratedFiles\Debug\moc_XenomThreadWorker.cpp">
+      <Filter>Qt\Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_XenomThreadWorker.cpp">
+      <Filter>Qt\Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GotoDialog.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="SyntaxHighlighter.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemDialog.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewerAction.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="XenomCommandWidget.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="XenomDefaultViewer.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="XenomDockWidget.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="XenomLineEdit.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="XenomTextViewer.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="XenomThreadWorker.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="XenomWorker.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="qxnm.cpp" />
+    <ClCompile Include="GeneratedFiles\qrc_style.cpp">
+      <Filter>Qt\Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_xnm.cpp">
+      <Filter>Qt\Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XenomFindDialog.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="cmd_dialog.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="cmd_viewer.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="XenomProcessListDialog.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GotoDialog.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="SyntaxHighlighter.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemDialog.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewerAction.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="XenomCommandWidget.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="XenomDefaultViewer.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="XenomDockWidget.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="XenomLineEdit.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="XenomPlainTextEdit.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="XenomTextViewer.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="XenomWorker.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="qxnm.h" />
+    <ClInclude Include="XenomFindDialog.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="XenomProcessListDialog.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="XenomThreadWorker.h">
+      <Filter>Qt\Widgets</Filter>
+    </CustomBuild>
+    <CustomBuild Include="..\css\style.qrc">
+      <Filter>Qt\Thema</Filter>
+    </CustomBuild>
+    <CustomBuild Include="xnm.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\css\rc\up_arrow_disabled.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\Hmovetoolbar.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\stylesheet-branch-end.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\branch_closed-on.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\stylesheet-vline.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\branch_closed.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\branch_open-on.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\transparent.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\right_arrow_disabled.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\sizegrip.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\close.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\close-hover.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\close-pressed.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\down_arrow.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\Vmovetoolbar.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\left_arrow.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\stylesheet-branch-more.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\up_arrow.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\right_arrow.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\left_arrow_disabled.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\Hsepartoolbar.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\branch_open.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\Vsepartoolbar.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\down_arrow_disabled.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\undock.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\checkbox_checked_disabled.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\checkbox_checked_focus.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\checkbox_checked.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\checkbox_indeterminate.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\checkbox_indeterminate_focus.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\checkbox_unchecked_disabled.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\checkbox_unchecked_focus.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\checkbox_unchecked.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\radio_checked_disabled.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\radio_checked_focus.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\radio_checked.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\radio_unchecked_disabled.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\radio_unchecked_focus.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="..\css\rc\radio_unchecked.png">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\Activity.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\ComputerSystem.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\Decision_Tree.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\Diagram.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\Effects.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\Extension.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\Monitor.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\NewScript.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\OpenFolder.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\Process.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\Processor.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\Save.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\SaveAll.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\Script.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\StatusRun_grey.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\Thread.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+    <Image Include="Resources\xenom_3d.ico">
+      <Filter>Qt\Thema</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\css\style.qss">
+      <Filter>Qt\Thema</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="xnm.rc" />
+  </ItemGroup>
+</Project>

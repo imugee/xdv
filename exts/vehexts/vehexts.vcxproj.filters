@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="vehexts.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\decoder.c">
+      <Filter>distorm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\distorm.c">
+      <Filter>distorm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\instructions.c">
+      <Filter>distorm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\insts.c">
+      <Filter>distorm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mnemonics.c">
+      <Filter>distorm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\operands.c">
+      <Filter>distorm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\prefix.c">
+      <Filter>distorm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\textdefs.c">
+      <Filter>distorm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wstring.c">
+      <Filter>distorm</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="distorm">
+      <UniqueIdentifier>{57fde4e4-1944-4dd8-b83e-4fedbd589dee}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\config.h">
+      <Filter>distorm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\decoder.h">
+      <Filter>distorm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\instructions.h">
+      <Filter>distorm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\insts.h">
+      <Filter>distorm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\operands.h">
+      <Filter>distorm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\prefix.h">
+      <Filter>distorm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\textdefs.h">
+      <Filter>distorm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\wstring.h">
+      <Filter>distorm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\x86defs.h">
+      <Filter>distorm</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

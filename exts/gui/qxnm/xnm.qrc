@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/xenom">
+        <file>Resources/xenom_3d.ico</file>
+        <file>Resources/StepOver.ico</file>
+        <file>Resources/StepInto.ico</file>
+        <file>Resources/RunProcess.ico</file>
+        <file>Resources/Attach.ico</file>
+        <file>Resources/Threads.ico</file>
+        <file>Resources/Workstation.ico</file>
+        <file>Resources/Stack.ico</file>
+        <file>Resources/CPU.ico</file>
+        <file>Resources/NewFile.ico</file>
+        <file>Resources/OpenFolderBlack.ico</file>
+        <file>Resources/FileSave.ico</file>
+        <file>Resources/SaveAs.ico</file>
+        <file>Resources/NBackward.ico</file>
+        <file>Resources/NForward.ico</file>
+        <file>Resources/MonitorBlack.ico</file>
+        <file>Resources/Tool.ico</file>
+        <file>Resources/Puzzle.ico</file>
+        <file>Resources/Goto.ico</file>
+        <file>Resources/BreakPointMenu.ico</file>
+        <file>Resources/DeleteBreakPoint.ico</file>
+        <file>Resources/SoftwareBreakPoint.ico</file>
+        <file>Resources/SuspendBreakPoint.ico</file>
+        <file>Resources/FIndProc.ico</file>
+        <file>Resources/FindString.ico</file>
+    </qresource>
+</RCC>
