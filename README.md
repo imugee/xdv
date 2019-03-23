@@ -12,7 +12,7 @@ XDV is disassembler or debugger that works based on the extension plugin.
 
 ![](./img/xdv.PNG) 
 
-Support architecture
+Supported Architectures
 -------
 <table>
   <tr> 
@@ -22,50 +22,50 @@ Support architecture
   </tr>
   <tr>
     <td align="center"> x86 </td>
-    <td align="center"><img src="https://img.shields.io/badge/Support-brightgreen.svg"></td>
-    <td align="center"><img src="https://img.shields.io/badge/Support-brightgreen.svg"></td>
-    <td align="center"><img src="https://img.shields.io/badge/Schedule-red.svg"></td>	
+    <td align="center"><img src="https://img.shields.io/badge/Supported-brightgreen.svg"></td>
+    <td align="center"><img src="https://img.shields.io/badge/Supported-brightgreen.svg"></td>
+    <td align="center"><img src="https://img.shields.io/badge/Scheduled-red.svg"></td>	
   </tr>
   <tr>
-    <td align="center"> AMD64 </td>
-    <td align="center"><img src="https://img.shields.io/badge/Support-brightgreen.svg"></td>
-    <td align="center"><img src="https://img.shields.io/badge/Support-brightgreen.svg"></td>
-    <td align="center"><img src="https://img.shields.io/badge/Schedule-red.svg"></td>	
+    <td align="center"> x64 (aka x86_64, AMD64) </td>
+    <td align="center"><img src="https://img.shields.io/badge/Supported-brightgreen.svg"></td>
+    <td align="center"><img src="https://img.shields.io/badge/Supported-brightgreen.svg"></td>
+    <td align="center"><img src="https://img.shields.io/badge/Scheduled-red.svg"></td>	
   </tr>
   <tr>
     <td align="center"> ARM </td>
-    <td align="center"><img src="https://img.shields.io/badge/Schedule-red.svg"></td>	
-    <td align="center"><img src="https://img.shields.io/badge/Schedule-red.svg"></td>	
-    <td align="center"><img src="https://img.shields.io/badge/Schedule-red.svg"></td>	
+    <td align="center"><img src="https://img.shields.io/badge/Scheduled-red.svg"></td>	
+    <td align="center"><img src="https://img.shields.io/badge/Scheduled-red.svg"></td>	
+    <td align="center"><img src="https://img.shields.io/badge/Scheduled-red.svg"></td>	
   </tr>	
 </table>
 
-Support target
+Supported File Formats
 -------
 <table>
   <tr> 
     <td align="center" colspan="2"><b> File format </b></td>
   </tr>
   <tr> 
-    <td align="center"> PE format </td>
-    <td align="center"><img src="https://img.shields.io/badge/Schedule-red.svg"></td>	
+    <td align="center"> Windows full user-mode dump file </td>
+    <td align="center"><img src="https://img.shields.io/badge/Supported-brightgreen.svg"></td>
   </tr>
   <tr> 
-    <td align="center"> Windows application full dumps </td>
-    <td align="center"><img src="https://img.shields.io/badge/Support-brightgreen.svg"></td>
+    <td align="center"> Windows PE file </td>
+    <td align="center"><img src="https://img.shields.io/badge/Scheduled-red.svg"></td>	
   </tr>
   <tr> 
     <td align="center"> Binary file </td>
-    <td align="center"><img src="https://img.shields.io/badge/Schedule-red.svg"></td>	
+    <td align="center"><img src="https://img.shields.io/badge/Scheduled-red.svg"></td>	
   </tr> 
 </table>
 
-Support OS & Debuggers
+Supported OSes & Debuggers
 -------
 <table>
   <tr>
     <td align="center"><b> OS </b></td>
-    <td align="center" colspan="3"><b> Debuggers </b></td>
+    <td align="center" colspan="3"><b> Debugger </b></td>
   </tr>
   <tr>
     <td align="center"><b> Windows </b></td>
@@ -75,28 +75,27 @@ Support OS & Debuggers
   </tr>  
 </table>
 
-Guide line
+Documentation
 -------
 * [Wiki](https://github.com/xdvre/xdvre/wiki)
 
 Developers
 -------
-* [0a777h](https://github.com/0a777h)
+* [Park Seong Bin](https://github.com/0a777h)
 
-Inclusions
+Dependencies
 -------
-* [capstone engine](https://github.com/aquynh/capstone)
-* [unicorn engine](https://github.com/unicorn-engine/unicorn)
-* [keystone engine](https://github.com/keystone-engine/keystone)
+* [Capstone Engine](https://github.com/aquynh/capstone)
+* [Unicorn Engine](https://github.com/unicorn-engine/unicorn)
+* [Keystone Engine](https://github.com/keystone-engine/keystone)
 * [x64dbg](https://github.com/x64dbg/x64dbg)
-* [CheatEngine](https://github.com/cheat-engine/cheat-engine)
-* [Distorm](https://github.com/gdabah/distorm)
+* [Cheat Engine](https://github.com/cheat-engine/cheat-engine)
+* [diStorm3](https://github.com/gdabah/distorm)
 
-Contributions
+Special Thanks To ...
 -------
-* [ygnoh](https://github.com/ygnoh)
-* [Necrosys](https://github.com/Necrosys)
-* [jun young kim]()
-* [jae hoon ahn]()
-* [jeong hoon kim]()
-
+* [Yonggoo Noh](https://github.com/ygnoh)
+* [Chae Jong Bin](https://github.com/Necrosys)
+* [Junyoung Kim](https://github.com/junyoungKim)
+* [Jaehoon Ahn](https://github.com/dkswognsdi)
+* Jeonghoon Kim
