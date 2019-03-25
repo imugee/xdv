@@ -39,49 +39,55 @@ std::string mnString(unsigned long long ptr)
 {
 	xdv_handle ah = XdvGetArchitectureHandle();
 	xdv_handle ih = XdvGetParserHandle();
-	for (int i = 0; i < 3; ++i)
+
+	unsigned long long tmp = ptr;
+	for (int i = 0; i < 2; ++i)
 	{
-		ptr = XdvGetBeforePtr(ah, ih, ptr);
-		if (ptr == 0)
+		tmp = XdvGetBeforePtr(ah, ih, tmp);
+		if (tmp == 0)
 		{
 			return "";
 		}
 	}
 
-	unsigned long long start_ptr = ptr;
-	std::string mnstr;
-	for (int i = 0; i < 6; ++i)
+	unsigned long long start = ptr;
+	if (tmp)
 	{
-		xvar navivar = XdvExe("!dasmv.navistr -ptr:%I64x", ptr);
+		start = tmp;
+	}
+
+	std::string mnstr;
+	for (int i = 0; i < 4; ++i)
+	{
+		xvar navivar = XdvExe("!dasmv.navistr -ptr:%I64x", start);
 		char * navistr = (char *)ptrvar(navivar);
 		if (navistr)
 		{
 			mnstr += navistr;
 			free(navistr);
 		}
+		
+		if (start == ptr)
+		{
+			mnstr += "> ";
+		}
 
-		xvar codevar = XdvExe("!dasmv.codestr -ptr:%I64x", ptr);
+		xvar codevar = XdvExe("!dasmv.codestr -ptr:%I64x", start);
 		char * codestr = (char *)ptrvar(codevar);
-		if (!codestr)
+		if (codestr)
 		{
-			break;
+			mnstr += codestr;
+			mnstr += "\n";
+			free(navistr);
 		}
 
-		if (ptr == start_ptr)
-		{
-			mnstr += " >> ";
-		}
-		mnstr += codestr;
-		mnstr += "\n";
-		free(codestr);
-
-		xvar sizevar = XdvExe("!dasmv.codesize -ptr:%I64x", ptr);
+		xvar sizevar = XdvExe("!dasmv.codesize -ptr:%I64x", start);
 		unsigned long long size = ullvar(sizevar);
 		if (size == 0)
 		{
 			break;
 		}
-		ptr += size;
+		start += size;
 	}
 
 	return mnstr;
@@ -104,7 +110,7 @@ bool XenomTextViewer::event(QEvent *e)
 	QTextCursor cursor = cursorForPosition(he->pos());
 	cursor.select(QTextCursor::WordUnderCursor);
 
-#if 0
+#if 1
 	if (!cursor.selectedText().isEmpty())
 	{
 		if (strstr(cursor.selectedText().toStdString().c_str(), "0x"))
@@ -112,6 +118,8 @@ bool XenomTextViewer::event(QEvent *e)
 			char *end = nullptr;
 			unsigned long long ptr = strtoull(cursor.selectedText().toStdString().c_str(), &end, 16);
 			std::string mnstr = mnString(ptr);
+			QToolTip::setFont(QFont("Consolas", 9));
+			QToolTip::showText(he->globalPos(), mnstr.c_str());
 
 			return true;
 		}

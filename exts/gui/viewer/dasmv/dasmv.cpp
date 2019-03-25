@@ -51,7 +51,7 @@ void NavigationString(unsigned long long ptr, std::string &str)
 				switch (pi->second)
 				{
 				case xdv::architecture::x86::block::id::X86_CODE_BLOCK:
-					str += "\n ; =========================== subroutine ===========================";
+					str += "\n; =========================== subroutine ===========================";
 					break;
 
 				default:
@@ -59,7 +59,7 @@ void NavigationString(unsigned long long ptr, std::string &str)
 				}
 			}
 
-			str += "\n ; .sym : ";
+			str += "\n; .sym : ";
 			str += symbol;
 		}
 
@@ -70,14 +70,14 @@ void NavigationString(unsigned long long ptr, std::string &str)
 			return;
 		}
 
-		str += "\n ; .xref ";
+		str += "\n; .xref ";
 
 		std::pair<std::multimap<unsigned long long, unsigned long long>::iterator
 			, std::multimap<unsigned long long, unsigned long long>::iterator> proc_table = _ref_map_ptr->equal_range(ptr);
 		std::multimap<unsigned long long, unsigned long long>::iterator range_it = proc_table.first;
 		if (proc_table.first != proc_table.second)
 		{
-			str += "\n ; ";
+			str += "\n; ";
 		}
 		else
 		{
@@ -89,7 +89,7 @@ void NavigationString(unsigned long long ptr, std::string &str)
 		{
 			if (i == 16)
 			{
-				str += "\n ; ";
+				str += "\n; ";
 				i = 0;
 			}
 
@@ -111,14 +111,14 @@ void NavigationString(unsigned long long ptr, std::string &str)
 		switch (pi->second)
 		{
 		case xdv::architecture::x86::block::id::X86_CODE_BLOCK:
-			str += "\n ; =========================== subroutine ===========================";
+			str += "\n; =========================== subroutine ===========================";
 			break;
 
 		default:
 			break;
 		}
 
-		str += "\n ; .sym : ";
+		str += "\n; .sym : ";
 		str += symbol;
 		str += "\n";
 	}
@@ -126,7 +126,7 @@ void NavigationString(unsigned long long ptr, std::string &str)
 	xdv::architecture::x86::context::type *pctx = (xdv::architecture::x86::context::type *)ptrvar(XdvExe("!cpuv.getctx"));
 	if (ptr && pctx && pctx->rip == ptr)
 	{
-		str += " ; ======= current point\n";
+		str += "; ======= current point\n";
 	}
 	//else if (XdvGetThreadContext(XdvGetParserHandle(), &ctx) // => cpuv에서 값을 가져와야함
 	//	&& ctx.rip == ptr)
@@ -135,7 +135,7 @@ void NavigationString(unsigned long long ptr, std::string &str)
 	//}
 	else if (bi != _break_point_set.end())
 	{
-		str += " ; ======= break point\n";
+		str += "; ======= break point\n";
 	}
 }
 
@@ -176,7 +176,7 @@ unsigned long long CodeAndRemarkString(unsigned long long ptr, std::string &str)
 	//
 	//
 	char asm_mn[3072] = { 0, };
-	sprintf_s(asm_mn, sizeof(asm_mn), " %s", mn);
+	sprintf_s(asm_mn, sizeof(asm_mn), "%s", mn);
 
 	//
 	// remark
@@ -199,11 +199,11 @@ unsigned long long CodeAndRemarkString(unsigned long long ptr, std::string &str)
 			memset(asm_mn, 0, sizeof(asm_mn));
 			if (XdvGetSymbolString(ih, ov[i], symbol, sizeof(symbol)))
 			{
-				sprintf_s(asm_mn, sizeof(asm_mn), " %s%*c; 0x%I64x, %s", mn, align, ' ', ov[0], symbol);
+				sprintf_s(asm_mn, sizeof(asm_mn), "%s%*c; 0x%I64x, %s", mn, align, ' ', ov[0], symbol);
 			}
 			else
 			{
-				sprintf_s(asm_mn, sizeof(asm_mn), " %s%*c; 0x%I64x, %s", mn, align, ' ', ov[0], "<unknown>");
+				sprintf_s(asm_mn, sizeof(asm_mn), "%s%*c; 0x%I64x, %s", mn, align, ' ', ov[0], "<unknown>");
 			}
 
 			if (!ovr)
@@ -212,14 +212,14 @@ unsigned long long CodeAndRemarkString(unsigned long long ptr, std::string &str)
 				if (XdvIsAscii(str, sizeof(str), ascii))
 				{
 					memset(asm_mn, 0, sizeof(asm_mn));
-					sprintf_s(asm_mn, sizeof(asm_mn), " %s%*c; \"%s\"", mn, align, ' ', ascii.c_str());
+					sprintf_s(asm_mn, sizeof(asm_mn), "%s%*c; \"%s\"", mn, align, ' ', ascii.c_str());
 				}
 
 				std::string unicode;
 				if (XdvIsUnicode(str, sizeof(str), unicode))
 				{
 					memset(asm_mn, 0, sizeof(asm_mn));
-					sprintf_s(asm_mn, sizeof(asm_mn), " %s%*c; L\"%s\"", mn, align, ' ', unicode.c_str());
+					sprintf_s(asm_mn, sizeof(asm_mn), "%s%*c; L\"%s\"", mn, align, ' ', unicode.c_str());
 				}
 			}
 		}
@@ -250,13 +250,15 @@ unsigned long long CodeAndRemarkString(unsigned long long ptr, std::string &str)
 EXTS_FUNC(codesize)	// argv[0] = ptr
 {
 	unsigned long long ptr = XdvToUll(argv, argc, "ptr");
-	if (ptr == 0)
+	if (ptr)
 	{
-		return nullvar();
+		std::string str;
+		unsigned long long size = CodeAndRemarkString(ptr, str);
+
+		return ullvar(size);
 	}
 
-	std::string str;
-	return ullvar(CodeAndRemarkString(ptr, str));
+	return ullvar(0);
 }
 
 EXTS_FUNC(navistr)	// argv[0] = ptr
@@ -267,10 +269,10 @@ EXTS_FUNC(navistr)	// argv[0] = ptr
 		return nullvar();
 	}
 
-	std::string str;
 	char * nv = nullptr;
 	if (ptr)
 	{
+		std::string str;
 		NavigationString(ptr, str);
 		if (str.size())
 		{
@@ -294,10 +296,10 @@ EXTS_FUNC(codestr)	// argv[0] = ptr
 		return nullvar();
 	}
 
-	std::string str;
 	char * cstr = nullptr;
 	if (ptr)
 	{
+		std::string str;
 		CodeAndRemarkString(ptr, str);
 		if (str.size())
 		{
