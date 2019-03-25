@@ -1,24 +1,7 @@
 #include "XenomTextViewer.h"
-
-XenomTextViewer::XenomTextViewer(xdv_handle handle, QWidget *parent)
-	: XenomPlainTextEdit(parent), viewer_handle_(handle)
-{
-	setFont(QFont("Consolas", 9));
-	setReadOnly(true);
-	setMouseTracking(true);
-	setWordWrapMode(QTextOption::NoWrap);
-	highlighter_ = new SyntaxHighlighter(this->document());
-
-	QFile f(".\\exts\\css\\style.qss");
-	if (f.exists())
-	{
-		line_color_ = QColor("#000000").light(160);
-	}
-	else
-	{
-		line_color_ = QColor("#adadad").light(160);
-	}
-}
+#include <qpen.h>
+#include <qfontmetrics.h>
+#include <qpainter.h>
 
 XenomTextViewer::XenomTextViewer(xdv_handle handle, xdv::viewer::id id, QWidget *parent)
 	: XenomPlainTextEdit(parent), viewer_handle_(handle), id_(id)
@@ -28,6 +11,10 @@ XenomTextViewer::XenomTextViewer(xdv_handle handle, xdv::viewer::id id, QWidget 
 	setMouseTracking(true);
 	setWordWrapMode(QTextOption::NoWrap);
 	highlighter_ = new SyntaxHighlighter(this->document());
+
+	navigationArea_ = new NavigationLineArea(this);
+	QObject::connect(this, &QPlainTextEdit::updateRequest, this, &XenomTextViewer::updateBlockArea);
+	updateBlockAreaWidth(0);
 
 	QFile f(".\\exts\\css\\style.qss");
 	if (f.exists())
@@ -39,7 +26,6 @@ XenomTextViewer::XenomTextViewer(xdv_handle handle, xdv::viewer::id id, QWidget 
 	{
 		line_color_ = QColor("#509CE4").light(160);
 		highlighter_->setDarkColor();
-		//this->setStyleSheet("color: black; background-color: #777777;");
 	}
 }
 
@@ -284,6 +270,14 @@ void XenomTextViewer::contextMenuEvent(QContextMenuEvent * e)
 	menu.exec(mapToGlobal(e->pos()));
 }
 
+void XenomTextViewer::resizeEvent(QResizeEvent *e)
+{
+	QPlainTextEdit::resizeEvent(e);
+
+	QRect cr = contentsRect();
+	navigationArea_->setGeometry(QRect(cr.left(), cr.top(), blockAreaWidth(), cr.height()));
+}
+
 // -------------------------------------------------
 //
 void XenomTextViewer::updateText(QString str)
@@ -433,4 +427,119 @@ void XenomTextViewer::shortcutAction()
 	str += " -tag:";
 	str += cursor.selectedText();
 	viewer->Update(xdv::status::id::XENOM_UPDATE_STATUS_SHORTCUT, str.toStdString().c_str());
+}
+
+int XenomTextViewer::blockAreaWidth()
+{
+	int digits = 1;
+	int max = qMax(1, blockCount());
+	while (max >= 10) 
+	{
+		max /= 10;
+		++digits;
+	}
+
+	int space = 7 + fontMetrics().width(QLatin1Char('9')) * digits;
+
+	return space;
+}
+
+void XenomTextViewer::updateBlockAreaWidth(int)
+{
+	setViewportMargins(blockAreaWidth(), 0, 0, 0);
+}
+
+void XenomTextViewer::updateBlockArea(const QRect &rect, int dy)
+{
+	if (dy)
+	{
+		navigationArea_->scroll(0, dy);
+	}
+	else
+	{
+		navigationArea_->update(0, rect.y(), navigationArea_->width(), rect.height());
+	}
+
+	if (rect.contains(viewport()->rect()))
+		updateBlockAreaWidth(0);
+}
+
+void XenomTextViewer::drawBlockPaintEvent(QPaintEvent *event)
+{
+	typedef struct _tag_point
+	{
+		unsigned long long dest;
+		QLine current_line;
+	}point;
+
+	std::map<unsigned long long, point> points;
+	QTextBlock block = this->document()->firstBlock();
+	int interval = 2;
+	for (int i = 0; i < this->document()->blockCount(); ++i)
+	{
+		if (block.text().size())
+		{
+			point p;
+			char * end = nullptr;
+			const char * ptr = block.text().toStdString().c_str();
+			unsigned long long current = XdvToUll((char *)ptr);
+			if (current)
+			{
+				const char * dest = strstr(block.text().toStdString().c_str(), "0x");
+				if (dest)
+				{
+					p.dest = XdvToUll((char *)dest);
+				}
+				else
+				{
+					p.dest = 0;
+				}
+
+				QPoint p1 = QPoint(blockBoundingGeometry(block).topLeft().x(), blockBoundingGeometry(block).topLeft().y());
+				QPoint p2 = QPoint(blockBoundingGeometry(block).topRight().x(), blockBoundingGeometry(block).topRight().y());
+
+				p1.setX(p1.x() + blockAreaWidth() - interval);
+				p1.setY(blockBoundingGeometry(block).center().y());
+
+				p2.setY(blockBoundingGeometry(block).center().y());
+				p.current_line = QLine(p1, p2);
+
+				points.insert(std::pair<unsigned long long, point>(current, p));
+				interval += 2;
+
+				if (interval >= blockAreaWidth())
+				{
+					interval = 0;
+				}
+			}
+		}
+
+		block = block.next();
+	}
+
+	QVector<QLine> lines;
+	for (auto it : points) // draw line
+	{
+		unsigned long long dest = it.second.dest;
+		auto f = points.find(dest);
+		if (f != points.end())
+		{
+			QLine src = it.second.current_line;
+			QLine dest = f->second.current_line;
+			QPoint dp1(src.p1().x(), dest.p1().y());
+			dest.setP1(dp1);
+
+			lines.push_back(src);
+			lines.push_back(dest);
+			lines.push_back(QLine(src.p1(), dest.p1()));
+		}
+	}
+
+	QPen pen;
+	pen.setStyle(Qt::DashLine);
+	pen.setColor(Qt::blue);
+
+	QPainter painter(navigationArea_);
+	painter.setPen(pen);
+	painter.drawLines(lines);
 }

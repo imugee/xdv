@@ -243,6 +243,24 @@ void * XdvLoadModule(char *module_name)
 	return XxcnLoad(module_name);
 }
 
+unsigned long long XdvToUll(char * ull_str)
+{
+	char * end = nullptr;
+	if (strstr(ull_str, "'"))
+	{
+		unsigned long long h_ull = strtoull(ull_str, &end, 16);
+		unsigned long l_ull = strtoul(end + 1, &end, 16);
+		unsigned long long ull = 0;
+
+		ull |= (h_ull << 32);
+		ull |= l_ull;
+
+		return ull;
+	}
+
+	return strtoull(ull_str, &end, 16);
+}
+
 unsigned long long XdvToUll(char * argv[], int argc, char * option)
 {
 	char * ull_str = XdvValue(argv, argc, option, nullptr);
@@ -251,19 +269,6 @@ unsigned long long XdvToUll(char * argv[], int argc, char * option)
 		return 0;
 	}
 
-	char * end = nullptr;
-	if (strstr(ull_str, "'"))
-	{
-		unsigned long long h_ull = strtoull(ull_str, &end, 16);
-		unsigned long l_ull = strtoul(end + 1, &end, 16);
-		unsigned long long ull = 0;
-		
-		ull |= (h_ull << 32);
-		ull |= l_ull;
-
-		return ull;
-	}
-
-	return strtoull(ull_str, &end, 16);
+	return XdvToUll(ull_str);
 }
 

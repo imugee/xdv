@@ -11,6 +11,7 @@
 #include "XenomPlainTextEdit.h"
 #include "SyntaxHighlighter.h"
 
+class NavigationLineArea;
 class XenomTextViewer : public XenomPlainTextEdit
 {
 private:
@@ -24,9 +25,9 @@ private:
 	xdv::viewer::id id_;
 
 	std::vector<QMenu *> context_menu_vector_;
+	QWidget * navigationArea_;
 
 public:
-	explicit XenomTextViewer(xdv_handle handle, QWidget *parent = 0);
 	explicit XenomTextViewer(xdv_handle handle, xdv::viewer::id id, QWidget *parent = 0);
 	~XenomTextViewer();
 
@@ -37,14 +38,44 @@ public:
 	void addShortcutAction(char * menu, char * menu_icon, char * name, char * shortcut, char * icon);
 	void shortcutAction();
 
+	int blockAreaWidth();
+	void drawBlockPaintEvent(QPaintEvent *event);
+	void updateBlockAreaWidth(int);
+	void updateBlockArea(const QRect &rect, int dy);
+
 protected:
 	virtual bool event(QEvent *e) override;
+	void resizeEvent(QResizeEvent *event) override;
 	virtual void mouseDoubleClickEvent(QMouseEvent *e) override;
 	virtual void wheelEvent(QWheelEvent *e) override;
 	virtual void keyPressEvent(QKeyEvent *e) override;
 	virtual void mousePressEvent(QMouseEvent *e) override;
 	virtual void mouseReleaseEvent(QMouseEvent *e) override;
 	void contextMenuEvent(QContextMenuEvent * e);
+};
+
+class NavigationLineArea : public QWidget
+{
+public:
+	NavigationLineArea(XenomTextViewer *editor) 
+		: QWidget(editor)
+	{
+		editor_ = editor;
+	}
+
+	QSize sizeHint() const override
+	{
+		return QSize(editor_->blockAreaWidth(), 0);
+	}
+
+protected:
+	void paintEvent(QPaintEvent *event) override
+	{
+		editor_->drawBlockPaintEvent(event);
+	}
+
+private:
+	XenomTextViewer *editor_;
 };
 
 #endif
