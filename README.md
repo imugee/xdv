@@ -96,6 +96,6 @@ Special Thanks To ...
 -------
 * [Yonggoo Noh](https://github.com/ygnoh)
 * [Chae Jong Bin](https://github.com/Necrosys)
-* [Junyoung Kim](https://github.com/junyoungKim)
+* [Junyoung Kim](https://github.com/junyoungKimGit)
 * [Jaehoon Ahn](https://github.com/dkswognsdi)
-* Jeonghoon Kim
+* [Jeonghoon Kim](https://github.com/ppiizzaa)
