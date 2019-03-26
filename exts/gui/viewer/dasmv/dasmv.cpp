@@ -128,11 +128,6 @@ void NavigationString(unsigned long long ptr, std::string &str)
 	{
 		str += "; ======= current point\n";
 	}
-	//else if (XdvGetThreadContext(XdvGetParserHandle(), &ctx) // => cpuv에서 값을 가져와야함
-	//	&& ctx.rip == ptr)
-	//{
-	//	str += " ; ======= current point\n";
-	//}
 	else if (bi != _break_point_set.end())
 	{
 		str += "; ======= break point\n";

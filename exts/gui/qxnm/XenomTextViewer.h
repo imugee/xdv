@@ -15,6 +15,12 @@ class NavigationLineArea;
 class XenomTextViewer : public XenomPlainTextEdit
 {
 private:
+	typedef struct _tag_point
+	{
+		unsigned long long dest;
+		QLine current_line;
+	}point;
+
 	std::string update_command_;
 	xdv_handle viewer_handle_;
 	QAction action_[10];
@@ -42,6 +48,9 @@ public:
 	void drawBlockPaintEvent(QPaintEvent *event);
 	void updateBlockAreaWidth(int);
 	void updateBlockArea(const QRect &rect, int dy);
+
+	QVector<QLine> findLines(QString str);
+	std::map<unsigned long long, point> pointMap();
 
 protected:
 	virtual bool event(QEvent *e) override;

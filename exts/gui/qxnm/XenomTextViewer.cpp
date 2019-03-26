@@ -39,7 +39,7 @@ XenomTextViewer::~XenomTextViewer()
 
 //
 //
-std::string mnString(unsigned long long ptr)
+QString mnString(unsigned long long ptr)
 {
 	xdv_handle ah = XdvGetArchitectureHandle();
 	xdv_handle ih = XdvGetParserHandle();
@@ -60,7 +60,7 @@ std::string mnString(unsigned long long ptr)
 		start = tmp;
 	}
 
-	std::string mnstr;
+	QString mnstr;
 	for (int i = 0; i < 4; ++i)
 	{
 		xvar navivar = XdvExe("!dasmv.navistr -ptr:%I64x", start);
@@ -78,11 +78,11 @@ std::string mnString(unsigned long long ptr)
 
 		xvar codevar = XdvExe("!dasmv.codestr -ptr:%I64x", start);
 		char * codestr = (char *)ptrvar(codevar);
-		if (codestr)
+		if (navistr && codestr)
 		{
 			mnstr += codestr;
 			mnstr += "\n";
-			free(navistr);
+			free(codestr);
 		}
 
 		xvar sizevar = XdvExe("!dasmv.codesize -ptr:%I64x", start);
@@ -119,16 +119,38 @@ bool XenomTextViewer::event(QEvent *e)
 	QTextCursor cursor = cursorForPosition(he->pos());
 	cursor.select(QTextCursor::WordUnderCursor);
 
-#if 1
+#if 0
 	if (!cursor.selectedText().isEmpty())
 	{
-		if (strstr(cursor.selectedText().toStdString().c_str(), "0x"))
+		std::string str = cursor.selectedText().toStdString();
+		const char * text = str.c_str();
+		if (strstr(text, "0x"))
 		{
 			char *end = nullptr;
-			unsigned long long ptr = strtoull(cursor.selectedText().toStdString().c_str(), &end, 16);
-			std::string mnstr = mnString(ptr);
+			unsigned long long ptr = strtoull(text, &end, 16);
+
+			xdv_handle ah = XdvGetArchitectureHandle();
+			xdv_handle ih = XdvGetParserHandle();
+
+			unsigned long long tmp = ptr;
+			for (int i = 0; i < 2; ++i)
+			{
+				tmp = XdvGetBeforePtr(ah, ih, tmp);
+				if (tmp == 0)
+				{
+					return "";
+				}
+			}
+
+			unsigned long long start = ptr;
+			if (tmp)
+			{
+				start = tmp;
+			}
+
+			QString mnstr = mnString(ptr);
 			QToolTip::setFont(QFont("Consolas", 9));
-			QToolTip::showText(he->globalPos(), mnstr.c_str());
+			QToolTip::showText(he->globalPos(), mnstr);
 
 			return true;
 		}
@@ -466,13 +488,61 @@ void XenomTextViewer::updateBlockArea(const QRect &rect, int dy)
 		updateBlockAreaWidth(0);
 }
 
+std::map<unsigned long long, XenomTextViewer::point> XenomTextViewer::pointMap()
+{
+	std::map<unsigned long long, point> points;
+	QTextBlock block = this->document()->firstBlock();
+	int interval = 2;
+	for (int i = 0; i < this->document()->blockCount(); ++i)
+	{
+		if (block.text().size())
+		{
+			point p;
+			char * end = nullptr;
+			const char * ptr = block.text().toStdString().c_str();
+			unsigned long long current = XdvToUll((char *)ptr);
+			if (current)
+			{
+				const char * dest = strstr(block.text().toStdString().c_str(), "0x");
+				if (dest)
+				{
+					p.dest = XdvToUll((char *)dest);
+				}
+				else
+				{
+					p.dest = 0;
+				}
+
+				QPoint p1 = QPoint(blockBoundingGeometry(block).topLeft().x(), blockBoundingGeometry(block).topLeft().y());
+				QPoint p2 = QPoint(blockBoundingGeometry(block).topRight().x(), blockBoundingGeometry(block).topRight().y());
+
+				p1.setX(p1.x() + blockAreaWidth() - interval);
+				p1.setY(blockBoundingGeometry(block).center().y());
+
+				p2.setY(blockBoundingGeometry(block).center().y());
+				p.current_line = QLine(p1, p2);
+
+				points.insert(std::pair<unsigned long long, point>(current, p));
+				interval += 2;
+
+				if (interval >= blockAreaWidth())
+				{
+					interval = 2;
+				}
+			}
+		}
+
+		block = block.next();
+	}
+
+	return points;
+}
+
 void XenomTextViewer::drawBlockPaintEvent(QPaintEvent *event)
 {
-	typedef struct _tag_point
-	{
-		unsigned long long dest;
-		QLine current_line;
-	}point;
+	QTextCursor cursor = textCursor();
+	cursor.select(QTextCursor::LineUnderCursor);
+	unsigned long long current = XdvToUll((char *)cursor.selectedText().toStdString().c_str());
 
 	std::map<unsigned long long, point> points;
 	QTextBlock block = this->document()->firstBlock();
@@ -543,18 +613,54 @@ void XenomTextViewer::drawBlockPaintEvent(QPaintEvent *event)
 			QPoint dp1(src.p1().x(), dest.p1().y());
 			dest.setP1(dp1);
 
+			lines.clear();
 			lines.push_back(src);
 			lines.push_back(dest);
 			lines.push_back(QLine(src.p1(), dest.p1()));
+			lines.push_back(QLine());
+
+			QPen pen;
+			pen.setStyle(Qt::DashLine);
+			pen.setColor(Qt::gray);
+
+			if (current == it.first)
+			{
+				pen.setStyle(Qt::SolidLine);
+				pen.setColor(Qt::blue);
+			}
+
+			QPainter painter(navigationArea_);
+			painter.setPen(pen);
+			painter.drawLines(lines);
 		}
 	}
-	lines.push_back(QLine());
+}
 
-	QPen pen;
-	pen.setStyle(Qt::DashLine);
-	pen.setColor(Qt::blue);
+QVector<QLine> XenomTextViewer::findLines(QString str)
+{
+	std::map<unsigned long long, point> points = pointMap();
+	QVector<QLine> lines;
 
-	QPainter painter(navigationArea_);
-	painter.setPen(pen);
-	painter.drawLines(lines);
+	unsigned long long current = XdvToUll((char *)str.toStdString().c_str());
+	if (current == 0)
+	{
+		return lines;
+	}
+
+	auto f = points.find(points.find(current)->second.dest);
+	if (f == points.end())
+	{
+		return lines;
+	}
+
+	QLine src = points.find(current)->second.current_line;
+	QLine dest = f->second.current_line;
+	QPoint dp1(src.p1().x(), dest.p1().y());
+	dest.setP1(dp1);
+
+	lines.push_back(src);
+	lines.push_back(dest);
+	lines.push_back(QLine(src.p1(), dest.p1()));
+
+	return lines;
 }
