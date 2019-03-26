@@ -517,7 +517,7 @@ void XenomTextViewer::drawBlockPaintEvent(QPaintEvent *event)
 
 				if (interval >= blockAreaWidth())
 				{
-					interval = 0;
+					interval = 2;
 				}
 			}
 		}
@@ -528,6 +528,18 @@ void XenomTextViewer::drawBlockPaintEvent(QPaintEvent *event)
 	QVector<QLine> lines;
 	for (auto it : points) // draw line
 	{
+		unsigned char dump[16] = { 0, };
+		if (XdvReadMemory(XdvGetParserHandle(), it.first, dump, 16) == 0)
+		{
+			continue;
+		}
+
+		bool jxx = false;
+		if (!XdvIsJumpCode(XdvGetArchitectureHandle(), it.first, dump, &jxx))
+		{
+			continue;
+		}
+
 		unsigned long long dest = it.second.dest;
 		auto f = points.find(dest);
 		if (f != points.end())
@@ -542,6 +554,7 @@ void XenomTextViewer::drawBlockPaintEvent(QPaintEvent *event)
 			lines.push_back(QLine(src.p1(), dest.p1()));
 		}
 	}
+	lines.push_back(QLine());
 
 	QPen pen;
 	pen.setStyle(Qt::DashLine);
