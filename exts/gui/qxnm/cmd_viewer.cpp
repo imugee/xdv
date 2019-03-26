@@ -22,6 +22,10 @@ EXTS_FUNC(addtxtv)		// argv = handle
 	{
 		id = xdv::viewer::id::EVENT_BASE_TEXT_VIEWER;
 	}
+	else if (type && strstr(type, "dasm"))
+	{
+		id = xdv::viewer::id::TEXT_VIEWER_DASM;
+	}
 
 	text_viewer = new XenomTextViewer(handle, id);
 
@@ -81,6 +85,10 @@ EXTS_FUNC(addv)		// argv = obj_string
 	else if (type && strstr(type, "cmd"))
 	{
 		id = xdv::viewer::id::COMMAND_VIEWER;
+	}
+	else if (type && strstr(type, "dasm"))
+	{
+		id = xdv::viewer::id::TEXT_VIEWER_DASM;
 	}
 
 	char * command = XdvValue(argv, argc, "callback", nullptr);

@@ -13,9 +13,12 @@ XenomTextViewer::XenomTextViewer(xdv_handle handle, xdv::viewer::id id, QWidget 
 	setWordWrapMode(QTextOption::NoWrap);
 	highlighter_ = new SyntaxHighlighter(this->document());
 
-	navigationArea_ = new NavigationLineArea(this);
-	QObject::connect(this, &QPlainTextEdit::updateRequest, this, &XenomTextViewer::updateBlockArea);
-	updateBlockAreaWidth(0);
+	if (id_ == xdv::viewer::id::TEXT_VIEWER_DASM)
+	{
+		navigationArea_ = new NavigationLineArea(this);
+		QObject::connect(this, &QPlainTextEdit::updateRequest, this, &XenomTextViewer::updateBlockArea);
+		updateBlockAreaWidth(0);
+	}
 
 	QFile f(".\\exts\\css\\style.qss");
 	if (f.exists())
@@ -96,6 +99,11 @@ std::string mnString(unsigned long long ptr)
 
 bool XenomTextViewer::event(QEvent *e)
 {
+	if (id_ != xdv::viewer::id::TEXT_VIEWER_DASM)
+	{
+		return QPlainTextEdit::event(e);
+	}
+
 	if (e->type() != QEvent::ToolTip)
 	{
 		return QPlainTextEdit::event(e);
@@ -265,8 +273,11 @@ void XenomTextViewer::resizeEvent(QResizeEvent *e)
 {
 	QPlainTextEdit::resizeEvent(e);
 
-	QRect cr = contentsRect();
-	navigationArea_->setGeometry(QRect(cr.left(), cr.top(), blockAreaWidth(), cr.height()));
+	if (id_ == xdv::viewer::id::TEXT_VIEWER_DASM && navigationArea_)
+	{
+		QRect cr = contentsRect();
+		navigationArea_->setGeometry(QRect(cr.left(), cr.top(), blockAreaWidth(), cr.height()));
+	}
 }
 
 // -------------------------------------------------

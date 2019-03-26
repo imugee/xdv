@@ -83,6 +83,11 @@ void XenomDefaultViewer::AddViewer()
 		worker_ = (IWorker *)ptrvar(var);
 		break;
 
+	case xdv::viewer::id::TEXT_VIEWER_DASM:
+		var = XdvExe("!qxnm.addtxtv -handle:%x -title:%s -type:dasm", current_handle_, title_str_.c_str());
+		worker_ = (IWorker *)ptrvar(var);
+		break;
+
 	case xdv::viewer::id::COMMAND_VIEWER:
 		var = XdvExe("!qxnm.addcmdv -handle:%x -title:%s", current_handle_, title_str_.c_str());
 		worker_ = (IWorker *)ptrvar(var);
