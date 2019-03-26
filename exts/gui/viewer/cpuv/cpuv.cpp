@@ -16,7 +16,7 @@ EXTS_FUNC(cbcpuv)
 {
 	char * status = XdvValue(argv, argc, "status", nullptr);
 	char * handle = XdvValue(argv, argc, "handle", nullptr);
-	if (strstr(status, "doubleclick"))
+	if (strstr(status, "pre"))
 	{
 		printf("cpuv:: double click\n");
 	}

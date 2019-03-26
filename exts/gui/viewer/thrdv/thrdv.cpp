@@ -17,7 +17,7 @@ EXTS_FUNC(cbthrdv)
 	char * status = XdvValue(argv, argc, "status", nullptr);
 	char * handle = XdvValue(argv, argc, "handle", nullptr);
 	char * str = XdvValue(argv, argc, "str", nullptr);
-	if (strstr(status, "doubleclick"))
+	if (strstr(status, "pre"))
 	{
 		//XdvExe("!thrdv.threads");
 

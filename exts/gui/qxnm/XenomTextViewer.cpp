@@ -1,4 +1,5 @@
 #include "XenomTextViewer.h"
+
 #include <qpen.h>
 #include <qfontmetrics.h>
 #include <qpainter.h>
@@ -146,22 +147,13 @@ void XenomTextViewer::mouseDoubleClickEvent(QMouseEvent *e)
 		return;
 	}
 
-	if (id_ == xdv::viewer::id::TEXT_VIEWER_B)
-	{
-		QTextCursor pre_cursor = textCursor();
-		pre_cursor.select(QTextCursor::LineUnderCursor);
-		viewer->Update(xdv::status::id::XENOM_UPDATE_STATUS_PRE_EVENT, pre_cursor.selectedText().toStdString());
+	QTextCursor pre_cursor = textCursor();
+	pre_cursor.select(QTextCursor::LineUnderCursor);
+	viewer->Update(xdv::status::id::XENOM_UPDATE_STATUS_PRE_EVENT, pre_cursor.selectedText().toStdString());
 
-		QTextCursor post_cursor = textCursor();
-		post_cursor.select(QTextCursor::WordUnderCursor);
-		viewer->Update(xdv::status::id::XENOM_UPDATE_STATUS_DOUBLE_CLICK, post_cursor.selectedText().toStdString());
-	}
-	else
-	{
-		QTextCursor cursor = textCursor();
-		cursor.select(QTextCursor::LineUnderCursor);
-		viewer->Update(xdv::status::id::XENOM_UPDATE_STATUS_DOUBLE_CLICK, cursor.selectedText().toStdString().c_str());
-	}
+	QTextCursor post_cursor = textCursor();
+	post_cursor.select(QTextCursor::WordUnderCursor);
+	viewer->Update(xdv::status::id::XENOM_UPDATE_STATUS_DOUBLE_CLICK_POST_EVENT, post_cursor.selectedText().toStdString());
 }
 
 void XenomTextViewer::wheelEvent(QWheelEvent *e)
@@ -212,22 +204,13 @@ void XenomTextViewer::keyPressEvent(QKeyEvent *e)
 
 	case Qt::Key_Space:
 	{
-		if (id_ == xdv::viewer::id::TEXT_VIEWER_B)
-		{
-			QTextCursor pre_cursor = textCursor();
-			pre_cursor.select(QTextCursor::LineUnderCursor);
-			viewer->Update(xdv::status::id::XENOM_UPDATE_STATUS_PRE_EVENT, pre_cursor.selectedText().toStdString());
+		QTextCursor pre_cursor = textCursor();
+		pre_cursor.select(QTextCursor::LineUnderCursor);
+		viewer->Update(xdv::status::id::XENOM_UPDATE_STATUS_PRE_EVENT, pre_cursor.selectedText().toStdString());
 
-			QTextCursor post_cursor = textCursor();
-			post_cursor.select(QTextCursor::WordUnderCursor);
-			viewer->Update(xdv::status::id::XENOM_UPDATE_STSTUS_SPACE, post_cursor.selectedText().toStdString());
-		}
-		else
-		{
-			QTextCursor cursor = textCursor();
-			cursor.select(QTextCursor::LineUnderCursor);
-			viewer->Update(xdv::status::id::XENOM_UPDATE_STSTUS_SPACE, cursor.selectedText().toStdString().c_str());
-		}
+		QTextCursor post_cursor = textCursor();
+		post_cursor.select(QTextCursor::WordUnderCursor);
+		viewer->Update(xdv::status::id::XENOM_UPDATE_STSTUS_SPACE_POST_EVENT, post_cursor.selectedText().toStdString());
 
 		break;
 	}

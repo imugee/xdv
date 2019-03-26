@@ -260,7 +260,7 @@ EXTS_FUNC(cbprocv)	// argv[0] = status
 			XdvExe("!procv.update");
 		}
 	}
-	else if (strstr(status, "doubleclick"))
+	else if (strstr(status, "pre"))
 	{
 		char * str = XdvValue(argv, argc, "str", nullptr);
 		std::vector<std::string> np = XdvSplit(str, "\\s+");

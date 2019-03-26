@@ -143,9 +143,9 @@ bool XenomDefaultViewer::Update(int status, std::string str)
 		XdvExe((char *)command.c_str());
 		break;
 
-	case xdv::status::XENOM_UPDATE_STATUS_DOUBLE_CLICK: // mouse double click
+	case xdv::status::XENOM_UPDATE_STATUS_PRE_EVENT:
 	{
-		command += " -status:doubleclick";
+		command += " -status:pre";
 		command += " -handle:";
 		command += handle;
 		if (str.size())
@@ -154,12 +154,12 @@ bool XenomDefaultViewer::Update(int status, std::string str)
 			command += str.c_str();
 		}
 		XdvExe((char *)command.c_str());
-	}
 		break;
+	}
 
-	case xdv::status::XENOM_UPDATE_STATUS_PRE_EVENT: 
+	case xdv::status::XENOM_UPDATE_STATUS_DOUBLE_CLICK_POST_EVENT: // mouse double click
 	{
-		command += " -status:pre_event";
+		command += " -status:dc";
 		command += " -handle:";
 		command += handle;
 		if (str.size())
@@ -168,24 +168,10 @@ bool XenomDefaultViewer::Update(int status, std::string str)
 			command += str.c_str();
 		}
 		XdvExe((char *)command.c_str());
+		break;
 	}
-	break;
 
-	case xdv::status::XENOM_UPDATE_STATUS_POST_EVENT:
-	{
-		command += " -status:post_event";
-		command += " -handle:";
-		command += handle;
-		if (str.size())
-		{
-			command += " -str:";
-			command += str.c_str();
-		}
-		XdvExe((char *)command.c_str());
-	}
-	break;
-
-	case xdv::status::XENOM_UPDATE_STSTUS_BACKSPACE: // mouse double click
+	case xdv::status::XENOM_UPDATE_STSTUS_BACKSPACE:
 	{
 		command += " -status:backspace";
 		command += " -handle:";
@@ -196,10 +182,10 @@ bool XenomDefaultViewer::Update(int status, std::string str)
 			command += str.c_str();
 		}
 		XdvExe((char *)command.c_str());
+		break;
 	}
-	break;
 
-	case xdv::status::XENOM_UPDATE_STSTUS_SPACE: // mouse double click
+	case xdv::status::XENOM_UPDATE_STSTUS_SPACE_POST_EVENT:
 	{
 		command += " -status:space";
 		command += " -handle:";
@@ -210,8 +196,8 @@ bool XenomDefaultViewer::Update(int status, std::string str)
 			command += str.c_str();
 		}
 		XdvExe((char *)command.c_str());
+		break;
 	}
-	break;
 
 	case xdv::status::id::XENOM_UPDATE_STATUS_SHORTCUT:
 		command += " -status:";

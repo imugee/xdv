@@ -15,7 +15,7 @@ EXTS_FUNC(cbcmdv)	// argv[0] = status
 {
 	char * status = XdvValue(argv, argc, "status", nullptr);
 	char * handle = XdvValue(argv, argc, "handle", nullptr);
-if (strstr(status, "doubleclick"))
+	if (strstr(status, "pre"))
 	{
 		char * ptr_str = XdvValue(argv, argc, "str", nullptr);
 		if (ptr_str)

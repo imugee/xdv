@@ -477,7 +477,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 		_current_ptr += 3;
 		Update();
 	}
-	else if (strstr(status, "pre_event"))
+	else if (strstr(status, "pre"))
 	{
 		unsigned long long ptr = XdvToUll(argv, argc, "str");
 		if (ptr)
@@ -489,7 +489,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 			}
 		}
 	}
-	else if (strstr(status, "doubleclick"))
+	else if (strstr(status, "dc"))
 	{
 		char * ptr_str = XdvValue(argv, argc, "str", nullptr);
 		if (strlen(ptr_str))
