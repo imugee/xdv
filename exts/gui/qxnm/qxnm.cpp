@@ -430,6 +430,8 @@ void xnm::toolbarActionFileOpen()
 	xdv::architecture::x86::context::type ctx;
 	if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
 	{
+		XdvExe("!segv.segall");
+
 		XdvExe("!dasmv.dasm -ptr:%I64x", ctx.rip);
 		XdvExe("!hexv.hex -ptr:%I64x", ctx.rip);
 		XdvExe("!thrdv.threads");
@@ -451,6 +453,8 @@ void xnm::toolbarActionProcessOpen()
 		xdv::architecture::x86::context::type ctx;
 		if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
 		{
+			XdvExe("!segv.segall");
+
 			XdvExe("!dasmv.dasm -ptr:%I64x", ctx.rip);
 			XdvExe("!hexv.hex -ptr:%I64x", ctx.rip);
 			XdvExe("!thrdv.threads");
@@ -537,6 +541,8 @@ void DebugCallback()
 		xdv::architecture::x86::context::type ctx;
 		if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
 		{
+			XdvExe("!segv.segall");
+
 			XdvExe("!cpuv.printctx -ctx:%I64x", &ctx); // dasmv보다 먼저 호출되어 글로벌 ctx가 세팅되도록 해야한다.
 			XdvExe("!stackv.printframe -ctx:%I64x", &ctx); // 
 
@@ -595,6 +601,7 @@ void xnm::toolbarActionAttachProcess()
 			if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
 			{
 				XdvExe("!cpuv.printctx -ctx:%I64x", &ctx); // dasmv보다 먼저 호출되어 글로벌 ctx가 세팅되도록 해야한다.
+				XdvExe("!segv.segall");
 				XdvExe("!stackv.printframe -ctx:%I64x", &ctx);
 
 				XdvExe("!dasmv.dasm -ptr:%I64x", ctx.rip);
@@ -718,6 +725,7 @@ void xnm::toolbarActionDebugStepInto()
 	if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
 	{
 		XdvExe("!cpuv.printctx");
+		XdvExe("!segv.segall");
 
 		XdvExe("!dasmv.dasm -ptr:%I64x", ctx.rip);
 		XdvExe("!hexv.hex -ptr:%I64x", ctx.rip);
@@ -798,6 +806,7 @@ EXTS_FUNC(xenom)
 	XdvExe("!thrdv.update");
 	XdvExe("!stackv.update");
 	XdvExe("!cpuv.update");
+	XdvExe("!segv.update");
 
 	return ullvar((unsigned long long)a.exec());
 }
