@@ -61,6 +61,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rmtexts", "exts\parser\rmte
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "corexts_static", "exts\corexts_static\corexts_static.vcxproj", "{A9CF66DB-9E8E-4AAB-80F0-40E90F992530}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "segv", "exts\gui\viewer\segv\segv.vcxproj", "{91FAACEC-0002-4942-B22A-BDF7F8289FA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -245,6 +247,14 @@ Global
 		{A9CF66DB-9E8E-4AAB-80F0-40E90F992530}.Release|x64.Build.0 = Release|x64
 		{A9CF66DB-9E8E-4AAB-80F0-40E90F992530}.Release|x86.ActiveCfg = Release|Win32
 		{A9CF66DB-9E8E-4AAB-80F0-40E90F992530}.Release|x86.Build.0 = Release|Win32
+		{91FAACEC-0002-4942-B22A-BDF7F8289FA4}.Debug|x64.ActiveCfg = Debug|x64
+		{91FAACEC-0002-4942-B22A-BDF7F8289FA4}.Debug|x64.Build.0 = Debug|x64
+		{91FAACEC-0002-4942-B22A-BDF7F8289FA4}.Debug|x86.ActiveCfg = Debug|Win32
+		{91FAACEC-0002-4942-B22A-BDF7F8289FA4}.Debug|x86.Build.0 = Debug|Win32
+		{91FAACEC-0002-4942-B22A-BDF7F8289FA4}.Release|x64.ActiveCfg = Release|x64
+		{91FAACEC-0002-4942-B22A-BDF7F8289FA4}.Release|x64.Build.0 = Release|x64
+		{91FAACEC-0002-4942-B22A-BDF7F8289FA4}.Release|x86.ActiveCfg = Release|Win32
+		{91FAACEC-0002-4942-B22A-BDF7F8289FA4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -274,5 +284,6 @@ Global
 		{B5385255-F566-419F-A72C-4396514EA1DD} = {741CDD4A-3FC9-469E-A445-2CEDFAC87EEF}
 		{3B9DAA7C-CE00-47A2-99B4-9B81725DCB2F} = {741CDD4A-3FC9-469E-A445-2CEDFAC87EEF}
 		{D667E969-40EE-4CDB-A8DB-8D118E1AE7A8} = {E9F178CD-29BA-4076-85EE-E5B15BCEC467}
+		{91FAACEC-0002-4942-B22A-BDF7F8289FA4} = {741CDD4A-3FC9-469E-A445-2CEDFAC87EEF}
 	EndGlobalSection
 EndGlobal
