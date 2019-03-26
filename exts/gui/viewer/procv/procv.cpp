@@ -4,7 +4,7 @@
 xdv_handle _current_handle = 0;
 XENOM_ADD_INTERFACE()
 {
-	xvar var = XdvExe("!qxnm.addv -name:Procedure -title:subroutine -callback:!procv.cbprocv -type:txtc");
+	xvar var = XdvExe("!qxnm.addv -name:Procedure -title:subroutine -callback:!procv.cbprocv -type:event");
 	_current_handle = handlevar(var);
 	XdvExe("!qxnm.chkable -handle:%x", _current_handle);
 

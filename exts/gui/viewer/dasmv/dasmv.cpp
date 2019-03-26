@@ -6,7 +6,7 @@ unsigned long long _current_ptr = 0;
 xdv_handle _current_handle;
 XENOM_ADD_INTERFACE()
 {
-	xvar var = XdvExe("!qxnm.addv -name:Disassemble -title:code -type:txtb -callback:!dasmv.cbdasmv");
+	xvar var = XdvExe("!qxnm.addv -name:Disassemble -title:code -type:event -callback:!dasmv.cbdasmv");
 	_current_handle = handlevar(var);
 	XdvExe("!qxnm.chkable -handle:%x", _current_handle);
 

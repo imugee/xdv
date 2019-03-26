@@ -6,7 +6,7 @@ unsigned long long _current_ptr = 0;
 xdv_handle _current_handle;
 XENOM_ADD_INTERFACE()
 {
-	xvar var = XdvExe("!qxnm.addv -name:Hex -title:hex -type:txtb -callback:!hexv.cbhexv");
+	xvar var = XdvExe("!qxnm.addv -name:Hex -title:hex -type:event -callback:!hexv.cbhexv");
 	_current_handle = handlevar(var);
 	XdvExe("!qxnm.chkable -handle:%x", _current_handle);
 

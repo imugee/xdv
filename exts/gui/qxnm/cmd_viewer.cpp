@@ -17,14 +17,10 @@ EXTS_FUNC(addtxtv)		// argv = handle
 	xnm *xenom = getXenom();
 	XenomDockWidget * dock = new XenomDockWidget(xenom);
 	XenomPlainTextEdit *text_viewer = nullptr;
-	xdv::viewer::id id = xdv::viewer::id::TEXT_VIEWER_A;
-	if (type && strstr(type, "txtb"))
+	xdv::viewer::id id = xdv::viewer::id::DEFAULT_TEXT_VIEWER;
+	if (type && strstr(type, "event"))
 	{
-		id = xdv::viewer::id::TEXT_VIEWER_B;
-	}
-	else if (type && strstr(type, "txtc"))
-	{
-		id = xdv::viewer::id::TEXT_VIEWER_C;
+		id = xdv::viewer::id::EVENT_BASE_TEXT_VIEWER;
 	}
 
 	text_viewer = new XenomTextViewer(handle, id);
@@ -45,23 +41,13 @@ EXTS_FUNC(addcmdv)		// argv = handle
 {
 	char * handle_str = XdvValue(argv, argc, "handle", nullptr);
 	char * title = XdvValue(argv, argc, "title", nullptr);
-	char * type = XdvValue(argv, argc, "type", nullptr);
-
 	char *end = nullptr;
 	xdv_handle handle = strtoull(handle_str, &end, 16);
 	xnm *xenom = getXenom();
 	XenomDockWidget * dock = new XenomDockWidget(xenom);
 	XenomPlainTextEdit *text_viewer = nullptr;
-	xdv::viewer::id id = xdv::viewer::id::TEXT_VIEWER_A;
-	if (type && strstr(type, "txtb"))
-	{
-		id = xdv::viewer::id::TEXT_VIEWER_B;
-	}
-	else if (type && strstr(type, "txtc"))
-	{
-		id = xdv::viewer::id::TEXT_VIEWER_C;
-	}
 
+	xdv::viewer::id id = xdv::viewer::id::DEFAULT_TEXT_VIEWER;
 	text_viewer = new XenomTextViewer(handle, id);
 	dock->addVbox(new XenomCommandWidget(handle));
 	dock->addVbox(text_viewer);
@@ -86,19 +72,15 @@ EXTS_FUNC(addv)		// argv = obj_string
 		return nullvar();
 	}
 
-	xdv::viewer::id id = xdv::viewer::id::TEXT_VIEWER_A;
+	xdv::viewer::id id = xdv::viewer::id::DEFAULT_TEXT_VIEWER;
 	char *type = XdvValue(argv, argc, "type", nullptr);
-	if (type && strstr(type, "txtb"))
+	if (type && strstr(type, "event"))
 	{
-		id = xdv::viewer::id::TEXT_VIEWER_B;
+		id = xdv::viewer::id::EVENT_BASE_TEXT_VIEWER;
 	}
-	else if (type && strstr(type, "txtc"))
+	else if (type && strstr(type, "cmd"))
 	{
-		id = xdv::viewer::id::TEXT_VIEWER_C;
-	}
-	else if (type && strstr(type, "cmda"))
-	{
-		id = xdv::viewer::id::COMMAND_VIEWER_A;
+		id = xdv::viewer::id::COMMAND_VIEWER;
 	}
 
 	char * command = XdvValue(argv, argc, "callback", nullptr);

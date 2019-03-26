@@ -5,7 +5,7 @@
 xdv_handle _current_handle;
 XENOM_ADD_INTERFACE()
 {
-	xvar var = XdvExe("!qxnm.addv -name:Log -title:logv -callback:!logv.cblogv -type:txta");
+	xvar var = XdvExe("!qxnm.addv -name:Log -title:logv -callback:!logv.cblogv");
 	_current_handle = handlevar(var);
 	XdvExe("!qxnm.chkable -handle:%x", _current_handle);
 

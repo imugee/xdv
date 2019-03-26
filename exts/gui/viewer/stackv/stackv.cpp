@@ -5,7 +5,7 @@
 xdv_handle _current_handle;
 XENOM_ADD_INTERFACE()
 {
-	xvar var = XdvExe("!qxnm.addv -name:Stack -title:stack -callback:!stackv.cbstackv -type:txta");
+	xvar var = XdvExe("!qxnm.addv -name:Stack -title:stack -callback:!stackv.cbstackv");
 	_current_handle = handlevar(var);
 	XdvExe("!qxnm.chkable -handle:%x", _current_handle);
 

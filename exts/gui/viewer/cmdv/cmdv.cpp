@@ -5,7 +5,7 @@
 xdv_handle _current_handle;
 XENOM_ADD_INTERFACE()
 {
-	xvar var = XdvExe("!qxnm.addv -name:Command -title:cmd -type:cmda -callback:!cmdv.cbcmdv");
+	xvar var = XdvExe("!qxnm.addv -name:Command -title:cmd -type:cmd -callback:!cmdv.cbcmdv");
 	_current_handle = handlevar(var);
 	return _current_handle;
 }

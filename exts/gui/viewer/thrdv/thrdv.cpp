@@ -5,7 +5,7 @@
 xdv_handle _current_handle;
 XENOM_ADD_INTERFACE()
 {
-	xvar var = XdvExe("!qxnm.addv -name:Threads -title:thread -type:txta -callback:!thrdv.cbthrdv");
+	xvar var = XdvExe("!qxnm.addv -name:Threads -title:thread -callback:!thrdv.cbthrdv");
 	_current_handle = handlevar(var);
 	XdvExe("!qxnm.chkable -handle:%x", _current_handle);
 

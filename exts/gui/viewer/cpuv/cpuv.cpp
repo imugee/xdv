@@ -5,7 +5,7 @@
 xdv_handle _current_handle;
 XENOM_ADD_INTERFACE()
 {
-	xvar var = XdvExe("!qxnm.addv -name:Registers -title:cpu -type:txta -callback:!cpuv.cbcpuv");
+	xvar var = XdvExe("!qxnm.addv -name:Registers -title:cpu -callback:!cpuv.cbcpuv");
 	_current_handle = handlevar(var);
 	XdvExe("!qxnm.chkable -handle:%x", _current_handle);
 

@@ -4,7 +4,7 @@
 #include "XenomTextViewer.h"
 
 XenomDefaultViewer::XenomDefaultViewer()
-	: current_handle_(0), is_open_(false), worker_(nullptr), checkable_(false), id_(xdv::viewer::id::TEXT_VIEWER_A)
+	: current_handle_(0), is_open_(false), worker_(nullptr), checkable_(false), id_(xdv::viewer::id::DEFAULT_TEXT_VIEWER)
 {
 }
 
@@ -73,23 +73,18 @@ void XenomDefaultViewer::AddViewer()
 	xvar var;
 	switch (id_)
 	{
-	case xdv::viewer::id::TEXT_VIEWER_A:
+	case xdv::viewer::id::DEFAULT_TEXT_VIEWER:
 		var = XdvExe("!qxnm.addtxtv -handle:%x -title:%s", current_handle_, title_str_.c_str());
 		worker_ = (IWorker *)ptrvar(var);
 		break;
 
-	case xdv::viewer::id::TEXT_VIEWER_B:
-		var = XdvExe("!qxnm.addtxtv -handle:%x -title:%s -type:txtb", current_handle_, title_str_.c_str());
+	case xdv::viewer::id::EVENT_BASE_TEXT_VIEWER:
+		var = XdvExe("!qxnm.addtxtv -handle:%x -title:%s -type:event", current_handle_, title_str_.c_str());
 		worker_ = (IWorker *)ptrvar(var);
 		break;
 
-	case xdv::viewer::id::TEXT_VIEWER_C:
-		var = XdvExe("!qxnm.addtxtv -handle:%x -title:%s -type:txtc", current_handle_, title_str_.c_str());
-		worker_ = (IWorker *)ptrvar(var);
-		break;
-
-	case xdv::viewer::id::COMMAND_VIEWER_A:
-		var = XdvExe("!qxnm.addcmdv -handle:%x -title:%s -type:txta", current_handle_, title_str_.c_str());
+	case xdv::viewer::id::COMMAND_VIEWER:
+		var = XdvExe("!qxnm.addcmdv -handle:%x -title:%s", current_handle_, title_str_.c_str());
 		worker_ = (IWorker *)ptrvar(var);
 		break;
 	}

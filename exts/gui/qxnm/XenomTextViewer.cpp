@@ -165,7 +165,7 @@ void XenomTextViewer::wheelEvent(QWheelEvent *e)
 		return;
 	}
 
-	if (id_ == xdv::viewer::id::TEXT_VIEWER_A)
+	if (id_ == xdv::viewer::id::DEFAULT_TEXT_VIEWER)
 	{
 		QPlainTextEdit::wheelEvent(e);
 		return;
@@ -190,7 +190,7 @@ void XenomTextViewer::keyPressEvent(QKeyEvent *e)
 		return;
 	}
 
-	if (id_ == xdv::viewer::id::TEXT_VIEWER_A)
+	if (id_ == xdv::viewer::id::DEFAULT_TEXT_VIEWER)
 	{
 		QPlainTextEdit::keyPressEvent(e);
 		return;
