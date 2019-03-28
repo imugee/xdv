@@ -108,7 +108,11 @@ typedef enum _tag_key_id
 	Key_F9 = 0x01000038,
 	Key_F10 = 0x01000039,
 	Key_F11 = 0x0100003a,
-	Key_F12 = 0x0100003b
+	Key_F12 = 0x0100003b,
+
+	Key_SHIFT = 0x02000000,
+	Key_CTRL = 0x04000000,
+	Key_ALT = 0x08000000,
 }id;
 XCN_NAMESPACE_E(key)
 

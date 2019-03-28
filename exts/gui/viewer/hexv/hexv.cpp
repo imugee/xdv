@@ -72,7 +72,7 @@ EXTS_FUNC(cbhexv)	// argv[0] = status
 
 EXTS_FUNC(update) // first callback
 {
-	XdvExe("!qxnm.ctxmenu -handle:%x -name:Jump -key:%x -nco:Goto.ico", _current_handle, xdv::key::id::Key_G);
+	XdvExe("!qxnm.ctxmenu -handle:%x -name:Jump -key:%x", _current_handle, xdv::key::id::Key_G);
 	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Find -name:Find Pattern -key:%x", _current_handle, xdv::key::id::Key_F);
 
 	return nullvar();

@@ -372,7 +372,7 @@ void XenomTextViewer::addShortcutAction(char * menu, char * menu_icon, char * na
 		unsigned long sc = strtoul(shortcut, &end, 16);
 		if (sc)
 		{
-			action->setShortcut(Qt::CTRL | sc);
+			action->setShortcut(sc);
 		}
 	}
 

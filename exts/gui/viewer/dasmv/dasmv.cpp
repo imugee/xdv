@@ -621,19 +621,19 @@ EXTS_FUNC(update) // first callback
 {
 	Update();
 
-	XdvExe("!qxnm.ctxmenu -handle:%x -name:Jump -key:%x -nco:Goto.ico", _current_handle, xdv::key::id::Key_G);
+	XdvExe("!qxnm.ctxmenu -handle:%x -name:Jump -key:%x", _current_handle, xdv::key::Key_CTRL | xdv::key::id::Key_G);
 
-	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Tag -name:Trace from the entry point -key:%x", _current_handle, xdv::key::id::Key_E);
-	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Tag -name:Trace from the current point -key:%x", _current_handle, xdv::key::id::Key_P);
-	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Tag -name:Track trace -key:%x", _current_handle, xdv::key::id::Key_T);
+	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Tag -name:Trace from the entry point -key:%x", _current_handle, xdv::key::Key_CTRL | xdv::key::id::Key_E);
+	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Tag -name:Trace from the current point -key:%x", _current_handle, xdv::key::Key_CTRL | xdv::key::id::Key_P);
+	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Tag -name:Track trace -key:%x", _current_handle, xdv::key::Key_CTRL | xdv::key::id::Key_T);
 
-	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Find -name:Find reference string -nco:FindString.ico", _current_handle);
-	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Find -name:Find intermodular call -nco:FIndProc.ico", _current_handle);
+	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Find -name:Find reference string", _current_handle);
+	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Find -name:Find intermodular call", _current_handle);
 
-	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Break point -name:Suspend point -nco:SuspendBreakPoint.ico", _current_handle);
-	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Break point -name:Software break point -nco:SoftwareBreakPoint.ico", _current_handle);
-	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Break point -name:Hardware break point -nco:HardwareBreakPoint.ico", _current_handle);
-	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Break point -name:Delete break point -nco:DeleteBreakPoint.ico", _current_handle);
+	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Break point -name:Suspend point", _current_handle);
+	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Break point -name:Software break point", _current_handle);
+	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Break point -name:Hardware break point", _current_handle);
+	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Break point -name:Delete break point", _current_handle);
 
 	return nullvar();
 }
