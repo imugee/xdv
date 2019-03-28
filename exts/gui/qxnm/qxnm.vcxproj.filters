@@ -9,11 +9,6 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="Qt\Generated Files\Debug">
-      <UniqueIdentifier>{0909f62c-08a1-4377-86e6-51798f5bdf50}</UniqueIdentifier>
-      <Extensions>cpp;moc</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
     <Filter Include="Qt\Generated Files\Release">
       <UniqueIdentifier>{a95b827e-6970-4c2f-a068-8d4b49ba121f}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
@@ -32,12 +27,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeneratedFiles\Debug\moc_XenomThreadWorker.cpp">
-      <Filter>Qt\Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_XenomThreadWorker.cpp">
-      <Filter>Qt\Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="GotoDialog.cpp">
       <Filter>Qt\Widgets</Filter>
     </ClCompile>
@@ -89,6 +78,9 @@
     </ClCompile>
     <ClCompile Include="XenomProcessListDialog.cpp">
       <Filter>Qt\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_XenomThreadWorker.cpp">
+      <Filter>Qt\Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
