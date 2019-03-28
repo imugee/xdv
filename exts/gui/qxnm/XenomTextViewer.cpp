@@ -39,7 +39,7 @@ XenomTextViewer::~XenomTextViewer()
 
 //
 //
-QString mnString(unsigned long long ptr)
+void mnString(unsigned long long ptr, std::string &mnstr)
 {
 	xdv_handle ah = XdvGetArchitectureHandle();
 	xdv_handle ih = XdvGetParserHandle();
@@ -50,7 +50,7 @@ QString mnString(unsigned long long ptr)
 		tmp = XdvGetBeforePtr(ah, ih, tmp);
 		if (tmp == 0)
 		{
-			return "";
+			return;
 		}
 	}
 
@@ -60,30 +60,15 @@ QString mnString(unsigned long long ptr)
 		start = tmp;
 	}
 
-	QString mnstr;
 	for (int i = 0; i < 4; ++i)
 	{
-		xvar navivar = XdvExe("!dasmv.navistr -ptr:%I64x", start);
-		char * navistr = (char *)ptrvar(navivar);
-		if (navistr)
-		{
-			mnstr += navistr;
-			free(navistr);
-		}
-		
+		XdvExe("!dasmv.navistr -ptr:%I64x -buf:%p", start, &mnstr);
 		if (start == ptr)
 		{
 			mnstr += "> ";
 		}
-
-		xvar codevar = XdvExe("!dasmv.codestr -ptr:%I64x", start);
-		char * codestr = (char *)ptrvar(codevar);
-		if (navistr && codestr)
-		{
-			mnstr += codestr;
-			mnstr += "\n";
-			free(codestr);
-		}
+		XdvExe("!dasmv.codestr -ptr:%I64x -buf:%p", start, &mnstr);
+		mnstr += "\n";
 
 		xvar sizevar = XdvExe("!dasmv.codesize -ptr:%I64x", start);
 		unsigned long long size = ullvar(sizevar);
@@ -93,8 +78,6 @@ QString mnString(unsigned long long ptr)
 		}
 		start += size;
 	}
-
-	return mnstr;
 }
 
 bool XenomTextViewer::event(QEvent *e)
@@ -119,7 +102,7 @@ bool XenomTextViewer::event(QEvent *e)
 	QTextCursor cursor = cursorForPosition(he->pos());
 	cursor.select(QTextCursor::WordUnderCursor);
 
-#if 0
+#if 1
 	if (!cursor.selectedText().isEmpty())
 	{
 		std::string str = cursor.selectedText().toStdString();
@@ -147,10 +130,12 @@ bool XenomTextViewer::event(QEvent *e)
 			{
 				start = tmp;
 			}
+			
+			std::string mnstr;
+			mnString(ptr, mnstr);
 
-			QString mnstr = mnString(ptr);
 			QToolTip::setFont(QFont("Consolas", 9));
-			QToolTip::showText(he->globalPos(), mnstr);
+			QToolTip::showText(he->globalPos(), mnstr.c_str());
 
 			return true;
 		}
@@ -488,56 +473,6 @@ void XenomTextViewer::updateBlockArea(const QRect &rect, int dy)
 		updateBlockAreaWidth(0);
 }
 
-std::map<unsigned long long, XenomTextViewer::point> XenomTextViewer::pointMap()
-{
-	std::map<unsigned long long, point> points;
-	QTextBlock block = this->document()->firstBlock();
-	int interval = 2;
-	for (int i = 0; i < this->document()->blockCount(); ++i)
-	{
-		if (block.text().size())
-		{
-			point p;
-			char * end = nullptr;
-			const char * ptr = block.text().toStdString().c_str();
-			unsigned long long current = XdvToUll((char *)ptr);
-			if (current)
-			{
-				const char * dest = strstr(block.text().toStdString().c_str(), "0x");
-				if (dest)
-				{
-					p.dest = XdvToUll((char *)dest);
-				}
-				else
-				{
-					p.dest = 0;
-				}
-
-				QPoint p1 = QPoint(blockBoundingGeometry(block).topLeft().x(), blockBoundingGeometry(block).topLeft().y());
-				QPoint p2 = QPoint(blockBoundingGeometry(block).topRight().x(), blockBoundingGeometry(block).topRight().y());
-
-				p1.setX(p1.x() + blockAreaWidth() - interval);
-				p1.setY(blockBoundingGeometry(block).center().y());
-
-				p2.setY(blockBoundingGeometry(block).center().y());
-				p.current_line = QLine(p1, p2);
-
-				points.insert(std::pair<unsigned long long, point>(current, p));
-				interval += 2;
-
-				if (interval >= blockAreaWidth())
-				{
-					interval = 2;
-				}
-			}
-		}
-
-		block = block.next();
-	}
-
-	return points;
-}
-
 void XenomTextViewer::drawBlockPaintEvent(QPaintEvent *event)
 {
 	QTextCursor cursor = textCursor();
@@ -625,7 +560,6 @@ void XenomTextViewer::drawBlockPaintEvent(QPaintEvent *event)
 
 			if (current == it.first)
 			{
-				pen.setStyle(Qt::SolidLine);
 				pen.setColor(Qt::blue);
 			}
 
@@ -634,33 +568,4 @@ void XenomTextViewer::drawBlockPaintEvent(QPaintEvent *event)
 			painter.drawLines(lines);
 		}
 	}
-}
-
-QVector<QLine> XenomTextViewer::findLines(QString str)
-{
-	std::map<unsigned long long, point> points = pointMap();
-	QVector<QLine> lines;
-
-	unsigned long long current = XdvToUll((char *)str.toStdString().c_str());
-	if (current == 0)
-	{
-		return lines;
-	}
-
-	auto f = points.find(points.find(current)->second.dest);
-	if (f == points.end())
-	{
-		return lines;
-	}
-
-	QLine src = points.find(current)->second.current_line;
-	QLine dest = f->second.current_line;
-	QPoint dp1(src.p1().x(), dest.p1().y());
-	dest.setP1(dp1);
-
-	lines.push_back(src);
-	lines.push_back(dest);
-	lines.push_back(QLine(src.p1(), dest.p1()));
-
-	return lines;
 }

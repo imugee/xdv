@@ -49,9 +49,6 @@ public:
 	void updateBlockAreaWidth(int);
 	void updateBlockArea(const QRect &rect, int dy);
 
-	QVector<QLine> findLines(QString str);
-	std::map<unsigned long long, point> pointMap();
-
 protected:
 	virtual bool event(QEvent *e) override;
 	void resizeEvent(QResizeEvent *event) override;
