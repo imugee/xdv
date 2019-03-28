@@ -1276,6 +1276,7 @@ XCN_WINDOWS_EXPORT std::vector<std::string> XdvSplit(const std::string str, cons
 XCN_WINDOWS_EXPORT char * XdvValue(char * argv[], int argc, char *option, int *idx);
 XCN_WINDOWS_EXPORT unsigned long long XdvToUll(char * argv[], int argc, char * option);
 XCN_WINDOWS_EXPORT unsigned long long XdvToUll(char * ull_str);
+XCN_WINDOWS_EXPORT void * XdvToPtr(char * argv[], int argc, char * option);
 
 XCN_WINDOWS_EXPORT void * XdvLoadModule(char *module_name);
 
