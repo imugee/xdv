@@ -894,7 +894,6 @@ bool WindowsApi::InstallHardwareBreakPoint(unsigned long long ptr)
 	ctx.Dr7 = (1 << 0) | (1 << 2) | (1 << 4) | (1 << 6);
 	if (::SetThreadContext(thread_handle, &ctx))
 	{
-		printf("test:: install H/W bp, %d(%x)=>%I64x\n", this->ThreadId(), this->ThreadId(), ptr);
 		break_point_map_.insert(std::pair<unsigned long long, break_point_ptr>(ptr, bp_ptr));
 		return true;
 	}

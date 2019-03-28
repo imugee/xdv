@@ -31,7 +31,6 @@ EXTS_FUNC(cbthrdv)
 				unsigned long tid = strtoul(tid_str, &end, 16);
 				if (XdvSelectThread(XdvGetParserHandle(), tid))
 				{
-					printf("test:: select\n");
 					//XdvSuspendThread(XdvGetParserHandle(), tid);
 					XdvExe("!cpuv.printctx");
 					XdvExe("!stackv.printframe");

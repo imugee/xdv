@@ -546,38 +546,10 @@ void DebugCallback()
 			XdvExe("!cpuv.printctx -ctx:%I64x", &ctx); // dasmv보다 먼저 호출되어 글로벌 ctx가 세팅되도록 해야한다.
 			XdvExe("!stackv.printframe -ctx:%I64x", &ctx); // 
 
-			printf("test:: %I64x\n", ctx.rip);
 			XdvExe("!dasmv.dasm -ptr:%I64x", ctx.rip);
 			XdvExe("!hexv.hex -ptr:%I64x", ctx.rip);
 			XdvExe("!thrdv.threads");
 		}
-#if 0
-		XdvWaitForExceptionEvent();
-		DebugContextPtr dcp = (DebugContextPtr)XdvDebugSharedMemory();
-		if (!dcp)
-		{
-			continue;
-		}
-
-		if (!XdvUpdateDebuggee(XdvGetParserHandle()))
-		{
-			continue;
-		}
-
-		unsigned long long dasm = dcp->context.rip;
-		for (int i = 0; i < 5; ++i)
-		{
-			dasm = XdvGetBeforePtr(XdvGetParserHandle(), XdvGetArchitectureHandle(), dasm);
-		}
-
-		xdv::architecture::x86::context::type ctx = dcp->context;
-		XdvExe("!cpuv.printctx -ctx:%I64x", &ctx); // dasmv보다 먼저 호출되어 글로벌 ctx가 세팅되도록 해야한다.
-		XdvExe("!stackv.printframe -ctx:%I64x", &ctx); // 
-
-		XdvExe("!dasmv.dasm -ptr:%I64x", ctx.rip);
-		XdvExe("!hexv.hex -ptr:%I64x", ctx.rip);
-		XdvExe("!thrdv.threads");
-#endif
 	}
 }
 
@@ -617,109 +589,15 @@ void xnm::toolbarActionAttachProcess()
 			QMessageBox::information(this, "xenom", "f");
 		}
 	}
-#if 0
-	DebugContextPtr dcp = (DebugContextPtr)XdvDebugSharedMemory();
-	if (dcp)
-	{
-		QMessageBox::information(this, "xenom", "It is already attached");
-		return;
-	}
-
-	QMessageBox::StandardButton reply;
-	reply = QMessageBox::question(this, "xenom", "Do you want to attach process?",
-		QMessageBox::Yes | QMessageBox::No);
-	if (reply == QMessageBox::Yes) 
-	{
-		if (XdvInjectModule(L"vehexts.dll"))
-		{
-			XdvPrintLog("xdv:: install veh engine");
-			std::thread * debug_thread = new std::thread(DebugCallback);
-
-			QMessageBox::information(this, "xenom", "Success");
-		}
-	}
-#endif
 }
 
 void xnm::toolbarActionDebugRun()
 {
 	XdvRunningProcess(XdvGetParserHandle());
-
-#if 0
-	DebugContextPtr dcp = (DebugContextPtr)XdvDebugSharedMemory();
-	if (dcp)
-	{
-		if (dcp->context.rip != 0)
-		{
-			switch (XdvGetBreakPointId(XdvGetParserHandle(), dcp->context.rip))
-			{
-			case DebugBreakPointId::SOWFTWARE_BREAK_POINT_ID:
-			case DebugBreakPointId::HARDWARE_BREAK_POINT_ID:
-				DebugContext dc = *dcp; // backup H/W bp
-				toolbarActionDebugStepInto(); // reset dr reg and int3
-				XdvReturnEvent();
-				XdvReInstallAllBreakPoint(XdvGetParserHandle()); // reinstall S/W bp
-
-				//dcp->context.dr0 = dc.context.dr0;
-				//dcp->context.dr1 = dc.context.dr1;
-				//dcp->context.dr2 = dc.context.dr2;
-				//dcp->context.dr3 = dc.context.dr3;
-				//dcp->context.dr6 = dc.context.dr6;
-				//dcp->context.dr7 = dc.context.dr7;
-				//printf("dr=>%I64x\n", dcp->context.dr0);
-
-				break;
-			}
-
-			if (dcp->last_step) // step into가 발생한 상태이다. 따라서 실행시킨 뒤, 0으로 값을 제거한다.
-			{
-				dcp->status = DebuggeeStatusId::DEBUGGEE_STATUS_EXECUTION;
-				dcp->last_step = 0;
-			}
-			else // 일반적인 수행이다. 현재 RIP가 BP가 아니라면, 다음 익셉션 핸들로 넘겨준다.
-			{
-				dcp->status = DebuggeeStatusId::DEBUGGEE_STATUS_EXECUTION;
-				switch (XdvGetBreakPointId(XdvGetParserHandle(), dcp->context.rip))
-				{
-				case DebugBreakPointId::NO_BREAK_POINT_ID:
-					dcp->status = DebuggeeStatusId::DEBUGGEE_STATUS_NEXT_HANDLE;
-					break;
-				}
-			}
-			XdvReturnEvent();
-		}
-	}
-
-	XdvReInstallAllBreakPoint(XdvGetParserHandle());
-	XdvResumeProcess(XdvGetParserHandle());
-#endif
 }
 
 void xnm::toolbarActionDebugStepInto()
 {
-#if 0
-	DebugContextPtr dcp = (DebugContextPtr)XdvDebugSharedMemory();
-	if (dcp)
-	{
-		XdvRestoreAllBreakPoint(XdvGetParserHandle()); // reset S/W bp
-		switch (XdvGetBreakPointId(XdvGetParserHandle(), dcp->context.rip)) // reset H/W bp
-		{
-		case  DebugBreakPointId::HARDWARE_BREAK_POINT_ID:
-			dcp->context.dr0 = 0;
-			dcp->context.dr1 = 0;
-			dcp->context.dr2 = 0;
-			dcp->context.dr3 = 0;
-			dcp->context.dr6 = 0;
-			dcp->context.dr7 = 0;
-			break;
-		}
-
-		dcp->status = DebuggeeStatusId::DEBUGGEE_STATUS_STEP_INTO;
-		dcp->context.efl |= 0x100; // set tf bit
-		XdvReturnEvent();
-		XdvResumeProcess(XdvGetParserHandle());
-	}
-#endif
 	XdvStepInto(XdvGetParserHandle(), nullptr, nullptr);
 	xdv::architecture::x86::context::type ctx;
 	if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
@@ -736,16 +614,6 @@ void xnm::toolbarActionDebugStepInto()
 
 void xnm::toolbarActionDebugStepOver()
 {
-#if 0
-	DebugContextPtr dcp = (DebugContextPtr)XdvDebugSharedMemory();
-	if (dcp)
-	{
-		dcp->status = DebuggeeStatusId::DEBUGGEE_STATUS_STEP_INTO;
-		dcp->context.efl |= 0x100; //tf bit
-		XdvReturnEvent();
-		XdvResumeProcess(XdvGetParserHandle());
-	}
-#endif
 	XdvStepOver(XdvGetParserHandle(), nullptr, nullptr);
 	xdv::architecture::x86::context::type ctx;
 	if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))

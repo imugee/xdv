@@ -256,7 +256,8 @@ EXTS_FUNC(codesize)	// argv[0] = ptr
 	return ullvar(0);
 }
 
-EXTS_FUNC(navistr)	// argv[0] = ptr
+EXTS_FUNC(navistr)	// argv ptr
+					// argv buffer
 {
 	unsigned long long ptr = XdvToUll(argv, argc, "ptr");
 	if (ptr == 0)
@@ -264,23 +265,21 @@ EXTS_FUNC(navistr)	// argv[0] = ptr
 		return nullvar();
 	}
 
-	char * nv = nullptr;
+	std::string * buf = (std::string *)XdvToPtr(argv, argc, "buf");
+	if (!buf)
+	{
+		return nullvar();
+	}
+
 	if (ptr)
 	{
 		std::string str;
 		NavigationString(ptr, str);
-		if (str.size())
-		{
-			nv = (char *)malloc(str.size() + 10);
-			if (nv)
-			{
-				memset(nv, 0, str.size() + 10);
-				memcpy(nv, str.c_str(), str.size());
-			}
-		}
+
+		*buf += str;
 	}
 
-	return ptrvar(nv);
+	return nullvar();
 }
 
 EXTS_FUNC(codestr)	// argv[0] = ptr
@@ -291,23 +290,21 @@ EXTS_FUNC(codestr)	// argv[0] = ptr
 		return nullvar();
 	}
 
-	char * cstr = nullptr;
+	std::string * buf = (std::string *)XdvToPtr(argv, argc, "buf");
+	if (!buf)
+	{
+		return nullvar();
+	}
+
 	if (ptr)
 	{
 		std::string str;
 		CodeAndRemarkString(ptr, str);
-		if (str.size())
-		{
-			cstr = (char *)malloc(str.size());
-			if (cstr)
-			{
-				memset(cstr, 0, str.size() + 10);
-				memcpy(cstr, str.c_str(), str.size());
-			}
-		}
+
+		*buf += str;
 	}
 
-	return ptrvar(cstr);
+	return nullvar();
 }
 
 
