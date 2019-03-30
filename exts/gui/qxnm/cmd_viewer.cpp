@@ -3,7 +3,7 @@
 #include "XenomWorker.h"
 #include "XenomDefaultViewer.h"
 
-EXTS_FUNC(addtxtv)		// argv = handle
+EXTS_FUNC(add_txtv)		// argv = handle
 						// argv = title
 						// argv = type
 						// return = IWorker ptr
@@ -38,7 +38,7 @@ EXTS_FUNC(addtxtv)		// argv = handle
 	return ptrvar(new XenomWorker(handle));
 }
 
-EXTS_FUNC(addcmdv)		// argv = handle
+EXTS_FUNC(add_cmdv)		// argv = handle
 						// argv = title
 						// argv = type
 						// return = IWorker ptr
@@ -63,11 +63,11 @@ EXTS_FUNC(addcmdv)		// argv = handle
 	return ptrvar(new XenomWorker(handle));
 }
 
-EXTS_FUNC(addv)		// argv = obj_string
-					// argv = title 
-					// argv = cb command
-					// argv = type
-					// return = xdv_handle
+EXTS_FUNC(add_viewer)		// argv = obj_string
+							// argv = title 
+							// argv = cb command
+							// argv = type
+							// return = xdv_handle
 {
 	char * name = XdvValue(argv, argc, "name", nullptr);
 	char * title = XdvValue(argv, argc, "title", nullptr);
@@ -105,7 +105,7 @@ EXTS_FUNC(addv)		// argv = obj_string
 	return handlevar(handle);
 }
 
-EXTS_FUNC(chkable)		// argv[0] = handle
+EXTS_FUNC(set_checkable)		// argv[0] = handle
 {
 	char * handle_str = XdvValue(argv, argc, "handle", nullptr);
 	char *end = nullptr;
@@ -116,9 +116,9 @@ EXTS_FUNC(chkable)		// argv[0] = handle
 	return nullvar();
 }
 
-EXTS_FUNC(ctxmenu)		// argv[0] = handle
-						// argv[1] = name
-						// argv[2] = key
+EXTS_FUNC(add_command)		// argv[0] = handle
+							// argv[1] = name
+							// argv[2] = key
 {
 	char * handle_str = XdvValue(argv, argc, "handle", nullptr);
 	char * menu = XdvValue(argv, argc, "menu", nullptr);
@@ -151,7 +151,7 @@ EXTS_FUNC(ctxmenu)		// argv[0] = handle
 	return nullvar();
 }
 
-EXTS_FUNC(addtabv)		// argv[0] = va
+EXTS_FUNC(add_tab)		// argv[0] = va
 						// argv[1] = vb
 {
 	char * vaarg = XdvValue(argv, argc, "va", nullptr);
@@ -186,7 +186,7 @@ EXTS_FUNC(addtabv)		// argv[0] = va
 	return nullvar();
 }
 
-EXTS_FUNC(raise)		// argv[0] = handle
+EXTS_FUNC(raise_viewer)		// argv[0] = handle
 {
 	char * arg = XdvValue(argv, argc, "handle", nullptr);
 	char *end = nullptr;
@@ -205,7 +205,7 @@ EXTS_FUNC(raise)		// argv[0] = handle
 	return nullvar();
 }
 
-EXTS_FUNC(addsplitv)		// argv[0] = va
+EXTS_FUNC(add_split)		// argv[0] = va
 {
 	char * vaarg = XdvValue(argv, argc, "va", nullptr);
 	char *end = nullptr;
@@ -256,7 +256,7 @@ EXTS_FUNC(addsplitv)		// argv[0] = va
 	return nullvar();
 }
 
-EXTS_FUNC(linecolor)		// argv[0] = viewer handle
+EXTS_FUNC(change_color)		// argv[0] = viewer handle
 							// argv[1] = line color
 {
 	char * handle_arg = XdvValue(argv, argc, "handle", nullptr);

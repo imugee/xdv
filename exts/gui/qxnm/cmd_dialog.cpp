@@ -3,7 +3,7 @@
 #include "GotoDialog.h"
 #include "XenomFindDialog.h"
 
-EXTS_FUNC(gotodialog)
+EXTS_FUNC(goto_dialog)
 {
 	GotoDialog gd;
 	gd.setModal(true);
