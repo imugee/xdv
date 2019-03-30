@@ -5,9 +5,9 @@
 xdv_handle _current_handle;
 XENOM_ADD_INTERFACE()
 {
-	xvar var = XdvExe("!qxnm.addv -name:Threads -title:thread -callback:!thrdv.cbthrdv");
+	xvar var = XdvExe("!qxnm.add_viewer -name:Threads -title:thread -callback:!thrdv.cbthrdv");
 	_current_handle = handlevar(var);
-	XdvExe("!qxnm.chkable -handle:%x", _current_handle);
+	XdvExe("!qxnm.set_checkable -handle:%x", _current_handle);
 
 	return _current_handle;
 }
@@ -142,11 +142,11 @@ EXTS_FUNC(threads)
 
 EXTS_FUNC(update)
 {
-	XdvExe("!qxnm.ctxmenu -handle:%x -name:Suspend thread", _current_handle);
-	XdvExe("!qxnm.ctxmenu -handle:%x -name:Resume thread", _current_handle);
+	XdvExe("!qxnm.add_command -handle:%x -name:Suspend thread", _current_handle);
+	XdvExe("!qxnm.add_command -handle:%x -name:Resume thread", _current_handle);
 
-	XdvExe("!qxnm.ctxmenu -handle:%x -name:Suspend process", _current_handle);
-	XdvExe("!qxnm.ctxmenu -handle:%x -name:Resume process", _current_handle);
+	XdvExe("!qxnm.add_command -handle:%x -name:Suspend process", _current_handle);
+	XdvExe("!qxnm.add_command -handle:%x -name:Resume process", _current_handle);
 
 	return nullvar();
 }

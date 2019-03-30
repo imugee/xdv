@@ -5,9 +5,9 @@
 xdv_handle _current_handle;
 XENOM_ADD_INTERFACE()
 {
-	xvar var = XdvExe("!qxnm.addv -name:Registers -title:cpu -callback:!cpuv.cbcpuv");
+	xvar var = XdvExe("!qxnm.add_viewer -name:Registers -title:cpu -callback:!cpuv.cbcpuv");
 	_current_handle = handlevar(var);
-	XdvExe("!qxnm.chkable -handle:%x", _current_handle);
+	XdvExe("!qxnm.set_checkable -handle:%x", _current_handle);
 
 	return _current_handle;
 }

@@ -4,9 +4,9 @@
 xdv_handle _current_handle = 0;
 XENOM_ADD_INTERFACE()
 {
-	xvar var = XdvExe("!qxnm.addv -name:Procedure -title:subroutine -callback:!procv.cbprocv -type:event");
+	xvar var = XdvExe("!qxnm.add_viewer -name:Procedure -title:subroutine -callback:!procv.cbprocv -type:event");
 	_current_handle = handlevar(var);
-	XdvExe("!qxnm.chkable -handle:%x", _current_handle);
+	XdvExe("!qxnm.set_checkable -handle:%x", _current_handle);
 
 	return _current_handle;
 }

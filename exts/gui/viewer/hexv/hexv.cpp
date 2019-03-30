@@ -6,9 +6,9 @@ unsigned long long _current_ptr = 0;
 xdv_handle _current_handle;
 XENOM_ADD_INTERFACE()
 {
-	xvar var = XdvExe("!qxnm.addv -name:Hex -title:hex -type:event -callback:!hexv.cbhexv");
+	xvar var = XdvExe("!qxnm.add_viewer -name:Hex -title:hex -type:event -callback:!hexv.cbhexv");
 	_current_handle = handlevar(var);
-	XdvExe("!qxnm.chkable -handle:%x", _current_handle);
+	XdvExe("!qxnm.set_checkable -handle:%x", _current_handle);
 
 	return _current_handle;
 }
@@ -48,7 +48,7 @@ EXTS_FUNC(cbhexv)	// argv[0] = status
 	else if (strstr(status, "Find Pattern"))
 	{
 		unsigned long long ptr = XdvToUll(argv, argc, "tag");
-		xvar var = XdvExe("!qxnm.finddialog -ptr:%I64x", ptr);
+		xvar var = XdvExe("!qxnm.find_dialog -ptr:%I64x", ptr);
 		ptr = ullvar(var);
 
 		unsigned char dump[16] = { 0, };
@@ -59,7 +59,7 @@ EXTS_FUNC(cbhexv)	// argv[0] = status
 	}
 	else if (strstr(status, "Jump"))
 	{
-		xvar var = XdvExe("!qxnm.gotodialog");
+		xvar var = XdvExe("!qxnm.goto_dialog");
 		unsigned long long ptr = ullvar(var);
 		if (ptr)
 		{
@@ -72,8 +72,8 @@ EXTS_FUNC(cbhexv)	// argv[0] = status
 
 EXTS_FUNC(update) // first callback
 {
-	XdvExe("!qxnm.ctxmenu -handle:%x -name:Jump -key:%x", _current_handle, xdv::key::id::Key_G);
-	XdvExe("!qxnm.ctxmenu -handle:%x -menu:Find -name:Find Pattern -key:%x", _current_handle, xdv::key::id::Key_F);
+	XdvExe("!qxnm.add_command -handle:%x -name:Jump -key:%x", _current_handle, xdv::key::id::Key_G);
+	XdvExe("!qxnm.add_command -handle:%x -menu:Find -name:Find Pattern -key:%x", _current_handle, xdv::key::id::Key_F);
 
 	return nullvar();
 }

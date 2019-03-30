@@ -5,9 +5,9 @@
 xdv_handle _current_handle;
 XENOM_ADD_INTERFACE()
 {
-	xvar var = XdvExe("!qxnm.addv -name:Segment -title:segment -callback:!segv.cbdasmv");
+	xvar var = XdvExe("!qxnm.add_viewer -name:Segment -title:segment -callback:!segv.cbdasmv");
 	_current_handle = handlevar(var);
-	XdvExe("!qxnm.chkable -handle:%x", _current_handle);
+	XdvExe("!qxnm.set_checkable -handle:%x", _current_handle);
 
 	return _current_handle;
 }
