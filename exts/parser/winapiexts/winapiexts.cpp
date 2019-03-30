@@ -743,7 +743,46 @@ bool WindowsApi::RestoreBreakPoint(unsigned long long ptr)
 	auto it = break_point_map_.find(ptr);
 	if (it != break_point_map_.end())
 	{
-		if (XdvWriteMemory(XdvGetParserHandle(), (void *)ptr, it->second->bytes, 16))
+		if (it->second->id == DebugBreakPointId::HARDWARE_BREAK_POINT_ID)
+		{
+			std::map<unsigned long, unsigned long long> thread_map;
+			Threads(thread_map);
+
+			unsigned long cnt = 0;
+			for (auto it : thread_map)
+			{
+				HANDLE thread_handle = OpenThread(MAXIMUM_ALLOWED, FALSE, it.first);
+				if (!thread_handle)
+				{
+					return false;
+				}
+				std::shared_ptr<void> handle_closer(thread_handle, CloseHandle);
+
+				CONTEXT ctx = { 0, };
+				ctx.ContextFlags = CONTEXT_DEBUG_REGISTERS;
+
+				if (ctx.Dr0 == 0)
+				{
+					ctx.Dr0 = 0;
+				}
+				else if (ctx.Dr1 == 0)
+				{
+					ctx.Dr1 = 0;
+				}
+				else if (ctx.Dr2 == 0)
+				{
+					ctx.Dr2 = 0;
+				}
+				else if (ctx.Dr3 == 0)
+				{
+					ctx.Dr3 = 0;
+				}
+				ctx.Dr7 = (1 << 0) | (1 << 2) | (1 << 4) | (1 << 6);
+
+				::SetThreadContext(thread_handle, &ctx);
+			}
+		}
+		else if (XdvWriteMemory(XdvGetParserHandle(), (void *)ptr, it->second->bytes, 16))
 		{
 			return true;
 		}
@@ -882,17 +921,77 @@ bool WindowsApi::InstallHardwareBreakPoint(unsigned long long ptr)
 		return false;
 	}
 
-	HANDLE thread_handle = OpenThread(MAXIMUM_ALLOWED, FALSE, this->ThreadId());
-	if (!thread_handle)
-	{
-		return false;
-	}
-	std::shared_ptr<void> handle_closer(thread_handle, CloseHandle);
+	std::map<unsigned long, unsigned long long> thread_map;
+	Threads(thread_map);
 
-	CONTEXT ctx = { 0, };
-	ctx.ContextFlags = CONTEXT_DEBUG_REGISTERS;
-	ctx.Dr7 = (1 << 0) | (1 << 2) | (1 << 4) | (1 << 6);
-	if (::SetThreadContext(thread_handle, &ctx))
+	unsigned long cnt = 0;
+	for (auto it : thread_map)
+	{
+		HANDLE thread_handle = OpenThread(MAXIMUM_ALLOWED, FALSE, it.first);
+		if (!thread_handle)
+		{
+			return false;
+		}
+		std::shared_ptr<void> handle_closer(thread_handle, CloseHandle);
+
+		CONTEXT ctx = { 0, };
+		ctx.ContextFlags = CONTEXT_DEBUG_REGISTERS;
+		if (!::GetThreadContext(thread_handle, &ctx))
+		{
+			return false;
+		}
+
+#ifdef _WIN64
+		if (ctx.Dr0 == 0)
+		{
+			ctx.Dr0 = ptr;
+		}
+		else if (ctx.Dr1 == 0)
+		{
+			ctx.Dr1 = ptr;
+		}
+		else if (ctx.Dr2 == 0)
+		{
+			ctx.Dr2 = ptr;
+		}
+		else if (ctx.Dr3 == 0)
+		{
+			ctx.Dr3 = ptr;
+		}
+		else
+		{
+			ctx.Dr0 = ptr;
+		}
+#else
+		if (ctx.Dr0 == 0)
+		{
+			ctx.Dr0 = (unsigned long)ptr;
+		}
+		else if (ctx.Dr1 == 0)
+		{
+			ctx.Dr1 = (unsigned long)ptr;
+		}
+		else if (ctx.Dr2 == 0)
+		{
+			ctx.Dr2 = (unsigned long)ptr;
+		}
+		else if (ctx.Dr3 == 0)
+		{
+			ctx.Dr3 = (unsigned long)ptr;
+		}
+		else
+		{
+			ctx.Dr0 = (unsigned long)ptr;
+		}
+#endif
+		ctx.Dr7 = (1 << 0) | (1 << 2) | (1 << 4) | (1 << 6);
+		if (::SetThreadContext(thread_handle, &ctx))
+		{
+			++cnt;
+		}
+	}
+
+	if (cnt)
 	{
 		break_point_map_.insert(std::pair<unsigned long long, break_point_ptr>(ptr, bp_ptr));
 		return true;

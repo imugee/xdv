@@ -26,10 +26,5 @@ void ExceptionMonitor(void * ctx)
 		}
 
 		XdvSetDebugEvent();
-
-		//
-		// event를 추가하여, 여기서 이벤트를 대기.
-
-
 	} while (1);
 }

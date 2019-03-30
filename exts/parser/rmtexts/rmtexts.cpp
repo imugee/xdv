@@ -387,7 +387,7 @@ bool RemoteApi::StepOver(DebugCallbackT callback, void * cb_ctx)
 bool RemoteApi::RunningProcess()
 {
 	DebugContextPtr dcp = (DebugContextPtr)XdvDebugSharedMemory();
-	if (dcp)
+	if (dcp && dcp->context.rip)
 	{
 		SetBreakPointTable();
 
