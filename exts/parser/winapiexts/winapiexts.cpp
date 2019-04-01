@@ -600,16 +600,6 @@ bool WindowsApi::StackTraceEx(unsigned long long bp, unsigned long long ip, unsi
 		return false;
 	}
 
-//#ifdef _WIN64
-//	ctx.Rbp = bp;
-//	ctx.Rsp = sp;
-//	ctx.Rip = ip;
-//#else
-//	ctx.Ebp = (unsigned long)bp;
-//	ctx.Esp = (unsigned long)sp;
-//	ctx.Eip = (unsigned long)ip;
-//#endif
-
 	int i = 0;
 	int cnt = (int)(size_of_stack_frame / sizeof(xdv::architecture::x86::frame::type));
 	for (i = 0; i < cnt; ++i)
@@ -863,6 +853,7 @@ bool InstallSuspendPoint(unsigned long long ptr)
 	return false;
 }
 
+void SuspendCallback(unsigned long long ptr);
 bool WindowsApi::InstallSuspendBreakPoint(unsigned long long ptr)
 {
 	break_point_ptr bp_ptr = new break_point;
@@ -875,6 +866,7 @@ bool WindowsApi::InstallSuspendBreakPoint(unsigned long long ptr)
 	if (InstallSuspendPoint(ptr))
 	{
 		break_point_map_.insert(std::pair<unsigned long long, break_point_ptr>(ptr, bp_ptr));
+		std::thread * bp = new std::thread(SuspendCallback, ptr);
 		return true;
 	}
 
