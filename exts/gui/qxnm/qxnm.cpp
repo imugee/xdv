@@ -572,8 +572,9 @@ void xnm::toolbarActionAttachProcess()
 			xdv::architecture::x86::context::type ctx;
 			if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
 			{
-				XdvExe("!cpuv.printctx -ctx:%I64x", &ctx); // dasmv보다 먼저 호출되어 글로벌 ctx가 세팅되도록 해야한다.
 				XdvExe("!segv.segall");
+
+				XdvExe("!cpuv.printctx -ctx:%I64x", &ctx); // dasmv보다 먼저 호출되어 글로벌 ctx가 세팅되도록 해야한다.
 				XdvExe("!stackv.printframe -ctx:%I64x", &ctx);
 
 				XdvExe("!dasmv.dasm -ptr:%I64x", ctx.rip);

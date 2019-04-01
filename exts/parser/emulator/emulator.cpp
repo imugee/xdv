@@ -62,13 +62,7 @@ unsigned long Emulator::WaitForProcess(std::string process_name)
 
 bool Emulator::Attach(unsigned long pid)
 {
-	bool result = false;
-	if (debugger_)
-	{
-		result = debugger_->Attach(pid);
-	}
-
-	return result;
+	return true;
 }
 
 bool Emulator::Open(unsigned long pid)
