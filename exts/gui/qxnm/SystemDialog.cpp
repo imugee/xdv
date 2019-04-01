@@ -71,11 +71,11 @@ void SystemDialog::addParsers(QString signature)
 		std::string obj_str = table[i]->ObjectString();
 		if (strstr(obj_str.c_str(), signature.toStdString().c_str()))
 		{
-			QString parser_string = "Supported Format : ";
-			parser_string += obj_str.c_str();
-			list_view_->addItem(parser_string.toStdString().c_str());
+			//QString parser_string = "Supported Format : ";
+			//parser_string += obj_str.c_str();
+			list_view_->addItem(obj_str.c_str());
 
-			engine_map_.insert(std::pair<std::string, void *>(parser_string.toStdString().c_str(), table[i]));
+			engine_map_.insert(std::pair<std::string, void *>(obj_str.c_str(), table[i]));
 		}
 	}
 
