@@ -51,7 +51,6 @@ void TraceFromCurrentPoint(unsigned long long ptr);
 void TrackTrace(unsigned long long ptr);
 void FindReferenceString(unsigned long long ptr);
 void FindIntermodularCall(unsigned long long ptr);
-void SuspendCallback(unsigned long long ptr);
 EXTS_FUNC(cbdasmv)	// argv = status
 					// argv = string
 {
@@ -169,7 +168,6 @@ EXTS_FUNC(cbdasmv)	// argv = status
 			{
 				_break_point_set.insert(ptr);
 				Update();
-				std::thread * bp = new std::thread(SuspendCallback, ptr);
 			}
 		}
 	}
@@ -366,6 +364,11 @@ unsigned long long CodeAndRemarkString(unsigned long long ptr, std::string &str)
 	if (bi != _break_point_set.end())
 	{
 		dump = XdvGetBpBackupDump(ih, ptr);
+		if (!dump)
+		{
+			dump = cdump;
+			_break_point_set.erase(bi);
+		}
 	}
 	else
 	{
@@ -490,62 +493,6 @@ void Update()
 	}
 
 	XdvPrintAndClear(_current_handle, str.c_str(), false);
-}
-
-void SuspendCallback(unsigned long long ptr)
-{
-	do
-	{
-		bool result = false;
-		std::map<unsigned long, unsigned long long> thread_map;
-		XdvThreads(XdvGetParserHandle(), thread_map);
-		for (auto it : thread_map)
-		{
-			if (XdvSelectThread(XdvGetParserHandle(), it.first))
-			{
-				xdv::architecture::x86::context::type ctx;
-				if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
-				{
-					if (ctx.rip == ptr || ctx.rip == ptr + 1)
-					{
-						result = true;
-						break;
-					}
-				}
-			}
-		}
-		//XdvResumeProcess(XdvGetParserHandle());
-
-		if (result)
-		{
-			break;
-		}
-
-		std::chrono::seconds dura_sec(1);
-		std::this_thread::sleep_for(dura_sec);
-	} while (true);
-
-	XdvSuspendProcess(XdvGetParserHandle());
-	xdv::architecture::x86::context::type ctx;
-	if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
-	{
-		ctx.rip = ptr;
-		XdvSetThreadContext(XdvGetParserHandle(), &ctx);
-	}
-	XdvRestoreBreakPoint(XdvGetParserHandle(), ptr);
-
-	if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
-	{
-		XdvExe("!cpuv.printctx");
-
-		XdvExe("!dasmv.dasm -ptr:%I64x", ctx.rip);
-		XdvExe("!hexv.hex -ptr:%I64x", ctx.rip);
-		XdvExe("!thrdv.threads");
-		XdvExe("!stackv.printframe");
-	}
-
-	_break_point_set.erase(ptr);
-	XdvDeleteBreakPoint(XdvGetParserHandle(), ptr);
 }
 
 // ------------------------------------------------------

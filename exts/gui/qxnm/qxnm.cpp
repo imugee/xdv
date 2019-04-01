@@ -50,7 +50,7 @@ xnm::xnm(QWidget *parent)
 	//menu_plugin_->setEnabled(false);
 
 	menu_system_ = new QMenu("Option", menu_bar_);
-	menu_system_->setEnabled(false);
+	//menu_system_->setEnabled(false);
 
 	menu_help_ = new QMenu("Help", menu_bar_);
 	menu_help_->setEnabled(false);
@@ -440,6 +440,31 @@ void xnm::toolbarActionFileOpen()
 	}
 }
 
+void DebugCallback()
+{
+	while (1)
+	{
+		XdvWaitForDebugEvent();
+
+		xdv::architecture::x86::context::type ctx;
+		if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
+		{
+			XdvExe("!cpuv.printctx -ctx:%I64x", &ctx);
+			XdvExe("!stackv.printframe -ctx:%I64x", &ctx);
+
+			XdvExe("!dasmv.dasm -ptr:%I64x", ctx.rip);
+			XdvExe("!hexv.hex -ptr:%I64x", ctx.rip);
+			XdvExe("!thrdv.threads");
+
+			DebugBreakPointId id = XdvGetBreakPointId(XdvGetParserHandle(), ctx.rip);
+			if (id == DebugBreakPointId::SUSPEND_BREAK_POINT_ID)
+			{
+				XdvDeleteBreakPoint(XdvGetParserHandle(), ctx.rip);
+			}
+		}
+	}
+}
+
 void xnm::toolbarActionProcessOpen()
 {
 	SystemDialog sd("DEBUGGER");
@@ -453,6 +478,12 @@ void xnm::toolbarActionProcessOpen()
 		xdv::architecture::x86::context::type ctx;
 		if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
 		{
+			xdv_handle ih = XdvGetParserHandle();
+			if (XdvInstallDebugEvent(XdvProcessId(ih)))
+			{
+				std::thread * debug_thread = new std::thread(DebugCallback);
+			}
+
 			XdvExe("!segv.segall");
 
 			XdvExe("!dasmv.dasm -ptr:%I64x", ctx.rip);
@@ -532,27 +563,6 @@ void xnm::toolbarActionThreadRegister()
 	}
 }
 
-void DebugCallback()
-{
-	while (1)
-	{
-		XdvWaitForDebugEvent();
-
-		xdv::architecture::x86::context::type ctx;
-		if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
-		{
-			XdvExe("!segv.segall");
-
-			XdvExe("!cpuv.printctx -ctx:%I64x", &ctx); // dasmv보다 먼저 호출되어 글로벌 ctx가 세팅되도록 해야한다.
-			XdvExe("!stackv.printframe -ctx:%I64x", &ctx); // 
-
-			XdvExe("!dasmv.dasm -ptr:%I64x", ctx.rip);
-			XdvExe("!hexv.hex -ptr:%I64x", ctx.rip);
-			XdvExe("!thrdv.threads");
-		}
-	}
-}
-
 void xnm::toolbarActionAttachProcess()
 {
 	QMessageBox::StandardButton reply;
@@ -562,10 +572,10 @@ void xnm::toolbarActionAttachProcess()
 	if (reply == QMessageBox::Yes)
 	{
 		xdv_handle ih = XdvGetParserHandle();
-		if (XdvInstallDebugEvent(XdvProcessId(ih)))
-		{
-			std::thread * debug_thread = new std::thread(DebugCallback);
-		}
+		//if (XdvInstallDebugEvent(XdvProcessId(ih)))
+		//{
+		//	std::thread * debug_thread = new std::thread(DebugCallback);
+		//}
 
 		if (XdvAttachProcess(ih, XdvProcessId(ih)))
 		{
