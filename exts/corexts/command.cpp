@@ -13,7 +13,13 @@ size_t XxcnArgv(char *args, char * argv[])
 	{
 		char * str = (char *)malloc(arg_vector[i].size() + 10);
 		memset(str, 0, arg_vector[i].size() + 10);
-		memcpy(str, arg_vector[i].c_str(), arg_vector[i].size());
+
+		size_t size = arg_vector[i].size();
+		if (arg_vector[i].size() && arg_vector[i].c_str()[arg_vector[i].size() - 1] == ' ')
+		{
+			size -= 1;
+		}
+		memcpy(str, arg_vector[i].c_str(), size);
 		argv[i] = str;
 	}
 
