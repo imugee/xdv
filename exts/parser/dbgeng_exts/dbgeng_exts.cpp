@@ -1497,7 +1497,7 @@ bool DbgEngSystem::SetBreakPoint(DebugBreakPointId id, unsigned long long ptr)
 	case DebugBreakPointId::SUSPEND_BREAK_POINT_ID:
 		return this->InstallSuspendBreakPoint(ptr);
 
-	case DebugBreakPointId::SOWFTWARE_BREAK_POINT_ID:
+	case DebugBreakPointId::SOFTWARE_BREAK_POINT_ID:
 		return this->InstallSoftwareBreakPoint(ptr);
 
 	case DebugBreakPointId::HARDWARE_BREAK_POINT_ID:

@@ -215,7 +215,7 @@ bool StepOver(WindowsApi *wa, DEBUG_EVENT e, unsigned long long * dest_ptr)
 	}
 
 	auto next_ptr = ptr + x86ctx.instruction_size;
-	if (!wa->SetBreakPoint(DebugBreakPointId::SOWFTWARE_BREAK_POINT_ID, next_ptr))
+	if (!wa->SetBreakPoint(DebugBreakPointId::SOFTWARE_BREAK_POINT_ID, next_ptr))
 	{
 		return StepInto(wa, e);
 	}

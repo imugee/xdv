@@ -177,7 +177,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 		if (ptr)
 		{
 			XdvSuspendProcess(XdvGetParserHandle());
-			if (XdvSetBreakPoint(XdvGetParserHandle(), DebugBreakPointId::SOWFTWARE_BREAK_POINT_ID, ptr))
+			if (XdvSetBreakPoint(XdvGetParserHandle(), DebugBreakPointId::SOFTWARE_BREAK_POINT_ID, ptr))
 			{
 				_break_point_set.insert(ptr);
 				Update();
