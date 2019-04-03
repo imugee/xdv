@@ -13,9 +13,6 @@ public:
 	void highlightBlock(const QString& text);
 	void setHighlightedString(const QString& str);
 
-	void setDarkColor();
-	void setLightColor();
-
 	void addHighlightBlock(char * expression, char * color, bool bold);
 
 private:

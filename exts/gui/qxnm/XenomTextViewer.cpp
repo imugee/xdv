@@ -20,17 +20,7 @@ XenomTextViewer::XenomTextViewer(xdv_handle handle, xdv::viewer::id id, QWidget 
 		updateBlockAreaWidth(0);
 	}
 
-	QFile f(".\\exts\\css\\style.qss");
-	if (f.exists())
-	{
-		line_color_ = QColor("#000000").light(160);
-		highlighter_->setLightColor();
-	}
-	else
-	{
-		line_color_ = QColor("#509CE4").light(160);
-		highlighter_->setDarkColor();
-	}
+	line_color_ = QColor("#509CE4").light(160);
 }
 
 XenomTextViewer::~XenomTextViewer()
