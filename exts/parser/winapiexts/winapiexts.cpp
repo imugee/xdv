@@ -707,7 +707,7 @@ bool WindowsApi::SetBreakPoint(DebugBreakPointId id, unsigned long long ptr)
 	case DebugBreakPointId::SUSPEND_BREAK_POINT_ID:
 		return this->InstallSuspendBreakPoint(ptr);
 
-	case DebugBreakPointId::SOWFTWARE_BREAK_POINT_ID:
+	case DebugBreakPointId::SOFTWARE_BREAK_POINT_ID:
 		return this->InstallSoftwareBreakPoint(ptr);
 
 	case DebugBreakPointId::HARDWARE_BREAK_POINT_ID:
@@ -888,7 +888,7 @@ bool InstallSoftwarePoint(unsigned long long ptr)
 bool WindowsApi::InstallSoftwareBreakPoint(unsigned long long ptr)
 {
 	break_point_ptr bp_ptr = new break_point;
-	bp_ptr->id = DebugBreakPointId::SOWFTWARE_BREAK_POINT_ID;
+	bp_ptr->id = DebugBreakPointId::SOFTWARE_BREAK_POINT_ID;
 	if (XdvReadMemory(XdvGetParserHandle(), ptr, bp_ptr->bytes, 16) == 0)
 	{
 		return false;

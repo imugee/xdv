@@ -155,7 +155,7 @@ void ReInstallBreakPoint(DebugContextPtr e, CONTEXT * ctx)
 	{
 		switch (e->bp[i].id)
 		{
-		case DebugBreakPointId::SOWFTWARE_BREAK_POINT_ID:
+		case DebugBreakPointId::SOFTWARE_BREAK_POINT_ID:
 			InstallSoftwarePoint(e->bp[i].ptr);
 			break;
 
@@ -172,7 +172,7 @@ void RemoveBreakPoint(DebugContextPtr e, CONTEXT * ctx)
 	{
 		switch (e->bp[i].id)
 		{
-		case DebugBreakPointId::SOWFTWARE_BREAK_POINT_ID:
+		case DebugBreakPointId::SOFTWARE_BREAK_POINT_ID:
 		{
 			unsigned long old = 0;
 			if (VirtualProtect((void *)e->bp[i].ptr, 16, PAGE_EXECUTE_READWRITE, &old))
