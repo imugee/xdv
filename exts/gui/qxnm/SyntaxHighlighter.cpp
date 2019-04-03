@@ -229,6 +229,21 @@ void SyntaxHighlighter::setLightColor()
 	highlightingRules.append(rule);
 }
 
+void SyntaxHighlighter::addHighlightBlock(char * expression, char * color, bool bold)
+{
+	HighlightingRule rule;
+	QTextCharFormat format;
+	format.setForeground(QColor(color));
+	if (bold)
+	{
+		format.setFontWeight(QFont::Bold);
+	}
+
+	rule.pattern = QRegularExpression(expression);
+	rule.format = format;
+	highlightingRules.append(rule);
+}
+
 void SyntaxHighlighter::highlightBlock(const QString& text)
 {
 	foreach(const HighlightingRule &rule, highlightingRules) 

@@ -294,3 +294,46 @@ EXTS_FUNC(change_color)		// argv[0] = viewer handle
 
 	return nullvar();
 }
+
+EXTS_FUNC(express_color)		// argv viewer handle
+								// argv color
+								// argv expression
+{
+	char * handle_arg = XdvValue(argv, argc, "handle", nullptr);
+	char *end = nullptr;
+	xdv_handle handle = strtoull(handle_arg, &end, 16);
+	if (XdvGetObjectByHandle(handle)->ObjectType() != xdv::object::id::XENOM_VIEWER_OBJECT)
+	{
+		return nullvar();
+	}
+
+	xnm *xenom = getXenom();
+	XenomDockWidget *dock = xenom->Viewer(handle);
+	if (!dock)
+	{
+		return nullvar();
+	}
+
+	XenomTextViewer * text = (XenomTextViewer *)dock->TextViewer();
+	if (!text)
+	{
+		return nullvar();
+	}
+
+	char * color = XdvValue(argv, argc, "color", nullptr);
+	char * expression = XdvValue(argv, argc, "expression", nullptr);
+	if (color && expression)
+	{
+		char * bold = XdvValue(argv, argc, "bold", nullptr);
+		if (bold)
+		{
+			text->Highlighter()->addHighlightBlock(expression, color, true);
+		}
+		else
+		{
+			text->Highlighter()->addHighlightBlock(expression, color, false);
+		}
+	}
+
+	return nullvar();
+}

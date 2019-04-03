@@ -25,7 +25,7 @@ private:
 	xdv_handle viewer_handle_;
 	QAction action_[10];
 
-	SyntaxHighlighter *highlighter_;
+	SyntaxHighlighter * highlighter_;
 
 	QColor line_color_;
 	xdv::viewer::id id_;
@@ -43,6 +43,8 @@ public:
 
 	void addShortcutAction(char * menu, char * menu_icon, char * name, char * shortcut, char * icon);
 	void shortcutAction();
+
+	SyntaxHighlighter * Highlighter();
 
 	int blockAreaWidth();
 	void drawBlockPaintEvent(QPaintEvent *event);

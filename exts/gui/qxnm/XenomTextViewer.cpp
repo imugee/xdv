@@ -569,3 +569,8 @@ void XenomTextViewer::drawBlockPaintEvent(QPaintEvent *event)
 		}
 	}
 }
+
+SyntaxHighlighter * XenomTextViewer::Highlighter()
+{
+	return highlighter_;
+}
