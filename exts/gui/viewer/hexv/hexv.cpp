@@ -50,6 +50,7 @@ EXTS_FUNC(cbhexv)	// argv[0] = status
 		unsigned long long ptr = XdvGetUllValue("tag");
 		xvar var = XdvExe("!qxnm.find_dialog -ptr:%I64x", ptr);
 		ptr = ullvar(var);
+		printf("test:: %I64x\n", ptr);
 
 		unsigned char dump[16] = { 0, };
 		if (XdvReadMemory(XdvGetParserHandle(), ptr, dump, sizeof(dump)))
@@ -72,8 +73,8 @@ EXTS_FUNC(cbhexv)	// argv[0] = status
 
 EXTS_FUNC(update) // first callback
 {
-	XdvExe("!qxnm.add_command -handle:%x -name:Jump -key:%x", _current_handle, xdv::key::id::Key_G);
-	XdvExe("!qxnm.add_command -handle:%x -menu:Find -name:Find Pattern -key:%x", _current_handle, xdv::key::id::Key_F);
+	XdvExe("!qxnm.add_command -handle:%x -name:Jump -key:%x", _current_handle, xdv::key::Key_CTRL | xdv::key::id::Key_G);
+	XdvExe("!qxnm.add_command -handle:%x -menu:Find -name:Find Pattern -key:%x", _current_handle, xdv::key::Key_CTRL | xdv::key::id::Key_F);
 
 	return nullvar();
 }

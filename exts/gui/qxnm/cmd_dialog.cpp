@@ -12,7 +12,7 @@ EXTS_FUNC(goto_dialog)
 	return ullvar(gd.getPtr());
 }
 
-EXTS_FUNC(finddialog) // argv[0] = ptr
+EXTS_FUNC(find_dialog) // argv[0] = ptr
 {
 	unsigned long long ptr = XdvGetUllValue("ptr");
 	if (ptr)
