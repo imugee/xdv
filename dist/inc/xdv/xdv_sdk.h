@@ -29,9 +29,9 @@ typedef struct _tags_xcn_var
 // --------------------------------------------------------
 // 
 #ifdef _WINDLL
-#define XCN_WINDOWS_EXPORT				__declspec(dllexport)
+#define XDV_WINDOWS_EXPORT				__declspec(dllexport)
 #else
-#define XCN_WINDOWS_EXPORT
+#define XDV_WINDOWS_EXPORT
 #endif
 
 // --------------------------------------------------------
@@ -1106,188 +1106,188 @@ public:
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT xvar nullvar();
-XCN_WINDOWS_EXPORT xvar ullvar(unsigned long long var);
-XCN_WINDOWS_EXPORT xvar ptrvar(void * var);
-XCN_WINDOWS_EXPORT xvar handlevar(xdv_handle var);
+XDV_WINDOWS_EXPORT xvar nullvar();
+XDV_WINDOWS_EXPORT xvar ullvar(unsigned long long var);
+XDV_WINDOWS_EXPORT xvar ptrvar(void * var);
+XDV_WINDOWS_EXPORT xvar handlevar(xdv_handle var);
 
-XCN_WINDOWS_EXPORT unsigned long long ullvar(xvar var);
-XCN_WINDOWS_EXPORT void * ptrvar(xvar var);
-XCN_WINDOWS_EXPORT xdv_handle handlevar(xvar var);
-
-// --------------------------------------------------------
-// 
-XCN_WINDOWS_EXPORT bool XdvAddObject(void * object);
+XDV_WINDOWS_EXPORT unsigned long long ullvar(xvar var);
+XDV_WINDOWS_EXPORT void * ptrvar(xvar var);
+XDV_WINDOWS_EXPORT xdv_handle handlevar(xvar var);
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT IObject * XdvGetObjectByHandle(xdv_handle h);
-XCN_WINDOWS_EXPORT IObject * XdvGetObjectByString(std::string object_str);
-XCN_WINDOWS_EXPORT std::vector<IObject *> XdvGetObjectTable();
+XDV_WINDOWS_EXPORT bool XdvAddObject(void * object);
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT xdv_handle XdvGetHandleByObject(IObject *object);
-XCN_WINDOWS_EXPORT xdv_handle XdvGetHandleByString(std::string object_str);
+XDV_WINDOWS_EXPORT IObject * XdvGetObjectByHandle(xdv_handle h);
+XDV_WINDOWS_EXPORT IObject * XdvGetObjectByString(std::string object_str);
+XDV_WINDOWS_EXPORT std::vector<IObject *> XdvGetObjectTable();
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT std::vector<IViewer *> XdvGetViewerTable();
+XDV_WINDOWS_EXPORT xdv_handle XdvGetHandleByObject(IObject *object);
+XDV_WINDOWS_EXPORT xdv_handle XdvGetHandleByString(std::string object_str);
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT xdv_handle XdvGetArchitectureHandle();
-XCN_WINDOWS_EXPORT std::vector<IArchitecture *> XdvGetArchitectureTable();
+XDV_WINDOWS_EXPORT std::vector<IViewer *> XdvGetViewerTable();
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT xdv_handle XdvGetParserHandle();
-XCN_WINDOWS_EXPORT std::vector<IParser *> XdvGetParserTable();
+XDV_WINDOWS_EXPORT xdv_handle XdvGetArchitectureHandle();
+XDV_WINDOWS_EXPORT std::vector<IArchitecture *> XdvGetArchitectureTable();
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT std::vector<IDebugger *> XdvGetDebuggerTable();
+XDV_WINDOWS_EXPORT xdv_handle XdvGetParserHandle();
+XDV_WINDOWS_EXPORT std::vector<IParser *> XdvGetParserTable();
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT void XdvSetArchitectureHandle(IObject *obj);
-XCN_WINDOWS_EXPORT void XdvSetParserHandle(IObject *obj);
+XDV_WINDOWS_EXPORT std::vector<IDebugger *> XdvGetDebuggerTable();
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT std::map<unsigned long, std::string> XdvProcessList(xdv_handle ih);
-XCN_WINDOWS_EXPORT unsigned long XdvWaitForProcess(xdv_handle ih, std::string process_name);
-XCN_WINDOWS_EXPORT bool XdvAttachProcess(xdv_handle ih, unsigned long pid);
-XCN_WINDOWS_EXPORT bool XdvOpenProcess(xdv_handle ih, unsigned long pid);
-XCN_WINDOWS_EXPORT bool XdvUpdateDebuggee(xdv_handle ih);
-XCN_WINDOWS_EXPORT unsigned long XdvProcessId(xdv_handle ih);
-
-XCN_WINDOWS_EXPORT bool XdvOpenFile(xdv_handle ih, char *path);
-
-XCN_WINDOWS_EXPORT unsigned long long XdvReadMemory(xdv_handle ih, unsigned long long ptr, unsigned char *out_memory, unsigned long read_size);
-XCN_WINDOWS_EXPORT unsigned long long XdvWriteMemory(xdv_handle ih, void * ptr, unsigned char *input_memory, unsigned long write_size);
-
-XCN_WINDOWS_EXPORT bool XdvQueryMemory(xdv_handle ih, unsigned long long ptr, xdv::memory::type *memory_type);
-XCN_WINDOWS_EXPORT std::string XdvGetModuleName(xdv_handle ih, unsigned long long ptr);
-
-XCN_WINDOWS_EXPORT bool XdvGetSymbolString(xdv_handle ih, unsigned long long ptr, unsigned long long *disp, char *symbol_str, unsigned long symbol_size);
-XCN_WINDOWS_EXPORT bool XdvGetSymbolString(xdv_handle ih, unsigned long long ptr, char *symbol_str, unsigned long symbol_size);
-XCN_WINDOWS_EXPORT unsigned long long XdvGetSymbolPointer(xdv_handle ih, char *symbol_str);
-
-XCN_WINDOWS_EXPORT bool XdvSelectThread(xdv_handle ih, unsigned long tid);
-XCN_WINDOWS_EXPORT void XdvThreads(xdv_handle ih, std::map<unsigned long, unsigned long long> &thread_info_map);
-
-XCN_WINDOWS_EXPORT bool XdvGetThreadContext(xdv_handle ih, xdv::architecture::x86::context::type *context);
-XCN_WINDOWS_EXPORT bool XdvSetThreadContext(xdv_handle ih, xdv::architecture::x86::context::type *context);
-XCN_WINDOWS_EXPORT bool XdvStackTrace(xdv_handle ih, xdv::architecture::x86::frame::type *stack_frame, size_t size_of_stack_frame, unsigned long *stack_count);
-XCN_WINDOWS_EXPORT bool XdvStackTraceEx(xdv_handle ih, unsigned long long bp, unsigned long long sp, unsigned long long ip, xdv::architecture::x86::frame::type *stack_frame, size_t size_of_stack_frame, unsigned long *stack_count);
-
-XCN_WINDOWS_EXPORT bool XdvSuspendThread(xdv_handle vh, unsigned long tid);
-XCN_WINDOWS_EXPORT bool XdvResumeThread(xdv_handle vh, unsigned long tid);
-
-XCN_WINDOWS_EXPORT void XdvSuspendProcess(xdv_handle ih);
-XCN_WINDOWS_EXPORT void XdvResumeProcess(xdv_handle ih);
-
-XCN_WINDOWS_EXPORT unsigned long long XdvGetPebAddress(xdv_handle ih);
-XCN_WINDOWS_EXPORT unsigned long long XdvGetTebAddress(xdv_handle ih);
-
-XCN_WINDOWS_EXPORT bool XdvStepInto(xdv_handle ih, DebugCallbackT callback, void * cb_ctx);
-XCN_WINDOWS_EXPORT bool XdvStepOver(xdv_handle ih, DebugCallbackT callback, void * cb_ctx);
-XCN_WINDOWS_EXPORT bool XdvRunningProcess(xdv_handle ih);
-
-XCN_WINDOWS_EXPORT unsigned char * XdvGetBpBackupDump(xdv_handle ih, unsigned long long ptr);
-XCN_WINDOWS_EXPORT bool XdvSetBreakPoint(xdv_handle ih, DebugBreakPointId id, unsigned long long ptr);
-XCN_WINDOWS_EXPORT DebugBreakPointId XdvGetBreakPointId(xdv_handle ih, unsigned long long ptr);
-XCN_WINDOWS_EXPORT bool XdvRestoreBreakPoint(xdv_handle ih, unsigned long long ptr);
-XCN_WINDOWS_EXPORT void XdvReInstallBreakPoint(xdv_handle ih, unsigned long long ptr);
-XCN_WINDOWS_EXPORT bool XdvDeleteBreakPoint(xdv_handle ih, unsigned long long ptr);
-
-XCN_WINDOWS_EXPORT void XdvRestoreAllBreakPoint(xdv_handle ih);
-XCN_WINDOWS_EXPORT void XdvReInstallAllBreakPoint(xdv_handle ih);
+XDV_WINDOWS_EXPORT void XdvSetArchitectureHandle(IObject *obj);
+XDV_WINDOWS_EXPORT void XdvSetParserHandle(IObject *obj);
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT bool XdvPrintLog(char *format, ...);
-XCN_WINDOWS_EXPORT bool XdvPrintViewer(xdv_handle vh, std::string str);
-XCN_WINDOWS_EXPORT bool XdvPrintViewer(xdv_handle vh, std::string str, bool wait);
-XCN_WINDOWS_EXPORT bool XdvPrintAndClear(xdv_handle vh, std::string str, bool wait);
+XDV_WINDOWS_EXPORT std::map<unsigned long, std::string> XdvProcessList(xdv_handle ih);
+XDV_WINDOWS_EXPORT unsigned long XdvWaitForProcess(xdv_handle ih, std::string process_name);
+XDV_WINDOWS_EXPORT bool XdvAttachProcess(xdv_handle ih, unsigned long pid);
+XDV_WINDOWS_EXPORT bool XdvOpenProcess(xdv_handle ih, unsigned long pid);
+XDV_WINDOWS_EXPORT bool XdvUpdateDebuggee(xdv_handle ih);
+XDV_WINDOWS_EXPORT unsigned long XdvProcessId(xdv_handle ih);
+
+XDV_WINDOWS_EXPORT bool XdvOpenFile(xdv_handle ih, char *path);
+
+XDV_WINDOWS_EXPORT unsigned long long XdvReadMemory(xdv_handle ih, unsigned long long ptr, unsigned char *out_memory, unsigned long read_size);
+XDV_WINDOWS_EXPORT unsigned long long XdvWriteMemory(xdv_handle ih, void * ptr, unsigned char *input_memory, unsigned long write_size);
+
+XDV_WINDOWS_EXPORT bool XdvQueryMemory(xdv_handle ih, unsigned long long ptr, xdv::memory::type *memory_type);
+XDV_WINDOWS_EXPORT std::string XdvGetModuleName(xdv_handle ih, unsigned long long ptr);
+
+XDV_WINDOWS_EXPORT bool XdvGetSymbolString(xdv_handle ih, unsigned long long ptr, unsigned long long *disp, char *symbol_str, unsigned long symbol_size);
+XDV_WINDOWS_EXPORT bool XdvGetSymbolString(xdv_handle ih, unsigned long long ptr, char *symbol_str, unsigned long symbol_size);
+XDV_WINDOWS_EXPORT unsigned long long XdvGetSymbolPointer(xdv_handle ih, char *symbol_str);
+
+XDV_WINDOWS_EXPORT bool XdvSelectThread(xdv_handle ih, unsigned long tid);
+XDV_WINDOWS_EXPORT void XdvThreads(xdv_handle ih, std::map<unsigned long, unsigned long long> &thread_info_map);
+
+XDV_WINDOWS_EXPORT bool XdvGetThreadContext(xdv_handle ih, xdv::architecture::x86::context::type *context);
+XDV_WINDOWS_EXPORT bool XdvSetThreadContext(xdv_handle ih, xdv::architecture::x86::context::type *context);
+XDV_WINDOWS_EXPORT bool XdvStackTrace(xdv_handle ih, xdv::architecture::x86::frame::type *stack_frame, size_t size_of_stack_frame, unsigned long *stack_count);
+XDV_WINDOWS_EXPORT bool XdvStackTraceEx(xdv_handle ih, unsigned long long bp, unsigned long long sp, unsigned long long ip, xdv::architecture::x86::frame::type *stack_frame, size_t size_of_stack_frame, unsigned long *stack_count);
+
+XDV_WINDOWS_EXPORT bool XdvSuspendThread(xdv_handle vh, unsigned long tid);
+XDV_WINDOWS_EXPORT bool XdvResumeThread(xdv_handle vh, unsigned long tid);
+
+XDV_WINDOWS_EXPORT void XdvSuspendProcess(xdv_handle ih);
+XDV_WINDOWS_EXPORT void XdvResumeProcess(xdv_handle ih);
+
+XDV_WINDOWS_EXPORT unsigned long long XdvGetPebAddress(xdv_handle ih);
+XDV_WINDOWS_EXPORT unsigned long long XdvGetTebAddress(xdv_handle ih);
+
+XDV_WINDOWS_EXPORT bool XdvStepInto(xdv_handle ih, DebugCallbackT callback, void * cb_ctx);
+XDV_WINDOWS_EXPORT bool XdvStepOver(xdv_handle ih, DebugCallbackT callback, void * cb_ctx);
+XDV_WINDOWS_EXPORT bool XdvRunningProcess(xdv_handle ih);
+
+XDV_WINDOWS_EXPORT unsigned char * XdvGetBpBackupDump(xdv_handle ih, unsigned long long ptr);
+XDV_WINDOWS_EXPORT bool XdvSetBreakPoint(xdv_handle ih, DebugBreakPointId id, unsigned long long ptr);
+XDV_WINDOWS_EXPORT DebugBreakPointId XdvGetBreakPointId(xdv_handle ih, unsigned long long ptr);
+XDV_WINDOWS_EXPORT bool XdvRestoreBreakPoint(xdv_handle ih, unsigned long long ptr);
+XDV_WINDOWS_EXPORT void XdvReInstallBreakPoint(xdv_handle ih, unsigned long long ptr);
+XDV_WINDOWS_EXPORT bool XdvDeleteBreakPoint(xdv_handle ih, unsigned long long ptr);
+
+XDV_WINDOWS_EXPORT void XdvRestoreAllBreakPoint(xdv_handle ih);
+XDV_WINDOWS_EXPORT void XdvReInstallAllBreakPoint(xdv_handle ih);
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT bool XdvRun(xdv_handle vh, IWorker::ThreadRunCallbackType callback, void *callback_context);
+XDV_WINDOWS_EXPORT bool XdvPrintLog(char *format, ...);
+XDV_WINDOWS_EXPORT bool XdvPrintViewer(xdv_handle vh, std::string str);
+XDV_WINDOWS_EXPORT bool XdvPrintViewer(xdv_handle vh, std::string str, bool wait);
+XDV_WINDOWS_EXPORT bool XdvPrintAndClear(xdv_handle vh, std::string str, bool wait);
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT unsigned long long XdvGetBeforePtr(xdv_handle ah, xdv_handle ih, unsigned long long ptr);
-XCN_WINDOWS_EXPORT unsigned long long XdvGetNextPtr(xdv_handle ah, xdv_handle ih, unsigned long long ptr);
-
-XCN_WINDOWS_EXPORT bool XdvGetOperandValues(xdv_handle ah, xdv_handle ih, unsigned long long ptr, unsigned char *dump, std::vector<unsigned long long> &v);
-
-XCN_WINDOWS_EXPORT unsigned long long XdvDisassemble(xdv_handle ah, unsigned long long ptr, unsigned char *dump, void *context);
-XCN_WINDOWS_EXPORT unsigned long long XdvDisassemble(xdv_handle ah, unsigned long long ptr, unsigned char *dump, char *mnemonic, size_t output_size);
-
-XCN_WINDOWS_EXPORT unsigned long long XdvAssemble(xdv_handle ah, unsigned char *dump, size_t *insn_size, char *mnemonic);
-
-XCN_WINDOWS_EXPORT xdv::architecture::x86::block::id XdvAnalyze(xdv_handle ah, xdv_handle ih, unsigned long long ptr, std::set<unsigned long long> &ptr_set);
-XCN_WINDOWS_EXPORT xdv::architecture::x86::block::id XdvAnalyze(xdv_handle ah, unsigned long long base, unsigned long long end, unsigned long long ptr, unsigned char *dump, std::set<unsigned long long> &ptr_set);
-XCN_WINDOWS_EXPORT xdv::architecture::x86::block::id XdvAnalyze(xdv_handle ah, xdv_handle ih, unsigned long long ptr, std::vector<unsigned long long> &ptr_vector);
-XCN_WINDOWS_EXPORT unsigned long long XdvAnalyze(xdv_handle ah, xdv_handle ih, unsigned long long base, size_t size, analyze_callback_type cb, void *cb_context);
-
-XCN_WINDOWS_EXPORT void XdvFineReferenceValues(xdv_handle ah, xdv_handle ih, unsigned long long base, size_t size, ref_callback_type cb, void *cb_ctx);
-XCN_WINDOWS_EXPORT unsigned long long XdvFindEntryPoint(xdv_handle ah, xdv_handle ih, unsigned long long ptr);
+XDV_WINDOWS_EXPORT bool XdvRun(xdv_handle vh, IWorker::ThreadRunCallbackType callback, void *callback_context);
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT bool XdvIsAscii(unsigned char *data, size_t max_len);
-XCN_WINDOWS_EXPORT bool XdvIsUnicode(unsigned char *data, size_t max_len);
-XCN_WINDOWS_EXPORT bool XdvIsAscii(unsigned char *p, size_t l, std::string &ascii);
-XCN_WINDOWS_EXPORT bool XdvIsUnicode(unsigned char *p, size_t l, std::string &ascii);
-XCN_WINDOWS_EXPORT bool XdvIsJumpCode(xdv_handle ah, unsigned long long ptr, unsigned char *dump, bool *jxx);
-XCN_WINDOWS_EXPORT bool XdvIsCallCode(xdv_handle ah, unsigned long long ptr, unsigned char *dump);
-XCN_WINDOWS_EXPORT bool XdvIsRetCode(xdv_handle ah, unsigned long long ptr, unsigned char *dump);
-XCN_WINDOWS_EXPORT bool XdvIsReadableCode(xdv_handle ah, unsigned long long ptr, unsigned char *dump);
-XCN_WINDOWS_EXPORT bool XdvIsInterruptCode(xdv_handle ah, unsigned long long ptr, unsigned char *dump);
+XDV_WINDOWS_EXPORT unsigned long long XdvGetBeforePtr(xdv_handle ah, xdv_handle ih, unsigned long long ptr);
+XDV_WINDOWS_EXPORT unsigned long long XdvGetNextPtr(xdv_handle ah, xdv_handle ih, unsigned long long ptr);
+
+XDV_WINDOWS_EXPORT bool XdvGetOperandValues(xdv_handle ah, xdv_handle ih, unsigned long long ptr, unsigned char *dump, std::vector<unsigned long long> &v);
+
+XDV_WINDOWS_EXPORT unsigned long long XdvDisassemble(xdv_handle ah, unsigned long long ptr, unsigned char *dump, void *context);
+XDV_WINDOWS_EXPORT unsigned long long XdvDisassemble(xdv_handle ah, unsigned long long ptr, unsigned char *dump, char *mnemonic, size_t output_size);
+
+XDV_WINDOWS_EXPORT unsigned long long XdvAssemble(xdv_handle ah, unsigned char *dump, size_t *insn_size, char *mnemonic);
+
+XDV_WINDOWS_EXPORT xdv::architecture::x86::block::id XdvAnalyze(xdv_handle ah, xdv_handle ih, unsigned long long ptr, std::set<unsigned long long> &ptr_set);
+XDV_WINDOWS_EXPORT xdv::architecture::x86::block::id XdvAnalyze(xdv_handle ah, unsigned long long base, unsigned long long end, unsigned long long ptr, unsigned char *dump, std::set<unsigned long long> &ptr_set);
+XDV_WINDOWS_EXPORT xdv::architecture::x86::block::id XdvAnalyze(xdv_handle ah, xdv_handle ih, unsigned long long ptr, std::vector<unsigned long long> &ptr_vector);
+XDV_WINDOWS_EXPORT unsigned long long XdvAnalyze(xdv_handle ah, xdv_handle ih, unsigned long long base, size_t size, analyze_callback_type cb, void *cb_context);
+
+XDV_WINDOWS_EXPORT void XdvFineReferenceValues(xdv_handle ah, xdv_handle ih, unsigned long long base, size_t size, ref_callback_type cb, void *cb_ctx);
+XDV_WINDOWS_EXPORT unsigned long long XdvFindEntryPoint(xdv_handle ah, xdv_handle ih, unsigned long long ptr);
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT bool XdvInstallDebugEvent(unsigned long pid);
-XCN_WINDOWS_EXPORT void XdvSetDebugEvent();
-XCN_WINDOWS_EXPORT void XdvWaitForDebugEvent();
-
-XCN_WINDOWS_EXPORT void * XdvFindPattern(void * base, size_t base_size, unsigned char * code, size_t code_size);
-
-XCN_WINDOWS_EXPORT int XdvInstallRemoteEvent(unsigned long pid);
-XCN_WINDOWS_EXPORT void XdvCloseRemoteEvent();
-
-XCN_WINDOWS_EXPORT void XdvExceptionEvent();
-XCN_WINDOWS_EXPORT void XdvReturnEvent();
-XCN_WINDOWS_EXPORT void * XdvDebugSharedMemory();
-
-XCN_WINDOWS_EXPORT void XdvWaitForExceptionEvent();
-XCN_WINDOWS_EXPORT void XdvWaitForReturnEvent();
-
-XCN_WINDOWS_EXPORT bool XdvCheckRemoteEvent();
-
-XCN_WINDOWS_EXPORT bool XdvInjectModule(wchar_t * module_name);
+XDV_WINDOWS_EXPORT bool XdvIsAscii(unsigned char *data, size_t max_len);
+XDV_WINDOWS_EXPORT bool XdvIsUnicode(unsigned char *data, size_t max_len);
+XDV_WINDOWS_EXPORT bool XdvIsAscii(unsigned char *p, size_t l, std::string &ascii);
+XDV_WINDOWS_EXPORT bool XdvIsUnicode(unsigned char *p, size_t l, std::string &ascii);
+XDV_WINDOWS_EXPORT bool XdvIsJumpCode(xdv_handle ah, unsigned long long ptr, unsigned char *dump, bool *jxx);
+XDV_WINDOWS_EXPORT bool XdvIsCallCode(xdv_handle ah, unsigned long long ptr, unsigned char *dump);
+XDV_WINDOWS_EXPORT bool XdvIsRetCode(xdv_handle ah, unsigned long long ptr, unsigned char *dump);
+XDV_WINDOWS_EXPORT bool XdvIsReadableCode(xdv_handle ah, unsigned long long ptr, unsigned char *dump);
+XDV_WINDOWS_EXPORT bool XdvIsInterruptCode(xdv_handle ah, unsigned long long ptr, unsigned char *dump);
 
 // --------------------------------------------------------
 // 
-XCN_WINDOWS_EXPORT xvar XdvExe(char *format, ...);
-XCN_WINDOWS_EXPORT xvar XdvExeA(char *format, ...);
-XCN_WINDOWS_EXPORT xvar XdvExts(char *format, ...);
+XDV_WINDOWS_EXPORT bool XdvInstallDebugEvent(unsigned long pid);
+XDV_WINDOWS_EXPORT void XdvSetDebugEvent();
+XDV_WINDOWS_EXPORT void XdvWaitForDebugEvent();
 
-XCN_WINDOWS_EXPORT std::vector<std::string> XdvSplit(const std::string str, const std::string regex);
-XCN_WINDOWS_EXPORT char * XdvValue(char * argv[], int argc, char *option, int *idx);
-XCN_WINDOWS_EXPORT unsigned long long XdvToUll(char * argv[], int argc, char * option);
-XCN_WINDOWS_EXPORT unsigned long long XdvToUll(char * ull_str);
-XCN_WINDOWS_EXPORT void * XdvToPtr(char * argv[], int argc, char * option);
+XDV_WINDOWS_EXPORT void * XdvFindPattern(void * base, size_t base_size, unsigned char * code, size_t code_size);
 
-XCN_WINDOWS_EXPORT void * XdvLoadModule(char *module_name);
+XDV_WINDOWS_EXPORT int XdvInstallRemoteEvent(unsigned long pid);
+XDV_WINDOWS_EXPORT void XdvCloseRemoteEvent();
+
+XDV_WINDOWS_EXPORT void XdvExceptionEvent();
+XDV_WINDOWS_EXPORT void XdvReturnEvent();
+XDV_WINDOWS_EXPORT void * XdvDebugSharedMemory();
+
+XDV_WINDOWS_EXPORT void XdvWaitForExceptionEvent();
+XDV_WINDOWS_EXPORT void XdvWaitForReturnEvent();
+
+XDV_WINDOWS_EXPORT bool XdvCheckRemoteEvent();
+
+XDV_WINDOWS_EXPORT bool XdvInjectModule(wchar_t * module_name);
+
+// --------------------------------------------------------
+// 
+XDV_WINDOWS_EXPORT xvar XdvExe(char *format, ...);
+XDV_WINDOWS_EXPORT xvar XdvExeA(char *format, ...);
+XDV_WINDOWS_EXPORT xvar XdvExts(char *format, ...);
+
+XDV_WINDOWS_EXPORT std::vector<std::string> XdvSplit(const std::string str, const std::string regex);
+XDV_WINDOWS_EXPORT char * XdvValue(char * argv[], int argc, char *option, int *idx);
+XDV_WINDOWS_EXPORT unsigned long long XdvToUll(char * argv[], int argc, char * option);
+XDV_WINDOWS_EXPORT unsigned long long XdvToUll(char * ull_str);
+XDV_WINDOWS_EXPORT void * XdvToPtr(char * argv[], int argc, char * option);
+
+XDV_WINDOWS_EXPORT void * XdvLoadModule(char *module_name);
 
 // --------------------------------------------------------
 // 
 template<class T>
-XCN_WINDOWS_EXPORT
+XDV_WINDOWS_EXPORT
 T * AddInterface()
 {
 	T *o = new T();
@@ -1300,6 +1300,6 @@ T * AddInterface()
 	return nullptr;
 }
 #define __add_object(type_class) AddInterface<type_class>()
-#define XENOM_ADD_INTERFACE()			extern "C" XCN_WINDOWS_EXPORT xdv_handle AddInterface()
+#define XENOM_ADD_INTERFACE()			extern "C" XDV_WINDOWS_EXPORT xdv_handle AddInterface()
 
 #endif
