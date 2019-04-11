@@ -1302,4 +1302,7 @@ T * AddInterface()
 #define __add_object(type_class) AddInterface<type_class>()
 #define XENOM_ADD_INTERFACE()			extern "C" XDV_WINDOWS_EXPORT xdv_handle AddInterface()
 
+#define XdvGetValue(s)	XdvValue(argv, argc, s, nullptr)
+#define XdvGetUllValue(s)	XdvToUll(argv, argc, s)
+
 #endif

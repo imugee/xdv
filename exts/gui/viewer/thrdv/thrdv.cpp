@@ -14,9 +14,9 @@ XENOM_ADD_INTERFACE()
 
 EXTS_FUNC(cbthrdv)
 {
-	char * status = XdvValue(argv, argc, "status", nullptr);
-	char * handle = XdvValue(argv, argc, "handle", nullptr);
-	char * str = XdvValue(argv, argc, "str", nullptr);
+	char * status = XdvGetValue("status");
+	char * handle = XdvGetValue("handle");
+	char * str = XdvGetValue("str");
 	if (strstr(status, "pre"))
 	{
 		//XdvExe("!thrdv.threads");
@@ -41,7 +41,7 @@ EXTS_FUNC(cbthrdv)
 	}
 	else if (strstr(status, "Suspend thread"))
 	{
-		char * tag = XdvValue(argv, argc, "tag", nullptr);
+		char * tag = XdvGetValue("tag");
 		char * end = nullptr;
 		if (tag)
 		{
@@ -57,7 +57,7 @@ EXTS_FUNC(cbthrdv)
 	}
 	else if (strstr(status, "Resume thread"))
 	{
-		char * tag = XdvValue(argv, argc, "tag", nullptr);
+		char * tag = XdvGetValue("tag");
 		char * end = nullptr;
 		if (tag)
 		{

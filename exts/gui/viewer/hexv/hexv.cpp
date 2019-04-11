@@ -16,7 +16,7 @@ XENOM_ADD_INTERFACE()
 std::string PrintByte(unsigned long long ptr, int line);
 EXTS_FUNC(hex)	// argv[0] = ptr
 {
-	unsigned long long ptr = XdvToUll(argv, argc, "ptr");
+	unsigned long long ptr = XdvGetUllValue("ptr");
 	if (ptr == 0)
 	{
 		ptr = _current_ptr;
@@ -33,8 +33,8 @@ EXTS_FUNC(hex)	// argv[0] = ptr
 EXTS_FUNC(cbhexv)	// argv[0] = status
 					// argv[1] = string
 {
-	char * status = XdvValue(argv, argc, "status", nullptr);
-	char * handle = XdvValue(argv, argc, "handle", nullptr);
+	char * status =XdvGetValue("status");
+	char * handle =XdvGetValue("handle");
 	if (strstr(status, "up"))
 	{
 		_current_ptr -= 16;
@@ -47,7 +47,7 @@ EXTS_FUNC(cbhexv)	// argv[0] = status
 	}
 	else if (strstr(status, "Find Pattern"))
 	{
-		unsigned long long ptr = XdvToUll(argv, argc, "tag");
+		unsigned long long ptr = XdvGetUllValue("tag");
 		xvar var = XdvExe("!qxnm.find_dialog -ptr:%I64x", ptr);
 		ptr = ullvar(var);
 

@@ -71,8 +71,8 @@ void FindIntermodularCall(unsigned long long ptr);
 EXTS_FUNC(cbdasmv)	// argv = status
 					// argv = string
 {
-	char * status = XdvValue(argv, argc, "status", nullptr);
-	char * handle = XdvValue(argv, argc, "handle", nullptr);
+	char * status = XdvGetValue("status");
+	char * handle = XdvGetValue("handle");
 	if (strstr(status, "up"))
 	{
 		_current_ptr -= 3;
@@ -85,7 +85,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 	}
 	else if (strstr(status, "pre"))
 	{
-		unsigned long long ptr = XdvToUll(argv, argc, "str");
+		unsigned long long ptr = XdvGetUllValue("str");
 		if (ptr)
 		{
 			unsigned char dump[16] = { 0, };
@@ -97,7 +97,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 	}
 	else if (strstr(status, "dc"))
 	{
-		char * ptr_str = XdvValue(argv, argc, "str", nullptr);
+		char * ptr_str = XdvGetValue("str");
 		if (strlen(ptr_str))
 		{
 			ptr_str = strstr(ptr_str, "0x");
@@ -117,7 +117,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 	}
 	else if (strstr(status, "space"))
 	{
-		char * ptr_str = XdvValue(argv, argc, "str", nullptr);
+		char * ptr_str = XdvGetValue("str");
 		ptr_str = strstr(ptr_str, "0x");
 		if (ptr_str)
 		{
@@ -138,7 +138,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 	}
 	else if (strstr(status, "Trace from the entry point"))
 	{
-		unsigned long long ptr = XdvToUll(argv, argc, "tag");
+		unsigned long long ptr = XdvGetUllValue("tag");
 		if (ptr)
 		{
 			TraceFromEntryPoint(ptr);
@@ -146,7 +146,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 	}
 	else if (strstr(status, "Trace from the current point"))
 	{
-		unsigned long long ptr = XdvToUll(argv, argc, "tag");
+		unsigned long long ptr = XdvGetUllValue("tag");
 		if (ptr)
 		{
 			TraceFromCurrentPoint(ptr);
@@ -154,7 +154,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 	}
 	else if (strstr(status, "Track trace"))
 	{
-		unsigned long long ptr = XdvToUll(argv, argc, "tag");
+		unsigned long long ptr = XdvGetUllValue("tag");
 		if (ptr)
 		{
 			TrackTrace(ptr);
@@ -162,7 +162,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 	}
 	else if (strstr(status, "Find reference string"))
 	{
-		unsigned long long ptr = XdvToUll(argv, argc, "tag");
+		unsigned long long ptr = XdvGetUllValue("tag");
 		if (ptr)
 		{
 			FindReferenceString(ptr);
@@ -170,7 +170,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 	}
 	else if (strstr(status, "Find intermodular call"))
 	{
-		unsigned long long ptr = XdvToUll(argv, argc, "tag");
+		unsigned long long ptr = XdvGetUllValue("tag");
 		if (ptr)
 		{
 			FindIntermodularCall(ptr);
@@ -178,7 +178,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 	}
 	else if (strstr(status, "Suspend point"))
 	{
-		unsigned long long ptr = XdvToUll(argv, argc, "tag");
+		unsigned long long ptr = XdvGetUllValue("tag");
 		if (ptr)
 		{
 			if (XdvSetBreakPoint(XdvGetParserHandle(), DebugBreakPointId::SUSPEND_BREAK_POINT_ID, ptr))
@@ -190,7 +190,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 	}
 	else if (strstr(status, "Software break point"))
 	{
-		unsigned long long ptr = XdvToUll(argv, argc, "tag");
+		unsigned long long ptr = XdvGetUllValue("tag");
 		if (ptr)
 		{
 			XdvSuspendProcess(XdvGetParserHandle());
@@ -204,7 +204,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 	}
 	else if (strstr(status, "Hardware break point"))
 	{
-		unsigned long long ptr = XdvToUll(argv, argc, "tag");
+		unsigned long long ptr = XdvGetUllValue("tag");
 		if (ptr)
 		{
 			if (XdvSetBreakPoint(XdvGetParserHandle(), DebugBreakPointId::HARDWARE_BREAK_POINT_ID, ptr))
@@ -216,7 +216,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 	}
 	else if (strstr(status, "Delete break point"))
 	{
-		unsigned long long ptr = XdvToUll(argv, argc, "tag");
+		unsigned long long ptr = XdvGetUllValue("tag");
 		if (ptr)
 		{
 			if (XdvDeleteBreakPoint(XdvGetParserHandle(), ptr))

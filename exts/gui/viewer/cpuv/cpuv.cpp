@@ -14,8 +14,8 @@ XENOM_ADD_INTERFACE()
 
 EXTS_FUNC(cbcpuv)
 {
-	char * status = XdvValue(argv, argc, "status", nullptr);
-	char * handle = XdvValue(argv, argc, "handle", nullptr);
+	char * status = XdvGetValue("status");
+	char * handle = XdvGetValue("handle");
 	if (strstr(status, "pre"))
 	{
 		printf("cpuv:: double click\n");
@@ -34,15 +34,15 @@ EXTS_FUNC(getctx)
 EXTS_FUNC(printctx)	// argv[0] = tid, unsigned long type
 					// argv[0] = ctx, xdv::architecture::x86::context::type * type
 {
-	unsigned long long ctx_ptr = XdvToUll(argv, argc, "ctx");
+	unsigned long long ctx_ptr = XdvGetUllValue("ctx");
 	if (ctx_ptr)
 	{
 		xdv::architecture::x86::context::type * pctx = (xdv::architecture::x86::context::type *)ctx_ptr;
 		_thread_ctx = *pctx;
 	}
-	else if (XdvValue(argv, argc, "tid", nullptr))
+	else if (XdvGetValue("tid"))
 	{
-		unsigned long tid = (unsigned long)XdvToUll(argv, argc, "tid");
+		unsigned long tid = (unsigned long)XdvGetUllValue("tid");
 		if (tid)
 		{
 			XdvSelectThread(XdvGetParserHandle(), tid);

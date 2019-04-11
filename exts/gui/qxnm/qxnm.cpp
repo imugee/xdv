@@ -354,8 +354,6 @@ void xnm::addViewMenuAction()
 	{
 		std::string menu_name = table[i]->ObjectString();
 		ViewerAction *exts_action = new ViewerAction(table[i]);
-		//exts_action->setIcon(QPixmap(":/xenom/Resources/MonitorBlack.ico"));
-		//exts_action->setIconVisibleInMenu(true);
 
 		exts_action->setObjectName(menu_name.c_str());
 		exts_action->setText(menu_name.c_str());

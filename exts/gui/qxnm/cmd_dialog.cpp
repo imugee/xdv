@@ -14,7 +14,7 @@ EXTS_FUNC(goto_dialog)
 
 EXTS_FUNC(finddialog) // argv[0] = ptr
 {
-	unsigned long long ptr = XdvToUll(argv, argc, "ptr");
+	unsigned long long ptr = XdvGetUllValue("ptr");
 	if (ptr)
 	{
 		XenomFindDialog fbbd(ptr);

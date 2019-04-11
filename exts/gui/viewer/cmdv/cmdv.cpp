@@ -13,11 +13,11 @@ XENOM_ADD_INTERFACE()
 EXTS_FUNC(cbcmdv)	// argv[0] = status
 					// argv[1] = handle
 {
-	char * status = XdvValue(argv, argc, "status", nullptr);
-	char * handle = XdvValue(argv, argc, "handle", nullptr);
+	char * status = XdvGetValue("status");
+	char * handle = XdvGetValue("handle");
 	if (strstr(status, "pre"))
 	{
-		char * ptr_str = XdvValue(argv, argc, "str", nullptr);
+		char * ptr_str = XdvGetValue("str");
 		if (ptr_str)
 		{
 			XdvExe("!dasmv.dasm -ptr:%s", ptr_str);
