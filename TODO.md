@@ -10,7 +10,10 @@
 
 ~3. Removes unnecessary icons from menus.~
 
-4. There are compatibility issues with the emulator and other engines.
+~4. There are compatibility issues with the emulator and other engines.~
+
 5. Activates the options menu.
-6. Adds Drag and Drop function for file analysis.
+
+~6. Adds Drag and Drop function for file analysis.~
+
 7. Adds symbol loading for dump analysis.
