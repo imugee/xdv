@@ -50,7 +50,6 @@ EXTS_FUNC(cbhexv)	// argv[0] = status
 		unsigned long long ptr = XdvGetUllValue("tag");
 		xvar var = XdvExe("!qxnm.find_dialog -ptr:%I64x", ptr);
 		ptr = ullvar(var);
-		printf("test:: %I64x\n", ptr);
 
 		unsigned char dump[16] = { 0, };
 		if (XdvReadMemory(XdvGetParserHandle(), ptr, dump, sizeof(dump)))
