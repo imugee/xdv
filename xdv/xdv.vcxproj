@@ -93,7 +93,6 @@
   <ItemGroup>
     <ClCompile Include="hide.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="segment.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
