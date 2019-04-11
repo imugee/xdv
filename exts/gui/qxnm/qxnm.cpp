@@ -3,6 +3,7 @@
 #include <qlibrary.h>
 #include <qfiledialog.h>
 #include <qmessagebox.h>
+#include <qmimedata.h>
 #include <io.h>
 
 xnm * _xenom;
@@ -195,6 +196,8 @@ xnm::xnm(QWidget *parent)
 	QObject::connect(action_debuggee_stepover_, &QAction::triggered, this, &xnm::toolbarActionDebugStepOver);
 
 	QObject::connect(action_system_, &QAction::triggered, this, &xnm::toolbarActionSystemOption);
+
+	this->setAcceptDrops(true);
 }
 
 xnm::~xnm()
@@ -392,13 +395,12 @@ void xnm::toolbarActionViewerOpen()
 
 // -------------------------------------------
 //
-void xnm::toolbarActionFileOpen()
+QString xnm::getFileSignature(QString file_name)
 {
-	QString file_name = QFileDialog::getOpenFileName(this);
 	QFile file(file_name.toStdString().c_str());
 	if (!file.open(QIODevice::ReadOnly))
 	{
-		return;
+		return "";
 	}
 
 	// get signature
@@ -413,7 +415,12 @@ void xnm::toolbarActionFileOpen()
 		signature += arr.at(i);
 	}
 
-	//
+	return signature;
+}
+
+bool xnm::openFile(QString file_name)
+{
+	QString signature = getFileSignature(file_name);
 	SystemDialog sd(signature);
 	sd.setModal(true);
 	sd.exec();
@@ -421,11 +428,8 @@ void xnm::toolbarActionFileOpen()
 	xdv_handle ih = XdvGetParserHandle();
 	if (!XdvOpenFile(ih, (char *)file_name.toStdString().c_str()))
 	{
-		XdvPrintLog("xenom:: %s open fail..", file_name.toStdString().c_str());
-		return;
+		return false;
 	}
-
-	XdvPrintLog("xenom:: open=>%s", file_name.toStdString().c_str());
 
 	xdv::architecture::x86::context::type ctx;
 	if (XdvGetThreadContext(XdvGetParserHandle(), &ctx))
@@ -437,6 +441,23 @@ void xnm::toolbarActionFileOpen()
 		XdvExe("!thrdv.threads");
 		XdvExe("!cpuv.printctx");
 		XdvExe("!stackv.printframe");
+
+		return true;
+	}
+
+	return false;
+}
+
+void xnm::toolbarActionFileOpen()
+{
+	QString file_name = QFileDialog::getOpenFileName(this);
+	if (!openFile(file_name))
+	{
+		XdvPrintLog("xenom:: %s open fail..", file_name.toStdString().c_str());
+	}
+	else
+	{
+		XdvPrintLog("xenom:: open=>%s", file_name.toStdString().c_str());
 	}
 }
 
@@ -572,11 +593,6 @@ void xnm::toolbarActionAttachProcess()
 	if (reply == QMessageBox::Yes)
 	{
 		xdv_handle ih = XdvGetParserHandle();
-		//if (XdvInstallDebugEvent(XdvProcessId(ih)))
-		//{
-		//	std::thread * debug_thread = new std::thread(DebugCallback);
-		//}
-
 		if (XdvAttachProcess(ih, XdvProcessId(ih)))
 		{
 			xdv::architecture::x86::context::type ctx;
@@ -584,7 +600,7 @@ void xnm::toolbarActionAttachProcess()
 			{
 				XdvExe("!segv.segall");
 
-				XdvExe("!cpuv.printctx -ctx:%I64x", &ctx); // dasmv보다 먼저 호출되어 글로벌 ctx가 세팅되도록 해야한다.
+				XdvExe("!cpuv.printctx -ctx:%I64x", &ctx);
 				XdvExe("!stackv.printframe -ctx:%I64x", &ctx);
 
 				XdvExe("!dasmv.dasm -ptr:%I64x", ctx.rip);
@@ -645,6 +661,30 @@ void xnm::toolbarActionSystemOption()
 	sd.exec();
 
 	XdvUpdateDebuggee(XdvGetParserHandle());
+}
+
+void xnm::dragEnterEvent(QDragEnterEvent *e)
+{
+	if (e->mimeData()->hasUrls()) 
+	{
+		e->acceptProposedAction();
+	}
+}
+
+void xnm::dropEvent(QDropEvent *e)
+{
+	foreach(const QUrl &url, e->mimeData()->urls()) 
+	{
+		QString file_name = url.toLocalFile();
+		if (!openFile(file_name))
+		{
+			XdvPrintLog("xenom:: %s open fail..", file_name.toStdString().c_str());
+		}
+		else
+		{
+			XdvPrintLog("xenom:: open=>%s", file_name.toStdString().c_str());
+		}
+	}
 }
 
 // -------------------------------------------

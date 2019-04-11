@@ -65,9 +65,17 @@ private:
 
 	std::map<xdv_handle, XenomDockWidget *> viewer_table_;
 
+protected:
+	virtual void dragEnterEvent(QDragEnterEvent *e) override;
+	virtual void dropEvent(QDropEvent *e) override;
+
 public:
 	QMenuBar *menuBar();
 	QToolBar *toolBar();
+
+public:
+	QString getFileSignature(QString file_name);
+	bool openFile(QString file_name);
 
 public:
 	void addViewer(xdv_handle handle, XenomDockWidget *dock);
