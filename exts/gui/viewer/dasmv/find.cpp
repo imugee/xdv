@@ -7,6 +7,7 @@ typedef struct _tag_ref_value_ctx
 	unsigned long long end;
 }ref_value_ctx;
 
+void SetTextColor(xdv_handle);
 unsigned long long GetCurrentPtr();
 xdv_handle GetCurrentHandle();
 
@@ -117,6 +118,7 @@ void FindReferenceString(unsigned long long ptr)
 	if (v)
 	{
 		v->AddViewer();
+		SetTextColor(tag_handle);
 		ref_value_ctx * ctx = new ref_value_ctx;
 		ctx->base = mbi.BaseAddress;
 		ctx->end = mbi.BaseAddress + mbi.RegionSize;
@@ -233,6 +235,8 @@ void FindIntermodularCall(unsigned long long ptr)
 	if (v)
 	{
 		v->AddViewer();
+		SetTextColor(tag_handle);
+
 		ref_value_ctx * ctx = new ref_value_ctx;
 		ctx->base = mbi.BaseAddress;
 		ctx->end = mbi.BaseAddress + mbi.RegionSize;

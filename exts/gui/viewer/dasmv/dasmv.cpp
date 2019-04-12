@@ -13,6 +13,7 @@ XENOM_ADD_INTERFACE()
 	return _current_handle;
 }
 
+void SetTextColor(xdv_handle);
 void Update();
 bool _is_first = false;
 EXTS_FUNC(update) // first callback
@@ -35,22 +36,7 @@ EXTS_FUNC(update) // first callback
 		XdvExe("!qxnm.add_command -handle:%x -menu:Break point -name:Hardware break point", _current_handle);
 		XdvExe("!qxnm.add_command -handle:%x -menu:Break point -name:Delete break point", _current_handle);
 
-		XdvExe("!qxnm.express_color -handle:%x -expression:(call|jmp|jne|je|jae|ja|jbe|jb|jge|jg|jle|jl|jz|jnz) -color:#842f2f", _current_handle);
-		XdvExe("!qxnm.express_color -handle:%x -expression:(movzx|movsb|movsx|movs|mov) -color:#664e72", _current_handle);
-		XdvExe("!qxnm.express_color -handle:%x -expression:(pushad|popad|pusha|popa|pushfd|popfd|pushf|popf|push|pop) -color:#5e875b", _current_handle);
-		XdvExe("!qxnm.express_color -handle:%x -expression:(qword ptr|dword ptr|word ptr|byte ptr) -color:#774343", _current_handle);
-		XdvExe("!qxnm.express_color -handle:%x -expression:(eax|ebx|ecx|edx|edi|esi|ebp|esp|eip|rax|rbx|rcx|rdx|rdi|rsi|rbp|rsp|rip|r8|r9|r10|r11|r12|r13|r14|r15) -color:#3d556d", _current_handle);
-
-		XdvExe("!qxnm.express_color -handle:%x -expression:;[^\\n]* -color:#009327", _current_handle);
-		XdvExe("!qxnm.express_color -handle:%x -expression:.sym[^\\n]* -color:#006caf", _current_handle);
-		XdvExe("!qxnm.express_color -handle:%x -expression:.xref[^\\n]* -color:#006caf", _current_handle);
-
-		XdvExe("!qxnm.express_color -handle:%x -expression:=========================== subroutine ===========================[^\\n]* -color:#005e5e -bold:true", _current_handle);
-		XdvExe("!qxnm.express_color -handle:%x -expression:======= current point -color:#ff3838", _current_handle);
-		XdvExe("!qxnm.express_color -handle:%x -expression:======= break point -color:#ff3838", _current_handle);
-
-		XdvExe("!qxnm.express_color -handle:%x -expression:\"[^\\n]* -color:#ff9b77", _current_handle);
-		XdvExe("!qxnm.express_color -handle:%x -expression:L\"[^\\n]* -color:#ff9b77", _current_handle);
+		SetTextColor(_current_handle);
 
 		_is_first = true;
 	}
@@ -243,6 +229,26 @@ void SetCurrentPtr(unsigned long long ptr)
 xdv_handle GetCurrentHandle()
 {
 	return _current_handle;
+}
+
+void SetTextColor(xdv_handle viewer_handle)
+{
+	XdvExe("!qxnm.express_color -handle:%x -expression:(call|jmp|jne|je|jae|ja|jbe|jb|jge|jg|jle|jl|jz|jnz) -color:#842f2f", viewer_handle);
+	XdvExe("!qxnm.express_color -handle:%x -expression:(movzx|movsb|movsx|movs|mov) -color:#664e72", viewer_handle);
+	XdvExe("!qxnm.express_color -handle:%x -expression:(pushad|popad|pusha|popa|pushfd|popfd|pushf|popf|push|pop) -color:#5e875b", viewer_handle);
+	XdvExe("!qxnm.express_color -handle:%x -expression:(qword ptr|dword ptr|word ptr|byte ptr) -color:#774343", viewer_handle);
+	XdvExe("!qxnm.express_color -handle:%x -expression:(eax|ebx|ecx|edx|edi|esi|ebp|esp|eip|rax|rbx|rcx|rdx|rdi|rsi|rbp|rsp|rip|r8|r9|r10|r11|r12|r13|r14|r15) -color:#3d556d", viewer_handle);
+
+	XdvExe("!qxnm.express_color -handle:%x -expression:;[^\\n]* -color:#009327", viewer_handle);
+	XdvExe("!qxnm.express_color -handle:%x -expression:.sym[^\\n]* -color:#006caf", viewer_handle);
+	XdvExe("!qxnm.express_color -handle:%x -expression:.xref[^\\n]* -color:#006caf", viewer_handle);
+
+	XdvExe("!qxnm.express_color -handle:%x -expression:=========================== subroutine ===========================[^\\n]* -color:#005e5e -bold:true", viewer_handle);
+	XdvExe("!qxnm.express_color -handle:%x -expression:======= current point -color:#ff3838", viewer_handle);
+	XdvExe("!qxnm.express_color -handle:%x -expression:======= break point -color:#ff3838", viewer_handle);
+
+	XdvExe("!qxnm.express_color -handle:%x -expression:\"[^\\n]* -color:#ff9b77", viewer_handle);
+	XdvExe("!qxnm.express_color -handle:%x -expression:L\"[^\\n]* -color:#ff9b77", viewer_handle);
 }
 
 // ------------------------------------------------------
@@ -563,6 +569,7 @@ void TraceFromEntryPoint(unsigned long long ptr)
 	}
 
 	v->AddViewer();
+	SetTextColor(tag_handle);
 	XdvPrintViewer(tag_handle, dasm_str);
 
 	XdvExe("!qxnm.add_tab -va:%x -area:left -vb:%x", _current_handle, tag_handle);
@@ -612,6 +619,7 @@ void TraceFromCurrentPoint(unsigned long long ptr)
 	}
 
 	v->AddViewer();
+	SetTextColor(tag_handle);
 	XdvPrintViewer(tag_handle, dasm_str);
 
 	XdvExe("!qxnm.add_tab -va:%x -area:left -vb:%x", _current_handle, tag_handle);
@@ -660,6 +668,7 @@ void TrackTrace(unsigned long long ptr)
 	}
 
 	v->AddViewer();
+	SetTextColor(tag_handle);
 	XdvPrintViewer(tag_handle, dasm_str);
 
 	XdvExe("!qxnm.add_tab -va:%x -area:left -vb:%x", _current_handle, tag_handle);
