@@ -57,21 +57,19 @@ void FindIntermodularCall(unsigned long long ptr);
 EXTS_FUNC(cbdasmv)	// argv = status
 					// argv = string
 {
-	char * status = XdvGetValue("status");
-	char * handle = XdvGetValue("handle");
-	if (strstr(status, "up"))
+	if (hasarg("status", "up"))
 	{
 		_current_ptr -= 3;
 		Update();
 	}
-	else if (strstr(status, "down"))
+	else if (hasarg("status", "down"))
 	{
 		_current_ptr += 3;
 		Update();
 	}
-	else if (strstr(status, "pre"))
+	else if (hasarg("status", "pre"))
 	{
-		unsigned long long ptr = XdvGetUllValue("str");
+		unsigned long long ptr = toullarg("str");
 		if (ptr)
 		{
 			unsigned char dump[16] = { 0, };
@@ -81,9 +79,9 @@ EXTS_FUNC(cbdasmv)	// argv = status
 			}
 		}
 	}
-	else if (strstr(status, "dc"))
+	else if (hasarg("status", "dc"))
 	{
-		char * ptr_str = XdvGetValue("str");
+		char * ptr_str = argof("str");
 		if (strlen(ptr_str))
 		{
 			ptr_str = strstr(ptr_str, "0x");
@@ -93,7 +91,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 			}
 		}
 	}
-	else if (strstr(status, "backspace"))
+	else if (hasarg("status", "backspace"))
 	{
 		unsigned long long ptr = _trace_vector[_trace_vector.size() - 1];
 		if (ptr)
@@ -101,9 +99,9 @@ EXTS_FUNC(cbdasmv)	// argv = status
 			XdvExe("!dasmv.dasm -ptr:%I64x", ptr);
 		}
 	}
-	else if (strstr(status, "space"))
+	else if (hasarg("status", "space"))
 	{
-		char * ptr_str = XdvGetValue("str");
+		char * ptr_str = argof("str");
 		ptr_str = strstr(ptr_str, "0x");
 		if (ptr_str)
 		{
@@ -111,9 +109,10 @@ EXTS_FUNC(cbdasmv)	// argv = status
 			Update();
 		}
 	}
+
 	// ------------------------------------------------------
 	// context menu
-	else if (strstr(status, "Jump"))
+	else if (hasarg("status", "Jump"))
 	{
 		xvar var = XdvExe("!qxnm.goto_dialog");
 		unsigned long long ptr = ullvar(var);
@@ -122,49 +121,49 @@ EXTS_FUNC(cbdasmv)	// argv = status
 			XdvExe("!dasmv.dasm -ptr:%I64x", ptr);
 		}
 	}
-	else if (strstr(status, "Trace from the entry point"))
+	else if (hasarg("status", "Trace from the entry point"))
 	{
-		unsigned long long ptr = XdvGetUllValue("tag");
+		unsigned long long ptr = toullarg("tag");
 		if (ptr)
 		{
 			TraceFromEntryPoint(ptr);
 		}
 	}
-	else if (strstr(status, "Trace from the current point"))
+	else if (hasarg("status", "Trace from the current point"))
 	{
-		unsigned long long ptr = XdvGetUllValue("tag");
+		unsigned long long ptr = toullarg("tag");
 		if (ptr)
 		{
 			TraceFromCurrentPoint(ptr);
 		}
 	}
-	else if (strstr(status, "Track trace"))
+	else if (hasarg("status", "Track trace"))
 	{
-		unsigned long long ptr = XdvGetUllValue("tag");
+		unsigned long long ptr = toullarg("tag");
 		if (ptr)
 		{
 			TrackTrace(ptr);
 		}
 	}
-	else if (strstr(status, "Find reference string"))
+	else if (hasarg("status", "Find reference string"))
 	{
-		unsigned long long ptr = XdvGetUllValue("tag");
+		unsigned long long ptr = toullarg("tag");
 		if (ptr)
 		{
 			FindReferenceString(ptr);
 		}
 	}
-	else if (strstr(status, "Find intermodular call"))
+	else if (hasarg("status", "Find intermodular call"))
 	{
-		unsigned long long ptr = XdvGetUllValue("tag");
+		unsigned long long ptr = toullarg("tag");
 		if (ptr)
 		{
 			FindIntermodularCall(ptr);
 		}
 	}
-	else if (strstr(status, "Suspend point"))
+	else if (hasarg("status", "Suspend point"))
 	{
-		unsigned long long ptr = XdvGetUllValue("tag");
+		unsigned long long ptr = toullarg("tag");
 		if (ptr)
 		{
 			if (XdvSetBreakPoint(XdvGetParserHandle(), DebugBreakPointId::SUSPEND_BREAK_POINT_ID, ptr))
@@ -174,9 +173,9 @@ EXTS_FUNC(cbdasmv)	// argv = status
 			}
 		}
 	}
-	else if (strstr(status, "Software break point"))
+	else if (hasarg("status", "Software break point"))
 	{
-		unsigned long long ptr = XdvGetUllValue("tag");
+		unsigned long long ptr = toullarg("tag");
 		if (ptr)
 		{
 			XdvSuspendProcess(XdvGetParserHandle());
@@ -188,9 +187,9 @@ EXTS_FUNC(cbdasmv)	// argv = status
 			XdvResumeProcess(XdvGetParserHandle());
 		}
 	}
-	else if (strstr(status, "Hardware break point"))
+	else if (hasarg("status", "Hardware break point"))
 	{
-		unsigned long long ptr = XdvGetUllValue("tag");
+		unsigned long long ptr = toullarg("tag");
 		if (ptr)
 		{
 			if (XdvSetBreakPoint(XdvGetParserHandle(), DebugBreakPointId::HARDWARE_BREAK_POINT_ID, ptr))
@@ -200,9 +199,9 @@ EXTS_FUNC(cbdasmv)	// argv = status
 			}
 		}
 	}
-	else if (strstr(status, "Delete break point"))
+	else if (hasarg("status", "Delete break point"))
 	{
-		unsigned long long ptr = XdvGetUllValue("tag");
+		unsigned long long ptr = toullarg("tag");
 		if (ptr)
 		{
 			if (XdvDeleteBreakPoint(XdvGetParserHandle(), ptr))

@@ -14,10 +14,8 @@ XENOM_ADD_INTERFACE()
 
 EXTS_FUNC(cbthrdv)
 {
-	char * status = XdvGetValue("status");
-	char * handle = XdvGetValue("handle");
-	char * str = XdvGetValue("str");
-	if (strstr(status, "pre"))
+	char * str = argof("str");
+	if (hasarg("status", "pre"))
 	{
 		//XdvExe("!thrdv.threads");
 
@@ -39,9 +37,9 @@ EXTS_FUNC(cbthrdv)
 			}
 		}
 	}
-	else if (strstr(status, "Suspend thread"))
+	else if (hasarg("status", "Suspend thread"))
 	{
-		char * tag = XdvGetValue("tag");
+		char * tag = argof("tag");
 		char * end = nullptr;
 		if (tag)
 		{
@@ -55,9 +53,9 @@ EXTS_FUNC(cbthrdv)
 			}
 		}
 	}
-	else if (strstr(status, "Resume thread"))
+	else if (hasarg("status", "Resume thread"))
 	{
-		char * tag = XdvGetValue("tag");
+		char * tag = argof("tag");
 		char * end = nullptr;
 		if (tag)
 		{
@@ -71,7 +69,7 @@ EXTS_FUNC(cbthrdv)
 			}
 		}
 	}
-	else if (strstr(status, "Suspend process"))
+	else if (hasarg("status", "Suspend process"))
 	{
 		//XdvUpdateDebuggee(XdvGetParserHandle());
 
@@ -89,7 +87,7 @@ EXTS_FUNC(cbthrdv)
 			XdvExe("!thrdv.threads");
 		}
 	}
-	else if (strstr(status, "Resume process"))
+	else if (hasarg("status", "Resume process"))
 	{
 		XdvUpdateDebuggee(XdvGetParserHandle());
 

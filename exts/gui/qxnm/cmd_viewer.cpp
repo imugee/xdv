@@ -8,9 +8,9 @@ EXTS_FUNC(add_txtv)		// argv = handle
 						// argv = type
 						// return = IWorker ptr
 {
-	char * handle_str = XdvGetValue("handle");
-	char * title = XdvGetValue("title");
-	char * type = XdvGetValue("type");
+	char * handle_str = argof("handle");
+	char * title = argof("title");
+	char * type = argof("type");
 
 	char *end = nullptr;
 	xdv_handle handle = strtoull(handle_str, &end, 16);
@@ -43,8 +43,8 @@ EXTS_FUNC(add_cmdv)		// argv = handle
 						// argv = type
 						// return = IWorker ptr
 {
-	char * handle_str = XdvGetValue("handle");
-	char * title = XdvGetValue("title");
+	char * handle_str = argof("handle");
+	char * title = argof("title");
 	char *end = nullptr;
 	xdv_handle handle = strtoull(handle_str, &end, 16);
 	xnm *xenom = getXenom();
@@ -69,15 +69,15 @@ EXTS_FUNC(add_viewer)		// argv = obj_string
 							// argv = type
 							// return = xdv_handle
 {
-	char * name = XdvGetValue("name");
-	char * title = XdvGetValue("title");
+	char * name = argof("name");
+	char * title = argof("title");
 	if (!name || !title)
 	{
 		return nullvar();
 	}
 
 	xdv::viewer::id id = xdv::viewer::id::DEFAULT_TEXT_VIEWER;
-	char *type = XdvGetValue("type");
+	char *type = argof("type");
 	if (type && strstr(type, "event"))
 	{
 		id = xdv::viewer::id::EVENT_BASE_TEXT_VIEWER;
@@ -91,7 +91,7 @@ EXTS_FUNC(add_viewer)		// argv = obj_string
 		id = xdv::viewer::id::TEXT_VIEWER_DASM;
 	}
 
-	char * command = XdvGetValue("callback");
+	char * command = argof("callback");
 	XenomDefaultViewer *viewer = __add_object(XenomDefaultViewer);
 	xdv_handle handle = XdvGetHandleByObject(viewer);
 	if (viewer)
@@ -107,7 +107,7 @@ EXTS_FUNC(add_viewer)		// argv = obj_string
 
 EXTS_FUNC(set_checkable)		// argv[0] = handle
 {
-	char * handle_str = XdvGetValue("handle");
+	char * handle_str = argof("handle");
 	char *end = nullptr;
 	xdv_handle handle = strtoull(handle_str, &end, 16);
 	XenomDefaultViewer * viewer = (XenomDefaultViewer*)XdvGetObjectByHandle(handle);
@@ -120,12 +120,12 @@ EXTS_FUNC(add_command)		// argv[0] = handle
 							// argv[1] = name
 							// argv[2] = key
 {
-	char * handle_str = XdvGetValue("handle");
-	char * menu = XdvGetValue("menu");
-	char * name = XdvGetValue("name");
-	char * key = XdvGetValue("key");
-	char * menu_icon = XdvGetValue("mco");
-	char * icon = XdvGetValue("nco");
+	char * handle_str = argof("handle");
+	char * menu = argof("menu");
+	char * name = argof("name");
+	char * key = argof("key");
+	char * menu_icon = argof("mco");
+	char * icon = argof("nco");
 
 	if (!handle_str || !name)
 	{
@@ -154,7 +154,7 @@ EXTS_FUNC(add_command)		// argv[0] = handle
 EXTS_FUNC(add_tab)		// argv[0] = va
 						// argv[1] = vb
 {
-	char * vaarg = XdvGetValue("va");
+	char * vaarg = argof("va");
 	char *end = nullptr;
 	xdv_handle va_handle = strtoull(vaarg, &end, 16);
 	if (XdvGetObjectByHandle(va_handle)->ObjectType() != xdv::object::id::XENOM_VIEWER_OBJECT)
@@ -162,7 +162,7 @@ EXTS_FUNC(add_tab)		// argv[0] = va
 		return nullvar();
 	}
 
-	char * vbarg = XdvGetValue("vb");
+	char * vbarg = argof("vb");
 	xdv_handle vb_handle = strtoull(vbarg, &end, 16);
 	if (XdvGetObjectByHandle(vb_handle)->ObjectType() != xdv::object::id::XENOM_VIEWER_OBJECT)
 	{
@@ -188,7 +188,7 @@ EXTS_FUNC(add_tab)		// argv[0] = va
 
 EXTS_FUNC(raise_viewer)		// argv[0] = handle
 {
-	char * arg = XdvGetValue("handle");
+	char * arg = argof("handle");
 	char *end = nullptr;
 	xdv_handle handle = strtoull(arg, &end, 16);
 	if (XdvGetObjectByHandle(handle)->ObjectType() != xdv::object::id::XENOM_VIEWER_OBJECT)
@@ -207,7 +207,7 @@ EXTS_FUNC(raise_viewer)		// argv[0] = handle
 
 EXTS_FUNC(add_split)		// argv[0] = va
 {
-	char * vaarg = XdvGetValue("va");
+	char * vaarg = argof("va");
 	char *end = nullptr;
 	xdv_handle va_handle = strtoull(vaarg, &end, 16);
 	if (XdvGetObjectByHandle(va_handle)->ObjectType() != xdv::object::id::XENOM_VIEWER_OBJECT)
@@ -215,7 +215,7 @@ EXTS_FUNC(add_split)		// argv[0] = va
 		return nullvar();
 	}
 
-	char * vbarg = XdvGetValue("vb");
+	char * vbarg = argof("vb");
 	xdv_handle vb_handle = strtoull(vbarg, &end, 16);
 	if (XdvGetObjectByHandle(vb_handle)->ObjectType() != xdv::object::id::XENOM_VIEWER_OBJECT)
 	{
@@ -235,7 +235,7 @@ EXTS_FUNC(add_split)		// argv[0] = va
 		return nullvar();
 	}
 
-	char * area = XdvGetValue("area");
+	char * area = argof("area");
 	if (strstr(area, "left"))
 	{
 		xenom->splitDockWidget(vb_dock, va_dock, Qt::Orientation::Horizontal);
@@ -259,8 +259,8 @@ EXTS_FUNC(add_split)		// argv[0] = va
 EXTS_FUNC(change_color)		// argv[0] = viewer handle
 							// argv[1] = line color
 {
-	char * handle_arg = XdvGetValue("handle");
-	char * line_color = XdvGetValue("color");
+	char * handle_arg = argof("handle");
+	char * line_color = argof("color");
 	char *end = nullptr;
 	xdv_handle handle = strtoull(handle_arg, &end, 16);
 	if (XdvGetObjectByHandle(handle)->ObjectType() != xdv::object::id::XENOM_VIEWER_OBJECT)
@@ -299,7 +299,7 @@ EXTS_FUNC(express_color)		// argv viewer handle
 								// argv color
 								// argv expression
 {
-	char * handle_arg = XdvGetValue("handle");
+	char * handle_arg = argof("handle");
 	char *end = nullptr;
 	xdv_handle handle = strtoull(handle_arg, &end, 16);
 	if (XdvGetObjectByHandle(handle)->ObjectType() != xdv::object::id::XENOM_VIEWER_OBJECT)
@@ -320,11 +320,11 @@ EXTS_FUNC(express_color)		// argv viewer handle
 		return nullvar();
 	}
 
-	char * color = XdvGetValue("color");
-	char * expression = XdvGetValue("expression");
+	char * color = argof("color");
+	char * expression = argof("expression");
 	if (color && expression)
 	{
-		char * bold = XdvGetValue("bold");
+		char * bold = argof("bold");
 		if (bold)
 		{
 			text->Highlighter()->addHighlightBlock(expression, color, true);

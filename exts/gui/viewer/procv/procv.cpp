@@ -140,7 +140,7 @@ EXTS_FUNC(analyze)	// argv[0] = ptr
 					// return nullptr
 					// help
 {
-	unsigned long long ptr = XdvGetUllValue("ptr");
+	unsigned long long ptr = toullarg("ptr");
 	if (ptr == 0)
 	{
 		return nullvar();
@@ -242,9 +242,7 @@ std::string PrintSubroutineList()
 EXTS_FUNC(cbprocv)	// argv[0] = status
 					// argv[1] = handle
 {
-	char * status = XdvGetValue("status");
-	char * handle = XdvGetValue("handle");
-	if (strstr(status, "up"))
+	if (hasarg("status", "up"))
 	{
 		if (_current_it != _ptr_map.begin())
 		{
@@ -252,7 +250,7 @@ EXTS_FUNC(cbprocv)	// argv[0] = status
 			XdvExe("!procv.update");
 		}
 	}
-	else if (strstr(status, "down"))
+	else if (hasarg("status", "down"))
 	{
 		if (_current_it != _ptr_map.end() && IsPrintLine())
 		{
@@ -260,9 +258,9 @@ EXTS_FUNC(cbprocv)	// argv[0] = status
 			XdvExe("!procv.update");
 		}
 	}
-	else if (strstr(status, "pre"))
+	else if (hasarg("status", "pre"))
 	{
-		char * str = XdvGetValue("str");
+		char * str = argof("str");
 		std::vector<std::string> np = XdvSplit(str, "\\s+");
 		std::vector<std::string> filter = XdvSplit(np[0], "[+-]+");
 		unsigned long long result[30] = { 0, };

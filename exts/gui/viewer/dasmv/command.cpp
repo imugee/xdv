@@ -7,7 +7,7 @@ xdv_handle GetCurrentHandle();
 unsigned long long CodeAndRemarkString(unsigned long long ptr, std::string &str);
 EXTS_FUNC(codesize)	// argv[0] = ptr
 {
-	unsigned long long ptr = XdvGetUllValue("ptr");
+	unsigned long long ptr = toullarg("ptr");
 	if (ptr)
 	{
 		std::string str;
@@ -23,13 +23,13 @@ void NavigationString(unsigned long long ptr, std::string &str);
 EXTS_FUNC(navistr)	// argv ptr
 					// argv buffer
 {
-	unsigned long long ptr = XdvGetUllValue("ptr");
+	unsigned long long ptr = toullarg("ptr");
 	if (ptr == 0)
 	{
 		return nullvar();
 	}
 
-	std::string * buf = (std::string *)XdvToPtr(argv, argc, "buf");
+	std::string * buf = (std::string *)toptrarg("buf");
 	if (!buf)
 	{
 		return nullvar();
@@ -48,13 +48,13 @@ EXTS_FUNC(navistr)	// argv ptr
 
 EXTS_FUNC(codestr)	// argv[0] = ptr
 {
-	unsigned long long ptr = XdvGetUllValue("ptr");
+	unsigned long long ptr = toullarg("ptr");
 	if (ptr == 0)
 	{
 		return nullvar();
 	}
 
-	std::string * buf = (std::string *)XdvToPtr(argv, argc, "buf");
+	std::string * buf = (std::string *)toptrarg("buf");
 	if (!buf)
 	{
 		return nullvar();
@@ -81,7 +81,7 @@ EXTS_FUNC(dasm)	// argv[0] = ptr
 {
 	xdv_handle current_handle = GetCurrentHandle();
 	unsigned long long current_ptr = GetCurrentPtr();
-	unsigned long long ptr = XdvGetUllValue("ptr");
+	unsigned long long ptr = toullarg("ptr");
 	if (ptr == 0)
 	{
 		ptr = current_ptr;

@@ -1,7 +1,6 @@
 #include "xdv_sdk.h"
 #pragma comment(lib, "corexts.lib")
 
-#include <Windows.h>
 xdv_handle _current_handle;
 XENOM_ADD_INTERFACE()
 {
@@ -13,11 +12,9 @@ XENOM_ADD_INTERFACE()
 EXTS_FUNC(cbcmdv)	// argv[0] = status
 					// argv[1] = handle
 {
-	char * status = XdvGetValue("status");
-	char * handle = XdvGetValue("handle");
-	if (strstr(status, "pre"))
+	if (hasarg("status", "pre"))
 	{
-		char * ptr_str = XdvGetValue("str");
+		char * ptr_str = argof("str");
 		if (ptr_str)
 		{
 			XdvExe("!dasmv.dasm -ptr:%s", ptr_str);

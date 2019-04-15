@@ -16,7 +16,7 @@ XENOM_ADD_INTERFACE()
 std::string PrintByte(unsigned long long ptr, int line);
 EXTS_FUNC(hex)	// argv[0] = ptr
 {
-	unsigned long long ptr = XdvGetUllValue("ptr");
+	unsigned long long ptr = toullarg("ptr");
 	if (ptr == 0)
 	{
 		ptr = _current_ptr;
@@ -33,21 +33,20 @@ EXTS_FUNC(hex)	// argv[0] = ptr
 EXTS_FUNC(cbhexv)	// argv[0] = status
 					// argv[1] = string
 {
-	char * status =XdvGetValue("status");
-	char * handle =XdvGetValue("handle");
-	if (strstr(status, "up"))
+	char * status =argof("status");
+	if (hasarg("status", "up"))
 	{
 		_current_ptr -= 16;
 		XdvPrintAndClear(_current_handle, PrintByte(_current_ptr, 100), false);
 	}
-	else if (strstr(status, "down"))
+	else if (hasarg("status", "down"))
 	{
 		_current_ptr += 16;
 		XdvPrintAndClear(_current_handle, PrintByte(_current_ptr, 100), false);
 	}
-	else if (strstr(status, "Find Pattern"))
+	else if (hasarg("status", "Find Pattern"))
 	{
-		unsigned long long ptr = XdvGetUllValue("tag");
+		unsigned long long ptr = toullarg("tag");
 		xvar var = XdvExe("!qxnm.find_dialog -ptr:%I64x", ptr);
 		ptr = ullvar(var);
 
@@ -57,7 +56,7 @@ EXTS_FUNC(cbhexv)	// argv[0] = status
 			XdvExe("!hexv.hex -ptr:%I64x", ptr);
 		}
 	}
-	else if (strstr(status, "Jump"))
+	else if (hasarg("status", "Jump"))
 	{
 		xvar var = XdvExe("!qxnm.goto_dialog");
 		unsigned long long ptr = ullvar(var);

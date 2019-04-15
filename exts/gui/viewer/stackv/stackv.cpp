@@ -21,7 +21,7 @@ EXTS_FUNC(cbstackv)	// argv[0] = status
 EXTS_FUNC(printframe)	// argv[0] = status
 						// ptr : unsigned long long
 {
-	unsigned long long ctx_ptr = XdvGetUllValue("ctx");
+	unsigned long long ctx_ptr = toullarg("ctx");
 	if (ctx_ptr)
 	{
 		xdv::architecture::x86::context::type * pctx = (xdv::architecture::x86::context::type *)ctx_ptr;

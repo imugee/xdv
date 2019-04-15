@@ -129,14 +129,14 @@ bool XenomDefaultViewer::Update(int status, std::string str)
 	sprintf_s(handle, sizeof(handle), "%x", current_handle_);
 	switch (status)
 	{
-	case xdv::status::XENOM_UPDATE_STATUS_UP: // wheel up
+	case xdv::status::XENOM_UPDATE_STATUS_UP:
 		command += " -status:up";
 		command += " -handle:";
 		command += handle;
 		XdvExe((char *)command.c_str());
 		break;
 
-	case xdv::status::XENOM_UPDATE_STATUS_DOWN: // wheel down
+	case xdv::status::XENOM_UPDATE_STATUS_DOWN:
 		command += " -status:down";
 		command += " -handle:";
 		command += handle;
