@@ -33,6 +33,7 @@ EXTS_FUNC(cbdasmv)	// argv = status
 
 EXTS_FUNC(update)
 {
+	XdvExe("!qxnm.express_color -handle:%x -expression:;[^\\n]* -color:#009327", _current_handle);
 	return nullvar();
 }
 
