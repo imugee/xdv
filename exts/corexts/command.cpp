@@ -266,26 +266,3 @@ unsigned long long XdvToUll(char * ull_str)
 
 	return strtoull(ull_str, &end, 16);
 }
-
-unsigned long long XdvToUll(char * argv[], int argc, char * option)
-{
-	char * ull_str = XdvValue(argv, argc, option, nullptr);
-	if (!ull_str)
-	{
-		return 0;
-	}
-
-	return XdvToUll(ull_str);
-}
-
-void * XdvToPtr(char * argv[], int argc, char * option)
-{
-	char * ull_str = XdvValue(argv, argc, option, nullptr);
-	if (!ull_str)
-	{
-		return 0;
-	}
-
-	return (void *)XdvToUll(ull_str);
-}
-

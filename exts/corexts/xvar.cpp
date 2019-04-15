@@ -78,4 +78,56 @@ xdv_handle handlevar(xvar var)
 	return 0;
 }
 
+unsigned long long ullarg(char * argv[], int argc, char * option)
+{
+	char * ull_str = XdvValue(argv, argc, option, nullptr);
+	if (!ull_str)
+	{
+		return 0;
+	}
 
+	return XdvToUll(ull_str);
+}
+
+void * ptrarg(char * argv[], int argc, char * option)
+{
+	char * ull_str = XdvValue(argv, argc, option, nullptr);
+	if (!ull_str)
+	{
+		return 0;
+	}
+
+	return (void *)XdvToUll(ull_str);
+}
+
+xdv_handle handlearg(char * argv[], int argc, char * option)
+{
+	char * ull_str = XdvValue(argv, argc, option, nullptr);
+	if (!ull_str)
+	{
+		return 0;
+	}
+
+	return (xdv_handle)XdvToUll(ull_str);
+}
+
+bool checkarg(char * argv[], int argc, char * option, char * value)
+{
+	char * str = XdvValue(argv, argc, option, nullptr);
+	if (!str)
+	{
+		return false;
+	}
+
+	if (!value)
+	{
+		return true;
+	}
+
+	if (strstr(str, value))
+	{
+		return true;
+	}
+
+	return false;
+}
