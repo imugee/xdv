@@ -78,6 +78,8 @@ xdv_handle handlevar(xvar var)
 	return 0;
 }
 
+// --------------------------------------------------------
+// 
 unsigned long long ullarg(char * argv[], int argc, char * option)
 {
 	char * ull_str = XdvValue(argv, argc, option, nullptr);

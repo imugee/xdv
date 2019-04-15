@@ -287,7 +287,16 @@ void xnm::loadExts(char *exts_path)
 			IObject *obj = XdvGetObjectByHandle(h);
 			if (obj)
 			{
-				obj->SetModuleName(path);
+				char * d = strstr(fd.name, ".");
+				if (d)
+				{
+					std::string name(fd.name, d);
+					obj->SetModuleName(name);
+				}
+				else
+				{
+					obj->SetModuleName(fd.name);
+				}
 			}
 		}
 	} while (_findnexti64(handle, &fd) == 0);
@@ -715,15 +724,13 @@ EXTS_FUNC(xenom)
 	//
 	// first callback
 	XdvExe("!stylev.style");
-	XdvExe("!dasmv.update");
-	XdvExe("!hexv.update");
-	XdvExe("!cmdv.update");
-	XdvExe("!procv.update");
-	XdvExe("!logv.update");
-	XdvExe("!thrdv.update");
-	XdvExe("!stackv.update");
-	XdvExe("!cpuv.update");
-	XdvExe("!segv.update");
+
+	std::vector<IViewer *> vt = XdvGetViewerTable();
+	for (int i = 0; i < vt.size(); ++i)
+	{
+		std::string cmd = "!" + vt[i]->ModuleName() + ".update";
+		XdvExe((char *)cmd.c_str());
+	}
 
 	return ullvar((unsigned long long)a.exec());
 }
