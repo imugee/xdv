@@ -1115,6 +1115,12 @@ XDV_WINDOWS_EXPORT unsigned long long ullvar(xvar var);
 XDV_WINDOWS_EXPORT void * ptrvar(xvar var);
 XDV_WINDOWS_EXPORT xdv_handle handlevar(xvar var);
 
+XDV_WINDOWS_EXPORT unsigned long long ullarg(char * argv[], int argc, char * option);
+XDV_WINDOWS_EXPORT void * ptrarg(char * argv[], int argc, char * option);
+XDV_WINDOWS_EXPORT xdv_handle handlearg(char * argv[], int argc, char * option);
+
+XDV_WINDOWS_EXPORT bool checkarg(char * argv[], int argc, char * option, char * value);
+
 // --------------------------------------------------------
 // 
 XDV_WINDOWS_EXPORT bool XdvAddObject(void * object);
@@ -1278,9 +1284,7 @@ XDV_WINDOWS_EXPORT xvar XdvExts(char *format, ...);
 
 XDV_WINDOWS_EXPORT std::vector<std::string> XdvSplit(const std::string str, const std::string regex);
 XDV_WINDOWS_EXPORT char * XdvValue(char * argv[], int argc, char *option, int *idx);
-XDV_WINDOWS_EXPORT unsigned long long XdvToUll(char * argv[], int argc, char * option);
 XDV_WINDOWS_EXPORT unsigned long long XdvToUll(char * ull_str);
-XDV_WINDOWS_EXPORT void * XdvToPtr(char * argv[], int argc, char * option);
 
 XDV_WINDOWS_EXPORT void * XdvLoadModule(char *module_name);
 
@@ -1302,7 +1306,11 @@ T * AddInterface()
 #define __add_object(type_class) AddInterface<type_class>()
 #define XENOM_ADD_INTERFACE()			extern "C" XDV_WINDOWS_EXPORT xdv_handle AddInterface()
 
-#define XdvGetValue(s)	XdvValue(argv, argc, s, nullptr)
-#define XdvGetUllValue(s)	XdvToUll(argv, argc, s)
+#define argof(s)	XdvValue(argv, argc, s, nullptr)
+#define hasarg(s, v)	checkarg(argv, argc, s, v)
+
+#define toullarg(s)	ullarg(argv, argc, s)
+#define toptrarg(s)	ptrarg(argv, argc, s)
+#define tohandlearg(s) handlearg(argv, argc, s)
 
 #endif
