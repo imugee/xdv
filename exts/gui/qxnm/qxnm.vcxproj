@@ -36,6 +36,7 @@
     <ClCompile Include="XenomDockWidget.cpp" />
     <ClCompile Include="XenomFindDialog.cpp" />
     <ClCompile Include="XenomLineEdit.cpp" />
+    <ClCompile Include="XenomPluginAction.cpp" />
     <ClCompile Include="XenomProcessListDialog.cpp" />
     <ClCompile Include="XenomTextViewer.cpp" />
     <ClCompile Include="XenomThreadWorker.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="XenomFindDialog.h" />
     <ClInclude Include="XenomLineEdit.h" />
     <ClInclude Include="XenomPlainTextEdit.h" />
+    <ClInclude Include="XenomPluginAction.h" />
     <ClInclude Include="XenomProcessListDialog.h" />
     <ClInclude Include="XenomTextViewer.h" />
     <ClInclude Include="XenomWorker.h" />

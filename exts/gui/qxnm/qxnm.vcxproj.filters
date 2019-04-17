@@ -82,6 +82,9 @@
     <ClCompile Include="GeneratedFiles\Release\moc_XenomThreadWorker.cpp">
       <Filter>Qt\Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="XenomPluginAction.cpp">
+      <Filter>Qt\Widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GotoDialog.h">
@@ -122,6 +125,9 @@
       <Filter>Qt\Widgets</Filter>
     </ClInclude>
     <ClInclude Include="XenomProcessListDialog.h">
+      <Filter>Qt\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="XenomPluginAction.h">
       <Filter>Qt\Widgets</Filter>
     </ClInclude>
   </ItemGroup>

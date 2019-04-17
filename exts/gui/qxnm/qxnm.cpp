@@ -47,7 +47,7 @@ xnm::xnm(QWidget *parent)
 	menu_debug_ = new QMenu("Debug", menu_bar_);
 	//menu_debug_->setEnabled(false);
 
-	menu_plugin_ = new QMenu("Extentions", menu_bar_);
+	menu_plugin_ = new QMenu("Plugin", menu_bar_);
 	//menu_plugin_->setEnabled(false);
 
 	menu_system_ = new QMenu("Option", menu_bar_);
@@ -400,6 +400,24 @@ void xnm::toolbarActionViewerOpen()
 	}
 }
 
+void xnm::addPlugin(PluginAction *action, QString menu)
+{
+	if (menu.size())
+	{
+		QMenu * m = menu_plugin_->findChild<QMenu *>(menu);
+		if (!m)
+		{
+			m = new QMenu(menu);
+		}
+		m->addAction(action);
+		menu_plugin_->addMenu(m);
+	}
+	else
+	{
+		menu_plugin_->addAction(action);
+	}
+}
+
 // -------------------------------------------
 //
 QString xnm::getFileSignature(QString file_name)
@@ -718,7 +736,7 @@ EXTS_FUNC(xenom)
 	w.loadExts(".\\exts\\parser");
 	w.loadExts(".\\exts\\viewer");
 	w.loadExts(".\\exts");
-	w.Exts();
+	//w.Exts();
 	w.addViewMenuAction();
 
 	//

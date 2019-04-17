@@ -120,22 +120,22 @@ EXTS_FUNC(add_command)		// argv[0] = handle
 							// argv[1] = name
 							// argv[2] = key
 {
-	char * handle_str = argof("handle");
-	char * menu = argof("menu");
-	char * name = argof("name");
-	char * key = argof("key");
-	char * menu_icon = argof("mco");
-	char * icon = argof("nco");
-
-	if (!handle_str || !name)
+	xdv_handle handle = tohandlearg("handle");
+	if (XdvGetObjectByHandle(handle)->ObjectType() != xdv::object::id::XENOM_VIEWER_OBJECT)
 	{
 		return nullvar();
 	}
 
-	char *end = nullptr;
-	xdv_handle handle = strtoull(handle_str, &end, 16);
-	xnm *xenom = getXenom();
+	char * menu = argof("menu");
+	char * name = argof("name");
+	char * key = argof("key");
+	char * plugin = argof("plugin");
+	if (!name)
+	{
+		return nullvar();
+	}
 
+	xnm *xenom = getXenom();
 	XenomDockWidget * dock = xenom->Viewer(handle);
 	if (!dock)
 	{
@@ -145,7 +145,7 @@ EXTS_FUNC(add_command)		// argv[0] = handle
 	XenomTextViewer * text = (XenomTextViewer *)dock->TextViewer();
 	if (text)
 	{
-		text->addShortcutAction(menu, menu_icon, name, key, icon);
+		text->addCommand(plugin, menu, name, key);
 	}
 
 	return nullvar();

@@ -41,8 +41,8 @@ public:
 	virtual void updateText(QString string);
 	virtual void clearText();
 
-	void addShortcutAction(char * menu, char * menu_icon, char * name, char * shortcut, char * icon);
-	void shortcutAction();
+	void addCommand(char * plugin, char * menu, char * name, char * shortcut);
+	void commandAction();
 
 	SyntaxHighlighter * Highlighter();
 

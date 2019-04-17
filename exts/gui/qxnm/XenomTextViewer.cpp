@@ -1,4 +1,4 @@
-#include "XenomTextViewer.h"
+#include "qxnm.h"
 
 #include <qpen.h>
 #include <qfontmetrics.h>
@@ -299,7 +299,6 @@ void XenomTextViewer::syntaxHighlight()
 	selection.cursor.clearSelection();
 
 	//
-	//
 	QTextCursor cursor = textCursor();
 	cursor.select(QTextCursor::WordUnderCursor);
 
@@ -330,7 +329,7 @@ void XenomTextViewer::syntaxHighlight()
 
 // -------------------------------------------------
 //
-void XenomTextViewer::addShortcutAction(char * menu, char * menu_icon, char * name, char * shortcut, char * icon)
+void XenomTextViewer::addCommand(char * plugin_command, char * menu, char * name, char * shortcut)
 {
 	QList<QAction *> actions = this->actions();
 	for (auto action : actions)
@@ -354,8 +353,13 @@ void XenomTextViewer::addShortcutAction(char * menu, char * menu_icon, char * na
 	}
 
 	//
-	//
-	QAction * action = new QAction();
+	PluginAction * action = new PluginAction(plugin_command);
+	if (plugin_command)
+	{
+		xnm * xenom = getXenom();
+		xenom->addPlugin(action, menu);
+	}
+
 	if (shortcut)
 	{
 		char * end = nullptr;
@@ -366,19 +370,9 @@ void XenomTextViewer::addShortcutAction(char * menu, char * menu_icon, char * na
 		}
 	}
 
-	if (icon)
-	{
-		std::string icon_path = ":/xenom/Resources/";
-		icon_path += icon;
-
-		action->setIcon(QPixmap(icon_path.c_str()));
-		action->setIconVisibleInMenu(true);
-	}
-
 	action->setShortcutContext(Qt::ShortcutContext::WidgetShortcut);
 	action->setText(name);
-	QObject::connect(action, &QAction::triggered, this, &XenomTextViewer::shortcutAction);
-
+	QObject::connect(action, &QAction::triggered, this, &XenomTextViewer::commandAction);
 	if (menu)
 	{
 		QMenu * ctx = nullptr;
@@ -394,15 +388,9 @@ void XenomTextViewer::addShortcutAction(char * menu, char * menu_icon, char * na
 		if (!ctx)
 		{
 			ctx = new QMenu(menu, this);
-			if (menu_icon)
-			{
-				std::string icon_path = ":/xenom/Resources/";
-				icon_path += menu_icon;
-				ctx->setIcon(QPixmap(icon_path.c_str()));
-			}
+			context_menu_vector_.push_back(ctx);
 		}
 		ctx->addAction(action);
-		context_menu_vector_.push_back(ctx);
 	}
 	else
 	{
@@ -410,22 +398,13 @@ void XenomTextViewer::addShortcutAction(char * menu, char * menu_icon, char * na
 	}
 }
 
-void XenomTextViewer::shortcutAction()
+void XenomTextViewer::commandAction()
 {
-	IViewer *viewer = (IViewer *)XdvGetObjectByHandle(viewer_handle_);
-	if (!viewer)
-	{
-		return;
-	}
-
 	QTextCursor cursor = textCursor();
 	cursor.select(QTextCursor::LineUnderCursor);
 
-	QAction * qobj = (QAction*)this->sender();
-	QString str = qobj->text();
-	str += " -tag:";
-	str += cursor.selectedText();
-	viewer->Update(xdv::status::id::XENOM_UPDATE_STATUS_SHORTCUT, str.toStdString().c_str());
+	PluginAction * plugin = (PluginAction*)this->sender();
+	plugin->commandAction(viewer_handle_, cursor.selectedText());
 }
 
 int XenomTextViewer::blockAreaWidth()

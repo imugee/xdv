@@ -21,6 +21,8 @@
 
 #include "xdv_sdk.h"
 
+#include "XenomPluginAction.h"
+
 #pragma comment(lib, "corexts.lib")
 
 class xnm : public QMainWindow
@@ -90,6 +92,8 @@ public:
 	void addViewer(ViewerAction *obj);
 	void addViewMenuAction();
 	void toolbarActionViewerOpen();
+
+	void addPlugin(PluginAction *, QString menu);
 
 	void toolbarActionFileOpen();
 	void toolbarActionProcessOpen();
