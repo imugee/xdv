@@ -20,7 +20,7 @@ std::map<unsigned long long, xdv::architecture::x86::block::id> _ptr_map;
 
 std::mutex _ref_map_mutex;
 std::mutex _analyze_map_mutex;
-std::map<unsigned long long, xdv::architecture::x86::block::id>::iterator _current_it;
+std::map<unsigned long long, xdv::architecture::x86::block::id>::iterator _current_it = _ptr_map.end();
 
 std::string PrintSubroutineList();
 void UpdateDisasmViewer()
