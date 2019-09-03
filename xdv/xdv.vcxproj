@@ -63,7 +63,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)\dist\inc\xdv;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -155,11 +155,8 @@
     <ProjectReference Include="..\exts\parser\winapiexts\winapiexts.vcxproj">
       <Project>{1472761a-1797-46e6-8564-325530aee67d}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\exts\vehexts\vehexts.vcxproj">
-      <Project>{85b0df52-7979-458a-b748-dbb2cd146b1f}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\xdvdll\xdvdll.vcxproj">
-      <Project>{e3037c98-299a-4393-b5af-85bd7c874f7f}</Project>
+    <ProjectReference Include="..\test\test\test.vcxproj">
+      <Project>{74e4b403-34a5-4dac-b703-6ca2deb16f33}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

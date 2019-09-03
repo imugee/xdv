@@ -115,6 +115,11 @@
     <ClInclude Include="src\wstring.h" />
     <ClInclude Include="src\x86defs.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\corexts_static\corexts_static.vcxproj">
+      <Project>{a9cf66db-9e8e-4aab-80f0-40e90f992530}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
