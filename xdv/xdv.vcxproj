@@ -100,6 +100,68 @@
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\exts\arch\x64_arch_exts\x64_arch_exts.vcxproj">
+      <Project>{70a1054b-ce84-42c2-a250-5cba2b77e976}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\arch\x86_arch_exts\x86_arch_exts.vcxproj">
+      <Project>{68481069-828a-459c-be37-5905377759b0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\corexts\corexts.vcxproj">
+      <Project>{8d356689-5fdc-4b02-b650-28e2bd9c1546}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\gui\qxnm\qxnm.vcxproj">
+      <Project>{b12702ad-abfb-343a-a199-8e24837244a3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\gui\viewer\cmdv\cmdv.vcxproj">
+      <Project>{8eeb7be9-6c32-4b06-bd67-91389e729bca}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\gui\viewer\cpuv\cpuv.vcxproj">
+      <Project>{0a1b418c-9d0f-4eb6-bf14-2307d0a3cfc2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\gui\viewer\dasmv\dasmv.vcxproj">
+      <Project>{772961f4-79ea-49a8-a7f4-1cd6d971effc}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\gui\viewer\hexv\hexv.vcxproj">
+      <Project>{9ff21496-4ab7-431b-883b-511d345a41a2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\gui\viewer\logv\logv.vcxproj">
+      <Project>{f950998a-9d35-4b7e-8663-47e1e7f60ec8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\gui\viewer\procv\procv.vcxproj">
+      <Project>{28ea114e-36f3-4788-9136-a54ef2a497ae}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\gui\viewer\segv\segv.vcxproj">
+      <Project>{91faacec-0002-4942-b22a-bdf7f8289fa4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\gui\viewer\stackv\stackv.vcxproj">
+      <Project>{e191c472-4b46-4de1-b060-0dc705e2ac6c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\gui\viewer\stylev\stylev.vcxproj">
+      <Project>{b5385255-f566-419f-a72c-4396514ea1dd}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\gui\viewer\thrdv\thrdv.vcxproj">
+      <Project>{3b9daa7c-ce00-47a2-99b4-9b81725dcb2f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\parser\dbgeng_exts\dbgeng_exts.vcxproj">
+      <Project>{34455f49-44b7-4d2f-8142-806a869f1877}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\parser\emulator\emulator.vcxproj">
+      <Project>{441c45e0-f6ef-4d75-a950-bc2a9506426b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\parser\rmtexts\rmtexts.vcxproj">
+      <Project>{d667e969-40ee-4cdb-a8db-8d118e1ae7a8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\parser\winapiexts\winapiexts.vcxproj">
+      <Project>{1472761a-1797-46e6-8564-325530aee67d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\exts\vehexts\vehexts.vcxproj">
+      <Project>{85b0df52-7979-458a-b748-dbb2cd146b1f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\xdvdll\xdvdll.vcxproj">
+      <Project>{e3037c98-299a-4393-b5af-85bd7c874f7f}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

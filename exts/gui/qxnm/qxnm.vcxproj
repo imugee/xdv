@@ -326,6 +326,11 @@
   <ItemGroup>
     <ResourceCompile Include="xnm.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\corexts\corexts.vcxproj">
+      <Project>{8d356689-5fdc-4b02-b650-28e2bd9c1546}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
     <Keyword>Qt4VSv1.0</Keyword>
@@ -403,7 +408,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties MocDir=".\GeneratedFiles\$(ConfigurationName)" UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" lupdateOptions="" lupdateOnBuild="0" lreleaseOptions="" Qt5Version_x0020_Win32="msvc2015_x86" Qt5Version_x0020_x64="msvc2015_x64" MocOptions="" />
+      <UserProperties MocDir=".\GeneratedFiles\$(ConfigurationName)" UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" lupdateOptions="" lupdateOnBuild="0" lreleaseOptions="" Qt5Version_x0020_Win32="$(DefaultQtVersion)" Qt5Version_x0020_x64="msvc2015_x64" MocOptions="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

@@ -94,6 +94,11 @@
   <ItemGroup>
     <ClCompile Include="stackv.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\corexts\corexts.vcxproj">
+      <Project>{8d356689-5fdc-4b02-b650-28e2bd9c1546}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
